@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>JVM 内存结构 | 溺水的小裴</title>
+  <meta name="description" content="一、内存结构为什么要了解虚拟机&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;JVM 不单单只支持 Java 语言，也支持其他语言（Scala、Kotlin、Groovy 等等） 区块链 2.0–以太坊(比特币是区块链 1.0) 中提供了 EVM 的虚拟机，它的实现和 JVM 类似，基于栈、生成脚本编译成字节码来执行。 虚拟机历史&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;解释执行和编译执行（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM 内存结构">
+<meta property="og:url" content="http://ellisonpei.gitee.io/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="溺水的小裴">
+<meta property="og:description" content="一、内存结构为什么要了解虚拟机&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;JVM 不单单只支持 Java 语言，也支持其他语言（Scala、Kotlin、Groovy 等等） 区块链 2.0–以太坊(比特币是区块链 1.0) 中提供了 EVM 的虚拟机，它的实现和 JVM 类似，基于栈、生成脚本编译成字节码来执行。 虚拟机历史&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;解释执行和编译执行（">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ellison.lovewinter.top/upload/2020/3/image-01ed61d67cb847239b9650f7ba51f08d.png">
+<meta property="article:published_time" content="2020-05-19T11:58:56.000Z">
+<meta property="article:modified_time" content="2020-05-19T16:54:10.844Z">
+<meta property="article:author" content="EllisonPei">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ellison.lovewinter.top/upload/2020/3/image-01ed61d67cb847239b9650f7ba51f08d.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://ellisonpei.gitee.io/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/blog/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ellisonpei" target="_blank">
+          <img class="img-circle img-rotate" src="/blog/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溺水的小裴</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">EllisonPei</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/blog/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/blog/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ellisonpei" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/blog/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/JVM/">JVM</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/JVM/Java/">Java</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Java/">Java</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/MQ/">MQ</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/">SSL</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/Https/">Https</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/">Spring</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/Spring-Boot/">Spring Boot</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/Spring-Boot/Java/">Java</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring-Boot/">Spring Boot</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring-Boot/tomcat/">tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/centos7/">centos7</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/centos7/Oracle/">Oracle</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/docker/">docker</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/docker/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">分布式锁</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/">Redis</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">动态代理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/Java/">Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/">SpringCloud</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ActiveMQ/" rel="tag">ActiveMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ApplicationContext/" rel="tag">ApplicationContext</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JUC/" rel="tag">JUC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Java/" rel="tag">Java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Kafka/" rel="tag">Kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Lambda/" rel="tag">Lambda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Oracle18C/" rel="tag">Oracle18C</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RabbitMQ/" rel="tag">RabbitMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Tomcat/" rel="tag">Tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Zookeeper/" rel="tag">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/docker/" rel="tag">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/https/" rel="tag">https</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/springboot/" rel="tag">springboot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ssl/" rel="tag">ssl</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/tomcat/" rel="tag">tomcat</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/blog/tags/ActiveMQ/" style="font-size: 13px;">ActiveMQ</a> <a href="/blog/tags/ApplicationContext/" style="font-size: 13px;">ApplicationContext</a> <a href="/blog/tags/JUC/" style="font-size: 13px;">JUC</a> <a href="/blog/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/blog/tags/Java/" style="font-size: 14px;">Java</a> <a href="/blog/tags/Kafka/" style="font-size: 13px;">Kafka</a> <a href="/blog/tags/Lambda/" style="font-size: 13px;">Lambda</a> <a href="/blog/tags/NIO/" style="font-size: 13px;">NIO</a> <a href="/blog/tags/Oracle18C/" style="font-size: 13px;">Oracle18C</a> <a href="/blog/tags/RabbitMQ/" style="font-size: 13px;">RabbitMQ</a> <a href="/blog/tags/Redis/" style="font-size: 13px;">Redis</a> <a href="/blog/tags/RocketMQ/" style="font-size: 13px;">RocketMQ</a> <a href="/blog/tags/Spring/" style="font-size: 13px;">Spring</a> <a href="/blog/tags/SpringCloud/" style="font-size: 13px;">SpringCloud</a> <a href="/blog/tags/Tomcat/" style="font-size: 13px;">Tomcat</a> <a href="/blog/tags/Zookeeper/" style="font-size: 13px;">Zookeeper</a> <a href="/blog/tags/docker/" style="font-size: 13px;">docker</a> <a href="/blog/tags/https/" style="font-size: 13px;">https</a> <a href="/blog/tags/springboot/" style="font-size: 13.33px;">springboot</a> <a href="/blog/tags/ssl/" style="font-size: 13.33px;">ssl</a> <a href="/blog/tags/tomcat/" style="font-size: 13.67px;">tomcat</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/05/">五月 2020</a><span class="archive-list-count">20</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">JVM 内存结构</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/JVM%20%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" class="title">JVM 中的对象</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/Java8---JUC/" class="title">Java8之 JUC</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/Java8---NIO/" class="title">Java8之 NIO</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring-Boot/">Spring Boot</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/Spring%20Boot%202.2.2%20%E5%90%AF%E5%8A%A8%E5%85%A8%E8%BF%87%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="title">Spring Boot 2.2.2 启动全过程源码分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-JVM学习笔记" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JVM 内存结构
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+	  <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/blog/categories/JVM/">JVM</a>►<a class="article-category-link" href="/blog/categories/JVM/Java/">Java</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/blog/tags/JVM/" rel="tag">JVM</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="一、内存结构"><a href="#一、内存结构" class="headerlink" title="一、内存结构"></a>一、内存结构</h2><h3 id="为什么要了解虚拟机"><a href="#为什么要了解虚拟机" class="headerlink" title="为什么要了解虚拟机"></a>为什么要了解虚拟机</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;JVM 不单单只支持 Java 语言，也支持其他语言（Scala、Kotlin、Groovy 等等） 区块链 2.0–以太坊(比特币是区块链 1.0) 中提供了 EVM 的虚拟机，它的实现和 JVM 类似，基于栈、生成脚本编译成字节码来执行。</p>
+<h3 id="虚拟机历史"><a href="#虚拟机历史" class="headerlink" title="虚拟机历史"></a>虚拟机历史</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;解释执行和编译执行（针对字节码的执行） 解释执行就是边翻译为机器码边执行、即时编译（编译执行）就是先将一个方法中的所有字节码全部编译成机器码之后再执行。 Hotspot 采用的是先解释执行，到了一定时机后热点代码（多次执行、循环等）再翻译成机器码 热点代码探测技术（通过执行计数器找到最有编译价值的代码，如果代码用得非常频繁，就会把这些代码编译成本地代码）。 JRockit 采取的方法是在执行 class 时直接编译为机器码（Java 程序启动速度会比较慢） J9 和 Hotspot 比较接近，主要是用在 IBM 产品（IBM WebSphere 和 IBM 的 AIX 平台上），华为有的项目用的 J9。 谷歌：Google Android Dalivk VM：使用的寄存器架构，执行 dex（Dalvik Executable）通过 class 转化而来。</p>
+<h3 id="未来的-Java-技术"><a href="#未来的-Java-技术" class="headerlink" title="未来的 Java 技术"></a>未来的 Java 技术</h3><p><strong>模块化:OSGI（动态化、模块化）</strong>，应用层面就是微服务，互联网的发展方向。<br><strong>混合语言</strong>：多个语言都可以运行在 JVM 中，google 的 Kotlin 成为了 Android 的官方语言。<br><strong>Scala(Kafka) 多核并行</strong>：CPU 从高频次转变为多核心，多核时代。JDK1.7 引入了 Fork/Join，JDK1.8 提出 lambda 表达式(函数式编程天生适合并行运 行) 。<br><strong>丰富语法</strong>：JDK5 提出自动装箱、泛型(并发编程讲到)、动态注解等语法。JDK7 二进制原生支持。try-catch-finally 至 try-with-resource 。<br><strong>64 位</strong>：虽然同样的程序 64 位内存消耗比 32 位要多一点，但是支持内存大，所以虚拟机都会完全过渡到 64 位，32 位的 JVM 有 4G 的 堆大小限制（寻址范围 2 的 32 次方）。<br><strong>更强的垃圾回收器（现在主流 CMS、G1）</strong>：JDK11 –ZGC（暂停时间不超过 10 毫秒，且不会随着堆的增加而增加，TB 级别的堆回收））： 有色指针、加载屏障。JDK12 支持并发类卸载，进一步缩短暂停时间 JDK13(计划于 2019 年 9 月)将最大堆大小从 4TB 增加到 16TB。</p>
+<h3 id="Java-SE-体系架构"><a href="#Java-SE-体系架构" class="headerlink" title="Java SE 体系架构"></a>Java SE 体系架构</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;JavaSE，Java 平台标准版，为 Java EE 和 Java ME 提供了基础。<br>&nbsp;&nbsp;&nbsp;&nbsp;JDK：Java 开发工具包，JDK 是 JRE 的超集，包含 JRE 中的所有内容，以及开发程序所需的编译器和调试程序等工具。<br>&nbsp;&nbsp;&nbsp;&nbsp;JRE：Java SE 运行时环境 ，提供库、Java 虚拟机和其他组件来运行用 Java 编程语言编写的程序。主要类库，包括：程序部署发布、用 户界面工具类、继承库、其他基础库，语言和工具基础库<br>&nbsp;&nbsp;&nbsp;&nbsp;JVM：java 虚拟机，负责 JavaSE 平台的硬件和操作系统无关性、编译执行代码（字节码）和平台安全性 </p>
+<h3 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;这个是抽象概念，内部实现依赖寄存器、高速缓存、主内存（具体要分析 JVM 源码 C++语言实现，没必要看） 计算机的运行=指令+数据，指令用于执行方法的，数据用于存放数据和对象的。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;虚拟机栈—-执行 java 方法、本地方法栈—执行本地方法、程序计数器—程序执行的计数器 Java 中的数据：变量、常量、对象、数组相关。</p>
+<h3 id="线程私有"><a href="#线程私有" class="headerlink" title="线程私有"></a>线程私有</h3><h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;较小的内存空间，当前线程执行的字节码的行号指示器；各线程之间独立存储，互不影响（面试可能问到为什么需要）<br>如果线程正在执行的是一个 Java 方法，则指明当前线程执行的代字节码行数 如果正在执行的是 Natvie 方法，这个计数器值则为空（Undefined）。<br>此内存区域是唯一一个不会出现 OutOfMemoryError 情况的区域。<br>虚拟机栈（JVM 后续的执行子程序有详细的见解）</p>
+<p><img src="https://ellison.lovewinter.top/upload/2020/3/image-01ed61d67cb847239b9650f7ba51f08d.png" alt="image.png"></p>
+<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>数据结构的特点和 java 中方法中调用方法的特性一致。（为什么 JVM 使用栈 –演示代码 StackFilo） </p>
+<p>虚拟机栈： </p>
+<h3 id="异常："><a href="#异常：" class="headerlink" title="异常："></a>异常：</h3><p>线程请求的栈深度大于虚拟机所允许的深度：StackOverflowError </p>
+<p>JVM 动态扩展时无法申请到足够的内存时：OutOfMemoryError </p>
+<h3 id="虚拟机栈："><a href="#虚拟机栈：" class="headerlink" title="虚拟机栈："></a>虚拟机栈：</h3><p>每个线程私有的，线程在运行时，在执行每个方法的时候都会打包成一个栈帧，存储了局部变量表，操作数栈，动态链接，方法出口等信息，然后放入 </p>
+<p>栈。每个时刻正在执行的当前方法就是虚拟机栈顶的栈桢。方法的执行就对应着栈帧在虚拟机栈中入栈和出栈的过程。 </p>
+<p>栈的大小缺省为 1M，可用参数 –Xss 调整大小，例如-Xss256k </p>
+<p>在编译程序代码的时候，栈帧中需要多大的局部变量表，多深的操作数栈都已经完全确定了，并且写入到方法表的 Code 属性之中，因此一个栈帧需要分 </p>
+<p>配多少内存，不会受到程序运行期变量数据的影响，而仅仅取决于具体的虚拟机实现。 </p>
+<p><span style="color:red"><strong>局部变量表</strong>: 顾名思义就是局部变量的表</span>，用于存放我们的局部变量的。首先它是一个 32 位的长度，主要存放我们的 Java 的八大基础数据类型，一般 32 </p>
+<p>位就可以存放下，如果是 64 位的就使用高低位占用两个也可以存放下，如果是局部的一些对象，比如我们的 Object 对象，我们只需要存放它的一个引用 </p>
+<p>地址即可。（基本数据类型、对象引用、returnAddress 类型） </p>
+<p><span style="color:red"><strong>操作数据栈</strong>：存放我们方法执行的操作数的</span>，它就是一个栈，先进后出的栈结构，操作数栈，就是用来操作的，操作的的元素可以是任意的 java 数据类 </p>
+<p>型，所以我们知道一个方法刚刚开始的时候，这个方法的操作数栈就是空的，操作数栈运行方法是会一直运行入栈/出栈的操作 </p>
+<p><span style="color:red"><strong>动态连接</strong></span>：Java 语言特性多态（需要类加载、运行时才能确定具体的方法，后续有详细的讲解） </p>
+<p><span style="color:red"><strong>返回地址</strong></span>：</p>
+<p>正常返回：（调用程序计数器中的地址作为返回） </p>
+<p>三步曲：恢复上层方法的局部变量表和操作数栈、 </p>
+<p>把返回值（如果有的话）压入调用者栈帧的操作数栈中、 </p>
+<p>调整 PC 计数器的值以指向方法调用指令后面的一条指令、 </p>
+<p>异常的话：（通过异常处理器表&lt;非栈帧中的&gt;来确定） </p>
+<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p>各虚拟机自由实现，本地方法栈 native 方法调用 JNI 到了底层的 C/C++(c/c++可以触发汇编语言，然后驱动硬件) </p>
+<h3 id="线程共享的区域"><a href="#线程共享的区域" class="headerlink" title="线程共享的区域"></a>线程共享的区域</h3><h4 id="方法区-永久代"><a href="#方法区-永久代" class="headerlink" title="方法区/永久代"></a>方法区/永久代</h4><p>用于存储已经被虚拟机加载的<span style="color:red">类信息，常量(“zdy”,”123”等)，静态变量(static 变量)等数据</span>，可用以下参数调整：<br>jdk1.7 及以前：-XX:PermSize；-XX:MaxPermSize；<br>jdk1.8 以后：-XX:MetaspaceSize； -XX:MaxMetaspaceSize<br>jdk1.8 以后大小就只受本机总内存的限制<br>如：-XX:MaxMetaspaceSize=3M<br>*<em>类信息： *</em><br>类的完整有效名、返回值类型、修饰符（public，private…）、变量名、方法名、方法代码、这个类型直接父类的完整有效名(除非这个类型是 interface 或是 java.lang.Object，两种情况下都没有父类)、类的直接接口的一个有序列表。</p>
+<h4 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h4><p>几乎所有对象都分配在这里，也是垃圾回收发生的主要区域，可用以下参数调整：<br>-Xms：堆的最小值；<br>-Xmx：堆的最大值；<br>-Xmn：新生代的大小；<br>-XX:NewSize；新生代最小值；<br>-XX:MaxNewSize：新生代最大值；<br>例如- Xmx256m </p>
+<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><p><strong>符号引用（一个概念）</strong><br>一个 java 类（假设为 People 类）被编译成一个 class 文件时，如果 People 类引用了 Tool 类，但是在编译时 People 类并不知道引用类的实际内存地址，因此只能使用符号引用来代替。 而在类装载器装载 People 类时，此时可以通过虚拟机获取 Tool 类的实际内存地址，因此便可以既将符号 org.simple.Tool 替换为 Tool 类的实际内存地址， 及直接引用地址。<br>即在编译时用符号引用来代替引用类，在加载时再通过虚拟机获取该引用类的实际地址. 以一组符号来描述所引用的目标，符号可以是任何形式的字面量，只要使用时能无歧义地定位到目标即可。符号引用与虚拟机实现的内存布局是无关的， 引用的目标不一定已经加载到内存中。</p>
+<p><strong>字面量</strong><br>文本字符串 String a = “abc”,这个 abc 就是字面量<br>八种基本类型 int a = 1; 这个 1 就是字面量<br>声明为 final 的常量 。</p>
+<p><strong>常量池的变化</strong><br><strong>各版本之间的变化</strong><br>运行时常量池<br>Class 文件中的常量池（编译器生成的各种字面量和符号引用）会在类加载后被放入这个区域。<br>符号引用:<br>字面量：String a =“aaaa”<br><span style="color:red">JDK1.6</span><br>    运行时常量池在方法区中<br><span style="color:red">JDK1.7</span><br>    运行时常量池在堆中<br><span style="color:red">JDK1.8</span><br>    去永久代：使用元空间(空间大小只受制于机器的内存)替代永久代<br>    久代参数    -XX:PermSize；-XX:MaxPermSize =100M   超过100M OOM（）<br>    元空间参数    -XX:MetaspaceSize； -XX:MaxMetaspaceSize<br>    永久代来存储类信息、常量、静态变量等数据不是个好主意, 很容易遇到内存溢出的问题。<br>    对永久代进行调优是很困难的,同时将元空间与堆的垃圾回收进行了隔离，避免永久代引发的Full GC和OOM等问题；</p>
+<p><strong>直接内存</strong><br>使用 Native 函数库直接分配堆外内存(NIO) 并不是 JVM 运行时数据区域的一部分，但是会被频繁使用(可以通过-XX:MaxDirectMemorySize 来设置（不设置的话默认与堆内存最大值 一样,也会出现 OOM 异常) 使用直接内存避免了在 Java 堆和 Native 堆中来回复制数据，能够提高效率 测试用例 JavaStack：设置 JVM 参数-Xmx100m，运行异常，因为如果没设置-XX:MaxDirectMemorySize，则默认与-Xmx 参数值相同为 100M， 分配 128M 直接内存超出限制范围</p>
+<p><strong>站在线程角度来看</strong><br>虚拟机栈、本地方法栈、程序计数器三个区域的生命周期和线程相同。<br>线程共享区域：设计到生命周期管理和垃圾回收等概念，后续章节有细讲。 </p>
+<p><strong>深入辨析堆和栈</strong> </p>
+<p>` <strong>功能</strong> </p>
+<p> 以栈帧的方式存储方法调用的过程，并存储方法调用过程中基本数据类型的变量（int、short、long、byte、float、 </p>
+<p>double、boolean、char 等）以及对象的引用变量（reference），其内存分配在栈上，变量出了作用域就会自 </p>
+<p>动释放； </p>
+<p> 而堆内存用来存储 Java 中的对象。无论是成员变量，局部变量，还是类变量，它们指向的对象都存储在堆内 </p>
+<p>存中； </p>
+<p>`  <strong>线程独享还是共享</strong> </p>
+<p> 栈内存归属于单个线程，每个线程都会有一个栈内存，其存储的变量只能在其所属线程中可见，即栈内存可 </p>
+<p>以理解成线程的私有内存。 堆内存中的对象对所有线程可见。堆内存中的对象可以被所有线程访问。 </p>
+<p>` <strong>空间大小</strong><br>栈的内存要远远小于堆内存 </p>
+<h3 id="栈溢出"><a href="#栈溢出" class="headerlink" title="栈溢出"></a>栈溢出</h3><p>参数：-Xss256k<br>java.lang.StackOverflowError 一般的方法调用是很难出现的，如果出现了可能会是无限递归。<br>虚拟机栈带给我们的启示：方法的执行因为要打包成栈桢，所以天生要比实现同样功能的循环慢，所以树的遍历算 法中：递归和非递归(循环来实现)都有存在的意义。递归代码简洁，非递归代码复杂但是速度较快。<br>OutOfMemoryError：不断建立线程。（一般演示不出，演示出来机器也死了）</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://ellisonpei.gitee.io/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="JVM 内存结构" target="_blank" rel="external">http://ellisonpei.gitee.io/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ellisonpei" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/blog/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ellisonpei" target="_blank"><span class="text-dark">溺水的小裴</span><small class="ml-1x">EllisonPei</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/blog/2020/05/19/JVM%20%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" title="JVM 中的对象"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ellisonpei" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/blog/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/blog/js/plugin.min.js"></script>
+
+
+<script src="/blog/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/blog/',
+        CONTENT_URL: '/blog/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/blog/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

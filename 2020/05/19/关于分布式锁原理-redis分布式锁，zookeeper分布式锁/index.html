@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>关于分布式锁原理-redis分布式锁，zookeeper分布式锁 | 溺水的小裴</title>
+  <meta name="description" content="关于分布式锁原理-redis分布式锁，zookeeper分布式锁来源：[https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JJJ1990&#x2F;p&#x2F;10496850.html](https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JJJ1990&#x2F;p&#x2F;10496850.html)首先分布式锁和我们平常讲到的锁原理基本一样，目的就是确保，在多个线程并发时，只有一个线程在同一刻操作这个业务或者说方法、变量。在一个进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于分布式锁原理-redis分布式锁，zookeeper分布式锁">
+<meta property="og:url" content="http://ellisonpei.gitee.io/blog/2020/05/19/%E5%85%B3%E4%BA%8E%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%8Czookeeper%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/index.html">
+<meta property="og:site_name" content="溺水的小裴">
+<meta property="og:description" content="关于分布式锁原理-redis分布式锁，zookeeper分布式锁来源：[https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JJJ1990&#x2F;p&#x2F;10496850.html](https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JJJ1990&#x2F;p&#x2F;10496850.html)首先分布式锁和我们平常讲到的锁原理基本一样，目的就是确保，在多个线程并发时，只有一个线程在同一刻操作这个业务或者说方法、变量。在一个进">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-279ffb37c97f723b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-02f315029d19ae65.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-4a6360d78a0a5da6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-1abac74d44c21b56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-907fe33efa093bf6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-05-19T11:58:56.000Z">
+<meta property="article:modified_time" content="2020-05-19T17:18:42.343Z">
+<meta property="article:author" content="EllisonPei">
+<meta property="article:tag" content="Redis">
+<meta property="article:tag" content="Zookeeper">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/22907713-279ffb37c97f723b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://ellisonpei.gitee.io/blog/2020/05/19/%E5%85%B3%E4%BA%8E%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%8Czookeeper%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/blog/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ellisonpei" target="_blank">
+          <img class="img-circle img-rotate" src="/blog/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溺水的小裴</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">EllisonPei</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/blog/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/blog/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ellisonpei" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/blog/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/JVM/">JVM</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/JVM/Java/">Java</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Java/">Java</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/MQ/">MQ</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/">SSL</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/Https/">Https</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/">Spring</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/Spring-Boot/">Spring Boot</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/Spring-Boot/Java/">Java</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring-Boot/">Spring Boot</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring-Boot/tomcat/">tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/centos7/">centos7</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/centos7/Oracle/">Oracle</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/docker/">docker</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/docker/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">分布式锁</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/">Redis</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">动态代理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/Java/">Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/">SpringCloud</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ActiveMQ/" rel="tag">ActiveMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ApplicationContext/" rel="tag">ApplicationContext</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JUC/" rel="tag">JUC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Java/" rel="tag">Java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Kafka/" rel="tag">Kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Lambda/" rel="tag">Lambda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Oracle18C/" rel="tag">Oracle18C</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RabbitMQ/" rel="tag">RabbitMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Tomcat/" rel="tag">Tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Zookeeper/" rel="tag">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/docker/" rel="tag">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/https/" rel="tag">https</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/springboot/" rel="tag">springboot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ssl/" rel="tag">ssl</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/tomcat/" rel="tag">tomcat</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/blog/tags/ActiveMQ/" style="font-size: 13px;">ActiveMQ</a> <a href="/blog/tags/ApplicationContext/" style="font-size: 13px;">ApplicationContext</a> <a href="/blog/tags/JUC/" style="font-size: 13px;">JUC</a> <a href="/blog/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/blog/tags/Java/" style="font-size: 14px;">Java</a> <a href="/blog/tags/Kafka/" style="font-size: 13px;">Kafka</a> <a href="/blog/tags/Lambda/" style="font-size: 13px;">Lambda</a> <a href="/blog/tags/NIO/" style="font-size: 13px;">NIO</a> <a href="/blog/tags/Oracle18C/" style="font-size: 13px;">Oracle18C</a> <a href="/blog/tags/RabbitMQ/" style="font-size: 13px;">RabbitMQ</a> <a href="/blog/tags/Redis/" style="font-size: 13px;">Redis</a> <a href="/blog/tags/RocketMQ/" style="font-size: 13px;">RocketMQ</a> <a href="/blog/tags/Spring/" style="font-size: 13px;">Spring</a> <a href="/blog/tags/SpringCloud/" style="font-size: 13px;">SpringCloud</a> <a href="/blog/tags/Tomcat/" style="font-size: 13px;">Tomcat</a> <a href="/blog/tags/Zookeeper/" style="font-size: 13px;">Zookeeper</a> <a href="/blog/tags/docker/" style="font-size: 13px;">docker</a> <a href="/blog/tags/https/" style="font-size: 13px;">https</a> <a href="/blog/tags/springboot/" style="font-size: 13.33px;">springboot</a> <a href="/blog/tags/ssl/" style="font-size: 13.33px;">ssl</a> <a href="/blog/tags/tomcat/" style="font-size: 13.67px;">tomcat</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/05/">五月 2020</a><span class="archive-list-count">20</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">JVM 内存结构</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/JVM%20%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" class="title">JVM 中的对象</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/Java8---JUC/" class="title">Java8之 JUC</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/Java8---NIO/" class="title">Java8之 NIO</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring-Boot/">Spring Boot</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/Spring%20Boot%202.2.2%20%E5%90%AF%E5%8A%A8%E5%85%A8%E8%BF%87%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="title">Spring Boot 2.2.2 启动全过程源码分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-关于分布式锁原理-redis分布式锁，zookeeper分布式锁" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于分布式锁原理-redis分布式锁，zookeeper分布式锁
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/blog/2020/05/19/%E5%85%B3%E4%BA%8E%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%8Czookeeper%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="article-date">
+	  <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">分布式锁</a>►<a class="article-category-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/">Redis</a>►<a class="article-category-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/Zookeeper/">Zookeeper</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/blog/tags/Redis/" rel="tag">Redis</a>, <a class="article-tag-link" href="/blog/tags/Zookeeper/" rel="tag">Zookeeper</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/05/19/%E5%85%B3%E4%BA%8E%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%8Czookeeper%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="关于分布式锁原理-redis分布式锁，zookeeper分布式锁"><a href="#关于分布式锁原理-redis分布式锁，zookeeper分布式锁" class="headerlink" title="关于分布式锁原理-redis分布式锁，zookeeper分布式锁"></a>关于分布式锁原理-redis分布式锁，zookeeper分布式锁</h1><pre><code>来源：[https://www.cnblogs.com/JJJ1990/p/10496850.html](https://www.cnblogs.com/JJJ1990/p/10496850.html)</code></pre><p>首先分布式锁和我们平常讲到的锁原理基本一样，目的就是确保，在多个线程并发时，只有一个线程在同一刻操作这个业务或者说方法、变量。<br>在一个进程中，也就是一个jvm 或者说应用中，我们很容易去处理控制，在jdk java.util并发包中已经为我们提供了这些方法去加锁，比如synchronized 关键字 或者Lock 锁，都可以处理。<br>但是我们现在的应用程序如果只部署一台服务器，那并发量是很差的，如果同时有上万的请求那么很有可能造成服务器压力过大，而瘫痪。<br>想想双十一 和三十晚上十点分支付宝红包等业务场景，自然需要用到多台服务器去同时处理这些业务，那么这些服务可能会有上百台同时处理，但是请我们大家想一想，如果有100台服务器 要处理分红包的业务，现在假设有1亿的红包，1千万个人分，金额随机，那么这个业务场景下是不是必须确保这1千万个人最后分的红包金额总和等于1亿。如果处理不好~~每人分到100万，那马云爸爸估计大年初一，就得宣布破产了</p>
+<p>###1，常规锁会造成什么情况？</p>
+<p>首先说一下我们为什么要搞集群，简单理解就是，需求量（请求并发量）变大了，一个工人处理能力有限，那就多招一些工人来一起处理。</p>
+<p>假设1千万个请求平均分配到100台服务器上，每个服务器 接收10w的请求（这10w个请求并不是在同一秒中来的，可能是在1,2个小时内，可以联想下我们三十晚上开红包，等到10.20开始，有的人立马开了，有的人是不是等到12点了才想起来~）</p>
+<p>那这样的话，平均到每一秒上的请求也就不到1千个，这种压力一般的服务器还是可以承受的。</p>
+<p>第一个请求到来后，是不是需要在1亿里面给他分一部分钱，金额随机，假设第一个人分到了100，那是不是要在这1亿中减去100块，剩下99999900 块~</p>
+<p>第二个用户再来分，金额随机，这次分200块，那是不是就需要在剩下的99999900块中再减去200块，剩下99999700 块。</p>
+<p>等到第10w个用户来，一看还有1000w，那这1000w全成他的了。</p>
+<p>等于是在每个服务器中去分1亿，也就是10w个用户分了一个亿，最后总计有100个服务器，要分100亿。</p>
+<p>如果真这样了，虽说马云爸爸不会破产（据最新统计马云有2300亿人民币），那分红包的开发项目组，以及产品经理，可以GG了~</p>
+<p>简化结构图如下：<br><img src="https://upload-images.jianshu.io/upload_images/22907713-279ffb37c97f723b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>###2，分布式锁怎么去处理？</p>
+<p> 那么为了解决这个问题，让1000万用户只分1亿，而不是100亿，这个时候分布式锁就派上用处了。</p>
+<p>分布式锁可以把整个集群就当作是一个应用一样去处理，那么也就需要这个锁，要独立于每一个服务之外，而不是在服务里面。</p>
+<p>假设第一个服务器接收到用户1的请求后，那么这个时候，他就不能只在自己的应用中去判断还有多少钱可以分了，而需要去外部请求专门负责管理这1亿红包的人（服务），问他：哎，我这里要分100块，给我100。</p>
+<p>管理红包的妹子（服务）一看，还有1个亿，那好，给你100块，然后剩下99999900块。</p>
+<p>第二个请求到来后，被服务器2获取，继续去询问，管理红包的妹子，我这边要分10块，管理红包的妹子先查了下还有99999900，那就说：好，给你10块。那就剩下99999890块 </p>
+<p>等到第1000w个请求到来后，服务器100拿到请求，继续去询问，管理红包的妹子，你要100，妹子翻了翻白眼，对你说，就剩1块了，爱要不要，那这个时候就只能给你1块了（1块也是钱啊，买根辣条还是可以的）。</p>
+<p>这些请求编号1,2不代表执行的先后顺序，正式的场景下，应该是 100台服务器每个服务器持有一个请求去访问负责管理红包的妹子（服务），那在管红包的妹子那里同时会接收到100个请求，这个时候就需要在负责红包的妹子那里加个锁就可以了（抛绣球），你们100个服务器谁拿到锁（抢到绣球），谁就进来和我谈，我给你分，其他人就等着去吧</p>
+<p>经过上面的分布式锁的处理后，马云爸爸终于放心了，决定给红包团队每人加一个鸡腿。</p>
+<p>简化的结构图如下：<br><img src="https://upload-images.jianshu.io/upload_images/22907713-02f315029d19ae65.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>###<strong>3，分布式锁的实现有哪些？</strong></p>
+<p> 说到分布式锁的实现，还是有很多的，有数据库方式的，有redis分布式锁，有zookeeper分布式锁等等</p>
+<p>我们如果采用redis作为分布式锁，那么上图中负“责红包的妹子（服务）”，就可以替换成redis，请自行脑补。</p>
+<p>####<strong>3.1，为什么redis可以实现分布式锁？</strong></p>
+<p>首先redis是单线程的，这里的单线程指的是网络请求模块使用了一个线程（所以不需考虑并发安全性），即一个线程处理所有网络请求，其他模块仍用了多个线程。</p>
+<p>在实际的操作中过程大致是这样子的：</p>
+<p>服务器1要去访问发红包的妹子，也就是redis，那么他会在redis中通过”setnx key value” 操作设置一个key 进去，value是啥不重要，重要的是要有一个key，也就是一个标记，而且这个key你爱叫啥叫啥，只要所有的服务器设置的key相同就可以。</p>
+<p>假设我们设置一个，如下图</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/22907713-4a6360d78a0a5da6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="###"></p>
+<p>那么我们可以看到会返回一个1，那就代表了成功。</p>
+<p>如果再来一个请求去设置同样的key，如下图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/22907713-1abac74d44c21b56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>这个时候会返回0，那就代表失败了。</p>
+<p>那么我们就可以通过这个操作去判断是不是当前可以拿到锁，或者说可以去访问“负责发红包的妹子”，如果返回1，那我就开始去执行后面的逻辑，如果返回0，那就说明已经被人占用了，我就要继续等待。</p>
+<p>当服务器1拿到锁之后，进行了业务处理，完成后，还需要释放锁，如下图所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/22907713-907fe33efa093bf6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>删除成功返回1，那么其他的服务器就可以继续重复上面的步骤去设置这个key，以达到获取锁的目的。</p>
+<p>当然以上的操作是在redis客户端直接进行的，通过程序调用的话，肯定就不能这么写，比如java 就需要通过jedis 去调用，但是整个处理逻辑基本都是一样的</p>
+<p>通过上面的方式，我们好像是解决了分布式锁的问题，但是想想还有没有什么问题呢？？</p>
+<p> 对，问题还是有的，可能会有死锁的问题发生，比如服务器1设置完之后，获取了锁之后，忽然发生了宕机。</p>
+<p>那后续的删除key操作就没法执行，这个key会一直在redis中存在，其他服务器每次去检查，都会返回0，他们都会认为有人在使用锁，我需要等。</p>
+<p>为了解决这个死锁的问题，我们就就需要给key 设置有效期了。</p>
+<p> 设置的方式有2种</p>
+<p>1，第一种就是在set完key之后，直接设置key的有效期 “expire key timeout” ，为key设置一个超时时间，单位为second，超过这个时间锁会自动释放，避免死锁。</p>
+<p>这种方式相当于，把锁持有的有效期，交给了redis去控制。如果时间到了，你还没有给我删除key，那redis就直接给你删了，其他服务器就可以继续去setnx获取锁。</p>
+<p>2，第二种方式，就是把删除key权利交给其他的服务器，那这个时候就需要用到value值了，</p>
+<p>比如服务器1，设置了value 也就是 timeout 为 当前时间+1 秒 ，这个时候服务器2 通过get 发现时间已经超过系统当前时间了，那就说明服务器1没有释放锁，服务器1可能出问题了，</p>
+<p>服务器2就开始执行删除key操作，并且继续执行setnx 操作。</p>
+<p>但是这块有一个问题，也就是，不光你服务器2可能会发现服务器1超时了，服务器3也可能会发现，如果刚好，服务器2，setnx操作完成，服务器3就接着删除，是不是服务器3也可以setnx成功了？</p>
+<p>那就等于是服务器2和服务器3都拿到锁了，那就问题大了。这个时候怎么办呢？</p>
+<p>这个时候需要用到  “GETSET  key value” 命令了。这个命令的意思就是获取当前key的值，并且设置新的值。</p>
+<p>假设服务器2发现key过期了，开始调用 getset 命令，然后用获取的时间判断是否过期，如果获取的时间仍然是过期的，那就说明拿到锁了。</p>
+<p>如果没有，则说明在服务2执行getset之前，服务器3可能也发现锁过期了，并且在服务器2之前执行了getset操作，重新设置了过期时间。</p>
+<p>那么服务器2就需要放弃后续的操作，继续等待服务器3释放锁或者去监测key的有效期是否过期。</p>
+<p>这块其实有一个小问题是，服务器3已经修改了有效期，拿到锁之后，服务器2，也修改了有效期，但是没能拿到锁，但是这个有效期的时间已经被在服务器3的基础上有增加一些，但是这种影响其实还是很小的，几乎可以忽略不计。</p>
+<p>####<strong>3.2，为什么zookeeper可以实现分布式锁？</strong></p>
+<p>百度百科是这么介绍的：ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，是Hadoop和Hbase的重要组件。</p>
+<p>那对于我们初次认识的人，可以理解成ZooKeeper就像是我们的电脑文件系统，我们可以在d盘中创建文件夹a，并且可以继续在文件夹a中创建 文件夹a1，a2。</p>
+<p>那我们的文件系统有什么特点？？那就是同一个目录下文件名称不能重复，同样ZooKeeper也是这样的。</p>
+<p> 在ZooKeeper所有的节点，也就是文件夹称作 Znode，而且这个Znode节点是可以存储数据的。</p>
+<p>我们可以通过“ create /zkjjj nice” 来创建一个节点，这个命令就表示，在跟目录下创建一个zkjjj的节点，值是nice。同样这里的值，和我在前面说的redis中的一样，没什么意义，你随便给。</p>
+<p>另外ZooKeeper可以创建4种类型的节点，分别是：</p>
+<ul>
+<li>1，持久性节点</li>
+<li>2，持久性顺序节点</li>
+<li>3，临时性节点</li>
+<li>4，临时性顺序节点</li>
+</ul>
+<p>首先说下持久性节点和临时性节点的区别，持久性节点表示只要你创建了这个节点，那不管你ZooKeeper的客户端是否断开连接，ZooKeeper的服务端都会记录这个节点。</p>
+<p>临时性节点刚好相反，一旦你ZooKeeper客户端断开了连接，那ZooKeeper服务端就不再保存这个节点。</p>
+<p>再说下顺序性节点，顺序性节点是指，在创建节点的时候，ZooKeeper会自动给节点编号比如0000001 ，0000002 这种的。</p>
+<p>最后说下，zookeeper有一个监听机制，客户端注册监听它关心的目录节点，当目录节点发生变化（数据改变、被删除、子目录节点增加删除）等，zookeeper会通知客户端。</p>
+<p>下面我们继续结合我们上面的分红包场景，描述下在zookeeper中如何加锁。</p>
+<p>假设服务器1，创建了一个节点 /zkjjj ,成功了，那服务器1就获取了锁，服务器2再去创建相同的锁，那么他就会失败，这个时候他就就只能监听这个节点的变化。</p>
+<p>等到服务器1，处理完业务，删除了节点后，他就会得到通知，然后去创建同样的节点，获取锁处理业务，再删除节点，后续的100台服务器与之类似</p>
+<p>注意这里的100台服务器并不是挨个去执行上面的创建节点的操作，而是并发的，当服务器1创建成功，那么剩下的99个就都会注册监听这个节点，等通知，以此类推。</p>
+<p> 但是大家有没有注意到，这里还是有问题的，还是会有死锁的情况存在，对不对？</p>
+<p>当服务器1创建了节点后挂了，没能删除，那其他99台服务器就会一直等通知，那就完蛋了。。。</p>
+<p>这个时候呢，就需要用到临时性节点了，我们前面说过了，临时性节点的特点是客户端一旦断开，就会丢失，也就是当服务器1创建了节点后，如果挂了。</p>
+<p>那这个节点会自动被删除，这样后续的其他服务器，就可以继续去创建节点，获取锁了。</p>
+<p>但是我们可能还需要注意到一点，就是惊群效应：举一个很简单的例子,当你往一群鸽子中间扔一块食物,虽然最终只有一个鸽子抢到食物,但所有鸽子都会被惊动来争夺,没有抢到..</p>
+<p>就是当服务器1节点有变化，会通知其余的99个服务器，但是最终只有1个服务器会创建成功，这样98还是需要等待监听，那么为了处理这种情况，就需要用到临时顺序性节点</p>
+<p>大致意思就是，之前是所有99个服务器都监听一个节点，现在就是每一个服务器监听自己前面的一个节点。</p>
+<p>假设100个服务器同时发来请求，这个时候会在 /zkjjj 节点下创建 100 个临时顺序性节点 /zkjjj/000000001,  /zkjjj/000000002,一直到  /zkjjj/000000100,这个编号就等于是已经给他们设置了获取锁的先后顺序了。</p>
+<p>当001节点处理完毕，删除节点后，002收到通知，去获取锁，开始执行，执行完毕，删除节点，通知003~以此类推。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://ellisonpei.gitee.io/blog/2020/05/19/%E5%85%B3%E4%BA%8E%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%8Czookeeper%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" title="关于分布式锁原理-redis分布式锁，zookeeper分布式锁" target="_blank" rel="external">http://ellisonpei.gitee.io/blog/2020/05/19/%E5%85%B3%E4%BA%8E%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%8Czookeeper%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ellisonpei" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/blog/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ellisonpei" target="_blank"><span class="text-dark">溺水的小裴</span><small class="ml-1x">EllisonPei</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/blog/2020/05/19/tomcat%E5%AE%89%E8%A3%85SSL%E8%AF%81%E4%B9%A6/" title="Tomcat服务器安装SSL证书"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/blog/2020/05/19/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" title="动态代理"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ellisonpei" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/blog/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/blog/js/plugin.min.js"></script>
+
+
+<script src="/blog/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/blog/',
+        CONTENT_URL: '/blog/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/blog/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

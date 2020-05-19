@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>centos7安装Oracle18C | 溺水的小裴</title>
+  <meta name="description" content="centos7安装Oracle18C 下载oracle database 18c的RPM安装包 。  https:&#x2F;&#x2F;www.oracle.com&#x2F;technetwork&#x2F;database&#x2F;enterprise-edition&#x2F;downloads&#x2F;index.html  1、克隆主机2、修改IP地址12345678910111213141516171819202122232425262728293">
+<meta property="og:type" content="article">
+<meta property="og:title" content="centos7安装Oracle18C">
+<meta property="og:url" content="http://ellisonpei.gitee.io/blog/2020/05/19/centos7%E5%AE%89%E8%A3%85oracle18C/index.html">
+<meta property="og:site_name" content="溺水的小裴">
+<meta property="og:description" content="centos7安装Oracle18C 下载oracle database 18c的RPM安装包 。  https:&#x2F;&#x2F;www.oracle.com&#x2F;technetwork&#x2F;database&#x2F;enterprise-edition&#x2F;downloads&#x2F;index.html  1、克隆主机2、修改IP地址12345678910111213141516171819202122232425262728293">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-19T11:58:56.000Z">
+<meta property="article:modified_time" content="2020-05-19T17:09:12.955Z">
+<meta property="article:author" content="EllisonPei">
+<meta property="article:tag" content="Oracle18C">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://ellisonpei.gitee.io/blog/2020/05/19/centos7%E5%AE%89%E8%A3%85oracle18C/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/blog/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ellisonpei" target="_blank">
+          <img class="img-circle img-rotate" src="/blog/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溺水的小裴</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">EllisonPei</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/blog/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/blog/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ellisonpei" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/blog/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/JVM/">JVM</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/JVM/Java/">Java</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Java/">Java</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/MQ/">MQ</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/">SSL</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/Https/">Https</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/">Spring</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/Spring-Boot/">Spring Boot</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/Spring-Boot/Java/">Java</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring-Boot/">Spring Boot</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring-Boot/tomcat/">tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/centos7/">centos7</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/centos7/Oracle/">Oracle</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/docker/">docker</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/docker/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">分布式锁</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/">Redis</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">动态代理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/Java/">Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/">SpringCloud</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ActiveMQ/" rel="tag">ActiveMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ApplicationContext/" rel="tag">ApplicationContext</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JUC/" rel="tag">JUC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Java/" rel="tag">Java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Kafka/" rel="tag">Kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Lambda/" rel="tag">Lambda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Oracle18C/" rel="tag">Oracle18C</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RabbitMQ/" rel="tag">RabbitMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Tomcat/" rel="tag">Tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Zookeeper/" rel="tag">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/docker/" rel="tag">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/https/" rel="tag">https</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/springboot/" rel="tag">springboot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ssl/" rel="tag">ssl</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/tomcat/" rel="tag">tomcat</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/blog/tags/ActiveMQ/" style="font-size: 13px;">ActiveMQ</a> <a href="/blog/tags/ApplicationContext/" style="font-size: 13px;">ApplicationContext</a> <a href="/blog/tags/JUC/" style="font-size: 13px;">JUC</a> <a href="/blog/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/blog/tags/Java/" style="font-size: 14px;">Java</a> <a href="/blog/tags/Kafka/" style="font-size: 13px;">Kafka</a> <a href="/blog/tags/Lambda/" style="font-size: 13px;">Lambda</a> <a href="/blog/tags/NIO/" style="font-size: 13px;">NIO</a> <a href="/blog/tags/Oracle18C/" style="font-size: 13px;">Oracle18C</a> <a href="/blog/tags/RabbitMQ/" style="font-size: 13px;">RabbitMQ</a> <a href="/blog/tags/Redis/" style="font-size: 13px;">Redis</a> <a href="/blog/tags/RocketMQ/" style="font-size: 13px;">RocketMQ</a> <a href="/blog/tags/Spring/" style="font-size: 13px;">Spring</a> <a href="/blog/tags/SpringCloud/" style="font-size: 13px;">SpringCloud</a> <a href="/blog/tags/Tomcat/" style="font-size: 13px;">Tomcat</a> <a href="/blog/tags/Zookeeper/" style="font-size: 13px;">Zookeeper</a> <a href="/blog/tags/docker/" style="font-size: 13px;">docker</a> <a href="/blog/tags/https/" style="font-size: 13px;">https</a> <a href="/blog/tags/springboot/" style="font-size: 13.33px;">springboot</a> <a href="/blog/tags/ssl/" style="font-size: 13.33px;">ssl</a> <a href="/blog/tags/tomcat/" style="font-size: 13.67px;">tomcat</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/05/">五月 2020</a><span class="archive-list-count">20</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">JVM 内存结构</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/JVM%20%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" class="title">JVM 中的对象</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/Java8---JUC/" class="title">Java8之 JUC</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/Java8---NIO/" class="title">Java8之 NIO</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring-Boot/">Spring Boot</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/19/Spring%20Boot%202.2.2%20%E5%90%AF%E5%8A%A8%E5%85%A8%E8%BF%87%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="title">Spring Boot 2.2.2 启动全过程源码分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-centos7安装oracle18C" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      centos7安装Oracle18C
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/blog/2020/05/19/centos7%E5%AE%89%E8%A3%85oracle18C/" class="article-date">
+	  <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/blog/categories/centos7/">centos7</a>►<a class="article-category-link" href="/blog/categories/centos7/Oracle/">Oracle</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/blog/tags/Oracle18C/" rel="tag">Oracle18C</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/05/19/centos7%E5%AE%89%E8%A3%85oracle18C/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="centos7安装Oracle18C"><a href="#centos7安装Oracle18C" class="headerlink" title="centos7安装Oracle18C"></a>centos7安装Oracle18C</h1><p> 下载oracle database 18c的RPM安装包 。</p>
+<p> <a href="https://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html" target="_blank" rel="noopener">https://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html</a> </p>
+<h2 id="1、克隆主机"><a href="#1、克隆主机" class="headerlink" title="1、克隆主机"></a>1、克隆主机</h2><h2 id="2、修改IP地址"><a href="#2、修改IP地址" class="headerlink" title="2、修改IP地址"></a>2、修改IP地址</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-ens33</span><br><span class="line"><span class="comment">#### 本人文件内容start</span></span><br><span class="line"></span><br><span class="line">TYPE=Ethernet</span><br><span class="line">PROXY_METHOD=none</span><br><span class="line">BROWSER_ONLY=no</span><br><span class="line">BOOTPROTO=dhcp</span><br><span class="line">DEFROUTE=yes</span><br><span class="line">IPV4_FAILURE_FATAL=no</span><br><span class="line">IPV6INIT=yes</span><br><span class="line">IPV6_AUTOCONF=yes</span><br><span class="line">IPV6_DEFROUTE=yes</span><br><span class="line">IPV6_FAILURE_FATAL=no</span><br><span class="line">IPV6_ADDR_GEN_MODE=stable-privacy</span><br><span class="line">NAME=ens33</span><br><span class="line">UUID=80a0c141-348b-4551-bd8c-3e83a4b2cbf4</span><br><span class="line">DEVICE=ens33</span><br><span class="line">ONBOOT=yes</span><br><span class="line"></span><br><span class="line">BOOTPROTO=static</span><br><span class="line"></span><br><span class="line">IPADDR=192.168.10.200</span><br><span class="line">GATEWAY=192.168.10.2</span><br><span class="line">DNS1=192.168.10.2</span><br><span class="line"></span><br><span class="line"><span class="comment">#### end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改说明</span></span><br><span class="line">DEVICE=eth0                <span class="comment">#接口名（设备,网卡）</span></span><br><span class="line">HWADDR=00:0C:2x:6x:0x:xx   <span class="comment">#MAC地址 </span></span><br><span class="line">TYPE=Ethernet               <span class="comment">#网络类型（通常是Ethemet）</span></span><br><span class="line">UUID=926a57ba-92c6-4231-bacb-f27e5e6a9f44  <span class="comment">#随机id</span></span><br><span class="line"><span class="comment">#系统启动的时候网络接口是否有效（yes/no）</span></span><br><span class="line">ONBOOT=yes                </span><br><span class="line"><span class="comment"># IP的配置方法[none|static|bootp|dhcp]（引导时不使用协议|静态分配IP|BOOTP协议|DHCP协议）</span></span><br><span class="line">BOOTPROTO=static      </span><br><span class="line"><span class="comment">#IP地址</span></span><br><span class="line">IPADDR=192.168.10.200   </span><br><span class="line"><span class="comment">#网关  </span></span><br><span class="line">GATEWAY=192.168.10.2      </span><br><span class="line"><span class="comment">#域名解析器</span></span><br><span class="line">DNS1=192.168.10.2</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3、修改用户名"><a href="#3、修改用户名" class="headerlink" title="3、修改用户名"></a>3、修改用户名</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">//查看一下当前主机名的情况，查看全部三种主机名</span><br><span class="line">hostnamectl   </span><br><span class="line"> </span><br><span class="line">//或者，查看全部三种主机名</span><br><span class="line">hostnamectl status</span><br><span class="line"> </span><br><span class="line">//只查看静态、瞬态或灵活主机名，分别使用--static，--transient或--pretty选项</span><br><span class="line">[root@xh00 ~]<span class="comment"># hostnamectl --static</span></span><br><span class="line"> </span><br><span class="line">xh00</span><br><span class="line">[root@xh00 ~]<span class="comment"># hostnamectl --transient</span></span><br><span class="line"> </span><br><span class="line">xh01</span><br><span class="line">[root@xh00 ~]<span class="comment"># hostnamectl --pretty</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">//或者，查看到的是瞬态的（Tansient hostname）</span><br><span class="line">hostname</span><br><span class="line"> </span><br><span class="line">//或者查看主机名配置文件，查看到的是静态的（Static hostname）</span><br><span class="line">cat /etc/hostname</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法1：临时有效"><a href="#方法1：临时有效" class="headerlink" title="方法1：临时有效"></a>方法1：临时有效</h3><p>hostname 主机名 //只能临时修改的主机名，当重启机器后，主机名称又变回来了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostname xh01</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法2：永久生效"><a href="#方法2：永久生效" class="headerlink" title="方法2：永久生效"></a>方法2：永久生效</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//永久性的修改主机名称，重启后能保持修改后的。</span><br><span class="line">hostnamectl <span class="built_in">set</span>-hostname xxx	</span><br><span class="line"></span><br><span class="line">//删除hostname</span><br><span class="line">hostnamectl <span class="built_in">set</span>-hostname <span class="string">""</span></span><br><span class="line">hostnamectl <span class="built_in">set</span>-hostname <span class="string">""</span> --static</span><br><span class="line">hostnamectl <span class="built_in">set</span>-hostname <span class="string">""</span> --pretty</span><br></pre></td></tr></table></figure>
+
+
+
+<p>修改所有三个主机名：静态、瞬态和灵活主机名：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># hostnamectl set-hostname oracle_machine</span></span><br><span class="line">[root@localhost ~]<span class="comment"># hostnamectl --pretty</span></span><br><span class="line">[root@localhost ~]<span class="comment"># hostnamectl --static</span></span><br><span class="line">xh00</span><br><span class="line">[root@localhost ~]<span class="comment"># hostnamectl --transient</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4、上传RPM安装包"><a href="#4、上传RPM安装包" class="headerlink" title="4、上传RPM安装包"></a>4、上传RPM安装包</h2><h2 id="5、安装Oracle"><a href="#5、安装Oracle" class="headerlink" title="5、安装Oracle"></a>5、安装Oracle</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">1.下载预先安装的包：</span><br><span class="line">[root@oracle_machine ~]<span class="comment"># curl -o oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm</span></span><br><span class="line">------上传下载的Oracle18c安装包</span><br><span class="line">oracle-database-ee-18c-1.0-1.x86_64.rpm</span><br><span class="line">2.安装</span><br><span class="line">[root@oracle_machine ~]<span class="comment"># yum -y localinstall oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm</span></span><br><span class="line">会自动安装依赖的软件包。</span><br><span class="line"></span><br><span class="line">3.安装oracle-database-servrer:</span><br><span class="line">[root@oracle_machine ~]<span class="comment"># rpm -ivh oracle-database-ee-18c-1.0-1.x86_64.rpm </span></span><br><span class="line"></span><br><span class="line">4.参看配置文件：</span><br><span class="line">[root@oracle_machine ~]<span class="comment"># cat /etc/sysconfig/oracledb_ORCLCDB-18c.conf</span></span><br><span class="line"></span><br><span class="line">5.配置：</span><br><span class="line">[root@oracle_machine ~]<span class="comment"># /etc/init.d/oracledb_ORCLCDB-18c configure</span></span><br><span class="line">执行脚本之后将创建一个容器数据库(ORCLCDB)和一个可插拔数据库(ORCLPDB1),并且配置的默认监听端口是1521.</span><br><span class="line"></span><br><span class="line">6.进程和端口查看：</span><br><span class="line"><span class="comment">#端口查看</span></span><br><span class="line">[root@oracle_machine ~]<span class="comment"># netstat -nultp  | grep -E '1521|5500'</span></span><br><span class="line">[root@oracle_machine ~]<span class="comment"># ps -ef | grep -i orcl | grep -v grep</span></span><br><span class="line"></span><br><span class="line">7.切换账号登录系统：</span><br><span class="line">[root@oracle_machine ~]<span class="comment"># su - oracle</span></span><br><span class="line"></span><br><span class="line">ERROR:</span><br><span class="line">ORA-12162: TNS:net service name is incorrectly specified</span><br><span class="line">原因：</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$ORACLE_HOME</span></span><br><span class="line">/opt/oracle/product/18c/dbhome_1</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$ORACLE_SID</span></span><br><span class="line">$</span><br><span class="line">解决办法：</span><br><span class="line">$ <span class="built_in">export</span> ORACLE_SID=ORCLCDB</span><br><span class="line">$ ./sqlplus / as sysdba</span><br><span class="line"> </span><br><span class="line">--版本查询：</span><br><span class="line">SQL&gt; select banner from sys.v_<span class="variable">$version</span>;</span><br><span class="line"> </span><br><span class="line">BANNER</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">Oracle Database 18c Enterprise Edition Release 18.0.0.0.0 - Production</span><br><span class="line"> </span><br><span class="line">SQL&gt; select * from v<span class="variable">$version</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">8.若需要正常使用还需要配置环境变量（oracle.sh没有就tee）：</span><br><span class="line"><span class="comment"># cat /etc/profile.d/oracle.sh </span></span><br><span class="line"><span class="comment"># /bin/bash</span></span><br><span class="line"><span class="built_in">export</span> ORACLE_HOME=/opt/oracle/product/18c/dbhome_1</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$ORACLE_HOME</span>/bin</span><br><span class="line"><span class="built_in">export</span> ORACLE_SID=ORCLCDB</span><br><span class="line"><span class="comment"># source  /etc/profile.d/oracle.sh </span></span><br><span class="line">$ sqlplus / as sysdba</span><br><span class="line"> </span><br><span class="line">9.若在虚拟机中安装体验rpm包的oracle：</span><br><span class="line">$ du -sh /opt/</span><br><span class="line">12G /opt/</span><br><span class="line">/opt 目录至少需要12G，此外还需要考虑RPM的oracle安装文件。</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">--删除oracle实例：</span><br><span class="line">以oracle的账号登录删除实例，删除监听，再以root的账号删除软件。</span><br><span class="line">$ <span class="built_in">cd</span> <span class="variable">$ORACLE_HOME</span>/bin </span><br><span class="line">$ ./dbca</span><br><span class="line">$ <span class="built_in">cd</span> <span class="variable">$ORACLE_HOME</span>/bin </span><br><span class="line">$ ./netca</span><br><span class="line"><span class="comment"># yum -y remove oracle-database-ee-18c</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6、Oracle操作"><a href="#6、Oracle操作" class="headerlink" title="6、Oracle操作"></a>6、Oracle操作</h2><p>Oracle 创建dba用户：</p>
+<h3 id="1、切换到Oracle用户"><a href="#1、切换到Oracle用户" class="headerlink" title="1、切换到Oracle用户"></a>1、切换到Oracle用户</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@oracle_machine ~]$ su – oracle</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、登录sys用户"><a href="#2、登录sys用户" class="headerlink" title="2、登录sys用户"></a>2、登录sys用户</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@oracle_machine ~]$ sqlplus / as sysdba</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、创建表空间"><a href="#3、创建表空间" class="headerlink" title="3、创建表空间"></a>3、创建表空间</h3><p>查询用户表空间文件的路径</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@oracle_machine ~]$ select name from v<span class="variable">$datafile</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、利用dbca-创建数据库实例"><a href="#4、利用dbca-创建数据库实例" class="headerlink" title="4、利用dbca 创建数据库实例"></a>4、利用dbca 创建数据库实例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[oracle@oracle_machine ~]$ su – oracle</span><br><span class="line">[oracle@oracle_machine ~]$ <span class="built_in">echo</span> <span class="variable">$DISPLAY</span></span><br><span class="line"></span><br><span class="line">[oracle@oracle_machine ~]$ vi .bash_profile</span><br><span class="line"><span class="comment"># 向配置文件中加入环境变量 export DISPLAY=本地IP:0.0</span></span><br><span class="line">[oracle@oracle_machine ~]$ <span class="built_in">echo</span> <span class="variable">$DISPLAY</span></span><br><span class="line">192.168.0.100:0.0</span><br><span class="line">[oracle@oracle_machine ~]$ dbca</span><br></pre></td></tr></table></figure>
+
+<h3 id="5、查询数据库实例"><a href="#5、查询数据库实例" class="headerlink" title="5、查询数据库实例"></a>5、查询数据库实例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select name from v<span class="variable">$database</span>;</span><br><span class="line"><span class="comment"># 查看数据库实例状态</span></span><br><span class="line">select INSTANCE_NAME,status from v<span class="variable">$instance</span>;</span><br><span class="line"><span class="comment"># 关闭实例</span></span><br><span class="line">shutdown abort;</span><br><span class="line">shutdown immediate;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6、Oracle创建Scheme"><a href="#6、Oracle创建Scheme" class="headerlink" title="6、Oracle创建Scheme"></a>6、Oracle创建Scheme</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">[oracle@oracle_machine ~]$ sqlplus / as sysdba</span><br><span class="line"><span class="comment"># 先连接实例</span></span><br><span class="line">SQL&gt; CONNECT SYSTEM@ipdrpmg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1、查看Oracle 18c的版本</span></span><br><span class="line">SQL&gt; select * from v<span class="variable">$version</span>;</span><br><span class="line">SQL&gt;select sys_context (<span class="string">'USERENV'</span>, <span class="string">'CON_NAME'</span>) from dual;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、我们可以通过ALTER SESSION SET CONTAINER 指定其他容器</span></span><br><span class="line">SQL&gt;select con_id,dbid,NAME,OPEN_MODE from v<span class="variable">$pdbs</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3、将Pdb open</span></span><br><span class="line">SQL&gt; alter pluggable database PDB_IPDRPMG open;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4、查看容器</span></span><br><span class="line">SQL&gt;select con_id,dbid,NAME,OPEN_MODE from v<span class="variable">$pdbs</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5、切换容器到pdb</span></span><br><span class="line">SQL&gt; alter session <span class="built_in">set</span> container = PDB_IPDRPMG;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6、查看当前使用容器</span></span><br><span class="line">SQL&gt;select sys_context (<span class="string">'USERENV'</span>, <span class="string">'CON_NAME'</span>) from dual; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-- 查看当前已有的用户</span><br><span class="line">SELECT Username FROM dba_users;</span><br><span class="line"></span><br><span class="line">-- 创建临时</span><br><span class="line">CREATE USER IPDRPMG IDENTIFIED BY Pei123456;</span><br><span class="line"></span><br><span class="line">-- 授权</span><br><span class="line">GRANT CREATE SESSION TO IPDRPMG;</span><br><span class="line"></span><br><span class="line">CREATE TABLESPACE IPDRPMG DATAFILE <span class="string">'IPDRPMG.dat'</span> SIZE 10M AUTOEXTEND ON;</span><br><span class="line"></span><br><span class="line">CREATE TEMPORARY TABLESPACE IPDRPMG TEMPFILE <span class="string">'IPDRPMG.dat'</span> SIZE 5M AUTOEXTEND ON;</span><br><span class="line"></span><br><span class="line">DROP USER IPDRPMG;</span><br><span class="line"></span><br><span class="line">-- 开始创建数据库</span><br><span class="line">CREATE USER IPDRPMG IDENTIFIED BY Pei123456  DEFAULT TABLESPACE IPDRPMG TEMPORARY TABLESPACE IPDRPMG;</span><br><span class="line"></span><br><span class="line">-- 授权</span><br><span class="line">grant create session to IPDRPMG;</span><br><span class="line"></span><br><span class="line">grant create table to IPDRPMG;</span><br><span class="line"></span><br><span class="line">grant unlimited tablespace to IPDRPMG;</span><br><span class="line"></span><br><span class="line">-- 最后修改一下密码</span><br><span class="line">ALTER USER IPDRPMG IDENTIFIED BY Pei123456;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7、创建用户"><a href="#7、创建用户" class="headerlink" title="7、创建用户"></a>7、创建用户</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt;create user IPDRPMG identified by Pei123456;</span><br><span class="line"><span class="comment"># 创建表空间：</span></span><br><span class="line">    create tablespace IPDRPMG datafile <span class="string">'/opt/oracle/oradata/IPDRPMG/data.dbf'</span> size 5m;</span><br><span class="line">    <span class="comment"># tablespacename：表空间的名字</span></span><br><span class="line">    <span class="comment"># d:\data.dbf'：表空间的存储位置</span></span><br><span class="line">    <span class="comment"># xxx表空间的大小，m单位为兆(M)</span></span><br><span class="line"><span class="comment"># 将空间分配给用户：</span></span><br><span class="line">   alter user ipdrpmg default tablespace <span class="string">"IPDRPMG"</span>;</span><br><span class="line">   <span class="comment"># alter user SYSTEM default tablespace IPDRPMG;</span></span><br><span class="line">   <span class="comment"># 将名字为tablespacename的表空间分配给username </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 给用户授权：</span></span><br><span class="line">   grant create session,create table,unlimited tablespace to ipdrpmg;</span><br><span class="line"><span class="comment"># 授权</span></span><br><span class="line">grant create session to IPDRPMG;</span><br><span class="line">grant create table to IPDRPMG;</span><br><span class="line">grant unlimited tablespace to IPDRPMG;</span><br><span class="line">SQL&gt;grant dba to IPDRPMG;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8、所有scheme、table查看"><a href="#8、所有scheme、table查看" class="headerlink" title="8、所有scheme、table查看"></a>8、所有scheme、table查看</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可以查出所有的schema</span></span><br><span class="line">SQL&gt; select username from sys.dba_users;</span><br><span class="line"><span class="comment"># 可以查出来schema对应的表名</span></span><br><span class="line"><span class="comment">### select table_name from dba_tables where owner='schema名称';</span></span><br><span class="line">SQL&gt; select table_name from dba_tables <span class="built_in">where</span> owner=<span class="string">'IPDRPMG'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">##### 遇到的问题：</span></span><br><span class="line">SQL&gt; conn ipdrpmg@ipdrpmg</span><br><span class="line">Enter password: </span><br><span class="line">ERROR:</span><br><span class="line">ORA-01017: invalid username/password; logon denied</span><br><span class="line">Warning: You are no longer connected to ORACLE.</span><br><span class="line"></span><br><span class="line"><span class="comment">### 解决办法：</span></span><br><span class="line">conn system/Pei123456;</span><br><span class="line"></span><br><span class="line">create user c<span class="comment">##ipdrpmg identified by Pei123456;</span></span><br><span class="line"></span><br><span class="line">grant connect to c<span class="comment">##ipdrpmg;</span></span><br><span class="line"></span><br><span class="line">conn c<span class="comment">##ipdrpmg/Pei123456;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="7、最后成功创建的步骤"><a href="#7、最后成功创建的步骤" class="headerlink" title="7、最后成功创建的步骤"></a>7、最后成功创建的步骤</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt;  create pluggable database IPDRPMG admin user ipdrpmg identified by Abc1234567 role = (resources) file_name_convert=(<span class="string">'/opt/oracle/oradata/ORCLCDB/pdbseed'</span>, <span class="string">'/opt/oracle/oradata/IPDRPMG'</span>)</span><br><span class="line"></span><br><span class="line">----用户 ipdrpmg Abc1234567</span><br><span class="line">SQL&gt; alter session <span class="built_in">set</span> container = ipdrpmg;</span><br><span class="line">SQL&gt; show pdbs;</span><br><span class="line"></span><br><span class="line">--关闭 database</span><br><span class="line">SQL&gt; alter pluggable database ipdrpmg close immediate;</span><br><span class="line">--开启 database</span><br><span class="line">SQL&gt; alter pluggable database ipdrpmg open;</span><br><span class="line"></span><br><span class="line">SQL&gt; create tablespace IPDRPMG datafile <span class="string">'/opt/oracle/oradata/IPDRPMG/data.dbf'</span> size 5m;</span><br><span class="line">--drop tablespace <span class="string">"IPDRPMG"</span>;</span><br><span class="line"></span><br><span class="line">SQL&gt; alter user ipdrpmg default tablespace <span class="string">"IPDRPMG;"</span></span><br><span class="line"></span><br><span class="line">SQL&gt; grant create session,create table,unlimited tablespace to ipdrpmg;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">--监听路径</span><br><span class="line">/opt/oracle/product/18c/dbhome_1/network/admin</span><br><span class="line"></span><br><span class="line">[oracle@oracle_machine admin]$ lsnrctl stop</span><br><span class="line"></span><br><span class="line">[oracle@oracle_machine admin]$ lsnrctl start</span><br></pre></td></tr></table></figure>
+
+<h2 id="8、Oracle启动关闭"><a href="#8、Oracle启动关闭" class="headerlink" title="8、Oracle启动关闭"></a>8、Oracle启动关闭</h2><h3 id="一、Linux下启动Oracle"><a href="#一、Linux下启动Oracle" class="headerlink" title="一、Linux下启动Oracle"></a>一、Linux下启动Oracle</h3><p>　　Linux下启动Oracle分为两步：</p>
+<p>　　1）启动监听；</p>
+<p>　　2）启动数据库实例；</p>
+<h4 id="1-登录服务器，切换到oracle用户，或者以oracle用户登录"><a href="#1-登录服务器，切换到oracle用户，或者以oracle用户登录" class="headerlink" title="1.登录服务器，切换到oracle用户，或者以oracle用户登录"></a>1.登录服务器，切换到oracle用户，或者以oracle用户登录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[oracle@oracle_machine admin]$ su - oracle</span><br><span class="line">[oracle@oracle_machine admin]$</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-打开监听服务"><a href="#2-打开监听服务" class="headerlink" title="2.打开监听服务"></a>2.打开监听服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@oracle_machine admin]$ lsnrctl start</span><br></pre></td></tr></table></figure>
+
+<p>可以通过lsnrctl status命令查看Oracle监听器运行状况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@oracle_machine admin]$ lsnrctl status</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-以SYS用户身份登录Oracle"><a href="#3-以SYS用户身份登录Oracle" class="headerlink" title="3.以SYS用户身份登录Oracle"></a>3.以SYS用户身份登录Oracle</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[oracle@oracle_machine admin]$ sqlplus &#x2F;nolog</span><br><span class="line"></span><br><span class="line">SQL*Plus: Release 18.0.0.0.0 - Production on Mon Feb 3 06:37:41 2020</span><br><span class="line">Version 18.3.0.0.0</span><br><span class="line"></span><br><span class="line">Copyright (c) 1982, 2018, Oracle.  All rights reserved.</span><br><span class="line"></span><br><span class="line">SQL&gt; conn &#x2F;as sysdba</span><br><span class="line">Connected to an idle instance.</span><br></pre></td></tr></table></figure>
+
+<p>切换用户：</p>
+<p>CONN 用户名/密码 [AS SYSDBA]，如果是sys用户一定要写上AS　SYSDBA</p>
+<h4 id="4-通过startup命令启动实例"><a href="#4-通过startup命令启动实例" class="headerlink" title="4.通过startup命令启动实例"></a>4.通过startup命令启动实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; startup</span><br><span class="line">ORACLE instance started.</span><br><span class="line"></span><br><span class="line">Total System ... ...Database mounted.</span><br><span class="line">Database opened.</span><br><span class="line">SQL&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="二、Linux下关闭Oracle"><a href="#二、Linux下关闭Oracle" class="headerlink" title="二、Linux下关闭Oracle"></a>二、Linux下关闭Oracle</h3><h4 id="1-关闭数据库实例"><a href="#1-关闭数据库实例" class="headerlink" title="1.关闭数据库实例"></a>1.关闭数据库实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; shutdown immediate</span><br><span class="line">Database closed.</span><br><span class="line">Database dismounted.</span><br><span class="line">ORACLE instance shut down.SQL&gt; quitDisconnected from Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit ProductionWith the Partitioning, OLAP, Data Mining and Real Application Testing options</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-关闭监听器"><a href="#2-关闭监听器" class="headerlink" title="2.关闭监听器"></a>2.关闭监听器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@localhost ~]$ lsnrctl stop</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://ellisonpei.gitee.io/blog/2020/05/19/centos7%E5%AE%89%E8%A3%85oracle18C/" title="centos7安装Oracle18C" target="_blank" rel="external">http://ellisonpei.gitee.io/blog/2020/05/19/centos7%E5%AE%89%E8%A3%85oracle18C/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ellisonpei" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/blog/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ellisonpei" target="_blank"><span class="text-dark">溺水的小裴</span><small class="ml-1x">EllisonPei</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/blog/2020/05/19/docker%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" title="docker安装与使用"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/blog/2020/05/19/Tomcat%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE%E5%90%8E%EF%BC%8C%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E6%98%BE%E7%A4%BA%E4%B9%B1%E7%A0%81%EF%BC%9A/" title="Tomcat部署项目后，项目中的中文显示乱码"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ellisonpei" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/blog/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/blog/js/plugin.min.js"></script>
+
+
+<script src="/blog/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/blog/',
+        CONTENT_URL: '/blog/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/blog/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
