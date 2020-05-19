@@ -2,13 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://ellisonpei.gitee.io/blog/2020/05/19/My-New-Post/</loc>
-    
-    <lastmod>2020-05-19T06:05:12.455Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://ellisonpei.gitee.io/blog/links/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.283Z</lastmod>
@@ -30,6 +23,13 @@
   </url>
   
   <url>
+    <loc>http://ellisonpei.gitee.io/blog/about/index.html</loc>
+    
+    <lastmod>2020-05-19T05:00:20.282Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://ellisonpei.gitee.io/blog/books/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
@@ -40,20 +40,6 @@
     <loc>http://ellisonpei.gitee.io/blog/categories/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://ellisonpei.gitee.io/blog/about/index.html</loc>
-    
-    <lastmod>2020-05-19T05:00:20.282Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://ellisonpei.gitee.io/blog/2020/05/19/hello-world/</loc>
-    
-    <lastmod>2020-05-19T04:11:10.241Z</lastmod>
     
   </url>
   
