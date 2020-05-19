@@ -17,7 +17,7 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Spring中普通类无法注入service的解决方案 | ellison</title>
+  <title>Spring中普通类无法注入service的解决方案 | 溺水的小裴</title>
   <meta name="description" content="SpringBoot中普通类无法注入service的解决方案先摆出实际问题：本人在项目中写了钩子方法，在service方法中，通过父类方法，调用子类的实现，结果出现，service无法注入问题？ 解决方案：既然spring无法完成普通类的依赖注入，那么我们就手动getBean（思路就是手动调用ApplicationContext.getBean() ）。 1、我们手动创建工具类Applicatio">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring中普通类无法注入service的解决方案">
