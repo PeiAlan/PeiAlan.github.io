@@ -17,23 +17,23 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>docker部署Tomcat并配置manageApp | 溺水的小裴</title>
-  <meta name="description" content="docker部署Tomcat并配置manageApp1、docker部署Tomcat 123456789docker pull tomcat:latest# 分析：需要挂载的文件夹为：conf	logs  webapps # copy 容器内文件夹 （直接创建也可）[root@peiyanbing ~]# docker cp mytomcat:&#x2F;usr&#x2F;local&#x2F;tomcat&#x2F;conf &#x2F;hom">
+  <title>SpringBoot中普通类无法注入service的解决方案 | 溺水的小裴</title>
+  <meta name="description" content="先摆出实际问题：本人在项目中写了钩子方法，在service方法中，通过父类方法，调用子类的实现，结果出现，service无法注入问题？ 解决方案：既然spring无法完成普通类的依赖注入，那么我们就手动getBean（思路就是手动调用ApplicationContext.getBean() ）。 1、我们手动创建工具类ApplicationContextProvider12345678910111">
 <meta property="og:type" content="article">
-<meta property="og:title" content="docker部署Tomcat并配置manageApp">
-<meta property="og:url" content="http://ellisonpei.gitee.io/blog/2020/05/19/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/index.html">
+<meta property="og:title" content="SpringBoot中普通类无法注入service的解决方案">
+<meta property="og:url" content="http://ellisonpei.gitee.io/blog/2020/05/20/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
 <meta property="og:site_name" content="溺水的小裴">
-<meta property="og:description" content="docker部署Tomcat并配置manageApp1、docker部署Tomcat 123456789docker pull tomcat:latest# 分析：需要挂载的文件夹为：conf	logs  webapps # copy 容器内文件夹 （直接创建也可）[root@peiyanbing ~]# docker cp mytomcat:&#x2F;usr&#x2F;local&#x2F;tomcat&#x2F;conf &#x2F;hom">
+<meta property="og:description" content="先摆出实际问题：本人在项目中写了钩子方法，在service方法中，通过父类方法，调用子类的实现，结果出现，service无法注入问题？ 解决方案：既然spring无法完成普通类的依赖注入，那么我们就手动getBean（思路就是手动调用ApplicationContext.getBean() ）。 1、我们手动创建工具类ApplicationContextProvider12345678910111">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://ellisonpei.gitee.io/Users/ellisonpei/Desktop/biji/respository/%E5%9B%BE%E7%89%87/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dtYWFhMTIz,size_16,color_FFFFFF,t_70.png">
-<meta property="article:published_time" content="2020-05-19T11:58:56.000Z">
-<meta property="article:modified_time" content="2020-05-19T17:09:50.739Z">
+<meta property="article:published_time" content="2020-05-20T11:58:56.000Z">
+<meta property="article:modified_time" content="2020-05-20T02:36:05.227Z">
 <meta property="article:author" content="EllisonPei">
-<meta property="article:tag" content="Tomcat">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="ApplicationContext">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://ellisonpei.gitee.io/Users/ellisonpei/Desktop/biji/respository/%E5%9B%BE%E7%89%87/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dtYWFhMTIz,size_16,color_FFFFFF,t_70.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://ellisonpei.gitee.io/blog/2020/05/19/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/index.html">
+  <link rel="canonical" href="http://ellisonpei.gitee.io/blog/2020/05/20/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
   
     <link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
   
@@ -230,58 +230,13 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
+                <a class="category-link" href="/blog/categories/MQ/">MQ</a>
               </p>
               <p class="item-title">
-                <a href="/blog/2020/05/19/JVM%20%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" class="title">JVM 中的对象</a>
+                <a href="/blog/2020/05/20/Kafka%E3%80%81ActiveMQ%E3%80%81RabbitMQ%E3%80%81RocketMQ%20%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%80%82%E5%90%88%E5%93%AA%E4%BA%9B%E5%9C%BA%E6%99%AF%EF%BC%9F/" class="title">Kafka、ActiveMQ、RabbitMQ、RocketMQ 都有什么区别，以及适合哪些场景？</a>
               </p>
               <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
-              </p>
-              <p class="item-title">
-                <a href="/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">JVM 内存结构</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/blog/categories/Java/">Java</a>
-              </p>
-              <p class="item-title">
-                <a href="/blog/2020/05/19/Java8---JUC/" class="title">Java8之 JUC</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/blog/categories/Java/">Java</a>
-              </p>
-              <p class="item-title">
-                <a href="/blog/2020/05/19/Java8---NIO/" class="title">Java8之 NIO</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
               </p>
             </div>
           </li>
@@ -293,10 +248,55 @@
                 <a class="category-link" href="/blog/categories/SSL/">SSL</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/SSL/Https/">Https</a>
               </p>
               <p class="item-title">
-                <a href="/blog/2020/05/19/SSL%E8%AF%81%E4%B9%A6%E5%8F%8Ahttps%E9%85%8D%E7%BD%AE/" class="title">SSL证书配置及https跳转</a>
+                <a href="/blog/2020/05/20/SSL%E8%AF%81%E4%B9%A6%E5%8F%8Ahttps%E9%85%8D%E7%BD%AE/" class="title">SSL证书配置及https跳转</a>
               </p>
               <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring-Boot/">Spring Boot</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/Spring%20Boot%202.2.2%20%E5%90%AF%E5%8A%A8%E5%85%A8%E8%BF%87%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="title">Spring Boot 2.2.2 启动全过程源码分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring-Boot/">Spring Boot</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/Spring-Boot/tomcat/">tomcat</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/" class="title">SpringBoot内置tomcat启动原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring/">Spring</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/Spring/Spring-Boot/">Spring Boot</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="title">SpringBoot中普通类无法注入service的解决方案</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
               </p>
             </div>
           </li>
@@ -314,14 +314,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-docker部署Tomcat，配置在线manageApp" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-Spring中普通类无法注入service的解决方案" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      docker部署Tomcat并配置manageApp
+      SpringBoot中普通类无法注入service的解决方案
     </h1>
   
 
@@ -329,29 +329,29 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/blog/2020/05/19/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/" class="article-date">
-	  <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+	<a href="/blog/2020/05/20/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="article-date">
+	  <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
 	</a>
 </span>
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/blog/categories/docker/">docker</a>►<a class="article-category-link" href="/blog/categories/docker/Tomcat/">Tomcat</a>
+    <a class="article-category-link" href="/blog/categories/Spring/">Spring</a>►<a class="article-category-link" href="/blog/categories/Spring/Spring-Boot/">Spring Boot</a>►<a class="article-category-link" href="/blog/categories/Spring/Spring-Boot/Java/">Java</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/blog/tags/Tomcat/" rel="tag">Tomcat</a>
+	<a class="article-tag-link" href="/blog/tags/ApplicationContext/" rel="tag">ApplicationContext</a>, <a class="article-tag-link" href="/blog/tags/Java/" rel="tag">Java</a>, <a class="article-tag-link" href="/blog/tags/Spring/" rel="tag">Spring</a>
   </span>
 
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/05/19/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/05/20/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 517(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 429(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
@@ -361,31 +361,15 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h1 id="docker部署Tomcat并配置manageApp"><a href="#docker部署Tomcat并配置manageApp" class="headerlink" title="docker部署Tomcat并配置manageApp"></a>docker部署Tomcat并配置manageApp</h1><p>1、docker部署Tomcat</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker pull tomcat:latest</span><br><span class="line"><span class="meta">#</span><span class="bash"> 分析：需要挂载的文件夹为：conf	logs  webapps </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> copy 容器内文件夹 （直接创建也可）</span></span><br><span class="line">[root@peiyanbing ~]# docker cp mytomcat:/usr/local/tomcat/conf /home/tomcat_design/</span><br><span class="line">[root@peiyanbing ~]# docker cp mytomcat:/usr/local/tomcat/logs /home/tomcat_design/</span><br><span class="line">[root@peiyanbing ~]# docker cp mytomcat:/usr/local/tomcat/webapps /home/tomcat_design/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 以下是本人挂载的tomcat</span></span><br><span class="line">sudo docker run -d -p 8080:8080 --privileged=true -v /home/tomcat_design/webapps:/usr/local/tomcat/webapps -v /home/tomcat_design/conf:/usr/local/tomcat/conf -v /home/tomcat_design/logs:/usr/local/tomcat/logs --restart=always tomcat</span><br></pre></td></tr></table></figure>
+        <p>先摆出实际问题：本人在项目中写了钩子方法，在service方法中，通过父类方法，调用子类的实现，结果出现，service无法注入问题？</p>
+<p>解决方案：既然spring无法完成普通类的依赖注入，那么我们就手动getBean（思路就是手动调用ApplicationContext.getBean() ）。</p>
+<h3 id="1、我们手动创建工具类ApplicationContextProvider"><a href="#1、我们手动创建工具类ApplicationContextProvider" class="headerlink" title="1、我们手动创建工具类ApplicationContextProvider"></a>1、我们手动创建工具类ApplicationContextProvider</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.beans.BeansException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContextAware;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * spring boot 项目中  普通类中无法注入service问题解决方案，手动getBean</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ellisonpei</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplicationContextProvider</span> <span class="keyword">implements</span> <span class="title">ApplicationContextAware</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 上下文对象实例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"static-access"</span>)</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setApplicationContext</span><span class="params">(ApplicationContext applicationContext)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.applicationContext = applicationContext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取applicationContext</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ApplicationContext <span class="title">getApplicationContext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> applicationContext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过name获取 Bean对象.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> name</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getBean</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getApplicationContext().getBean(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过class获取Bean对象.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> clazz</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">getBean</span><span class="params">(Class&lt;T&gt; clazz)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getApplicationContext().getBean(clazz);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过name,以及Clazz返回指定的Bean对象</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> name</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> clazz</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">getBean</span><span class="params">(String name, Class&lt;T&gt; clazz)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getApplicationContext().getBean(name, clazz);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="2、父类不用做什么修改"><a href="#2、父类不用做什么修改" class="headerlink" title="2、父类不用做什么修改"></a>2、父类不用做什么修改</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 抽象父类</span></span><br><span class="line"><span class="comment"> * 父类通过钩子方法调用子类中的方法</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ellisonpei</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &lt;T&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">SelectDataForm</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//按照年、季度、月份筛选数据</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> List&lt;T&gt; <span class="title">selectedForm</span><span class="params">(T y)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="3、在子类中修改调用"><a href="#3、在子类中修改调用" class="headerlink" title="3、在子类中修改调用"></a>3、在子类中修改调用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 按月份计算</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ellisonpei</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SelectFormByMonth</span> <span class="keyword">extends</span> <span class="title">SelectDataForm</span>&lt;<span class="title">IpdrpmgFrptForm</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> IIpdrpmgFrptFormService ipdrpmgFrptFormService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;IpdrpmgFrptForm&gt; <span class="title">selectedForm</span><span class="params">(IpdrpmgFrptForm ipdrpmgFrptForm)</span> </span>&#123;</span><br><span class="line">      <span class="comment">//通过我们自定义封装的 ApplicationContextProvider 来主动getBean</span></span><br><span class="line">        ipdrpmgFrptFormService = ApplicationContextProvider.getBean(IIpdrpmgFrptFormService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        <span class="keyword">return</span> ipdrpmgFrptFormService.selectFormByMonth(ipdrpmgFrptForm);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>2、Tomcat 8.5 无法进入管理页面 manager app</p>
-<p>报错截图：</p>
-<p><img src="/Users/ellisonpei/Desktop/biji/respository/%E5%9B%BE%E7%89%87/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dtYWFhMTIz,size_16,color_FFFFFF,t_70.png" alt="img"></p>
-<p><strong>解决需要3步：</strong></p>
-<p><strong>1. 添加 Context</strong></p>
-<p>$CATALINA_HOME/conf/Catalina/localhost/下创建 manager.xml ， 填入如下内容：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">privileged</span>=<span class="string">"true"</span> <span class="attr">antiResourceLocking</span>=<span class="string">"false"</span> </span></span><br><span class="line"><span class="tag">         <span class="attr">docBase</span>=<span class="string">"$&#123;catalina.home&#125;/webapps/manager"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.RemoteAddrValve"</span> <span class="attr">allow</span>=<span class="string">"^.*$"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>\2. 添加用户：<br>$tomcathome/conf/tomcat-users.xml 中的 <tomcat-users></tomcat-users></p>
-<p>标签内添加如下代码：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-script"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-jmx"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-status"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"admin-gui"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"admin-script"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"tomcatAdmin"</span> <span class="attr">password</span>=<span class="string">"tomcatAdmin"</span> <span class="attr">roles</span>=<span class="string">"manager-gui,manager-script,manager-jmx,manager-status,admin-gui,admin-script"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"deploy"</span> <span class="attr">password</span>=<span class="string">"deploy"</span> <span class="attr">roles</span>=<span class="string">"manager-script"</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">	此处本人配置两个用户，一个为tomcatAdmin, 一个是发布者deploy</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>注释访问限制：</li>
-</ol>
-<p>$CATALINA_HOME/webapps/manager/META-INF/context.xml.<br>注释掉下面的内容:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">  &lt;Valve className="org.apache.catalina.valves.RemoteAddrValve"</span></span><br><span class="line"><span class="comment">         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /&gt;</span></span><br><span class="line"><span class="comment">  &lt;Manager sessionAttributeValueClassNameFilter="java\.lang\.(?:Boolean|Integer|Long|Number|String)|org\.apache\.catalina\.filters\.CsrfPreventionFilter\$LruCache(?:\$1)?|java\.util\.(?:Linked)?HashMap"/&gt;</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br></pre></td></tr></table></figure>
-<p>4、有时候会因为上传war过大报错，是因为web.xml默认大小只有50M<br>修改manager的web.xml<br>$CATALINA_HOME\webapps\manager\WEB-INF\web.xml<br>把大小限制改大</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 原文：--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">multipart-config</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 50MB max --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">max-file-size</span>&gt;</span>52428800<span class="tag">&lt;/<span class="name">max-file-size</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">max-request-size</span>&gt;</span>52428800<span class="tag">&lt;/<span class="name">max-request-size</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">file-size-threshold</span>&gt;</span>0<span class="tag">&lt;/<span class="name">file-size-threshold</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">multipart-config</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 修改后：--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">multipart-config</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 500MB max --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">max-file-size</span>&gt;</span>524288000<span class="tag">&lt;/<span class="name">max-file-size</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">max-request-size</span>&gt;</span>524288000<span class="tag">&lt;/<span class="name">max-request-size</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">file-size-threshold</span>&gt;</span>0<span class="tag">&lt;/<span class="name">file-size-threshold</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">multipart-config</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>5、重启Tomcat即可。</p>
-
+<h3 id="修改完毕。ipdrpmgFrptFormService此时再调用就不是null了。"><a href="#修改完毕。ipdrpmgFrptFormService此时再调用就不是null了。" class="headerlink" title="修改完毕。ipdrpmgFrptFormService此时再调用就不是null了。"></a>修改完毕。ipdrpmgFrptFormService此时再调用就不是null了。</h3>
       
     </div>
     <div class="article-footer">
@@ -394,7 +378,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://ellisonpei.gitee.io/blog/2020/05/19/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/" title="docker部署Tomcat并配置manageApp" target="_blank" rel="external">http://ellisonpei.gitee.io/blog/2020/05/19/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/</a>
+      <a href="http://ellisonpei.gitee.io/blog/2020/05/20/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="SpringBoot中普通类无法注入service的解决方案" target="_blank" rel="external">http://ellisonpei.gitee.io/blog/2020/05/20/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -441,12 +425,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/blog/2020/05/19/docker%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" title="docker安装与使用"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/blog/2020/05/20/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/" title="SpringBoot内置tomcat启动原理"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/blog/2020/05/19/java8-lambda/" title="java8之Lambda"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/blog/2020/05/20/docker%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" title="docker安装与使用"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     

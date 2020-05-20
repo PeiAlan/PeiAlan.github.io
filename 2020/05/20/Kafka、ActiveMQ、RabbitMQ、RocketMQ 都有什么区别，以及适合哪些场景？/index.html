@@ -17,23 +17,24 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>SpringBoot中普通类无法注入service的解决方案 | 溺水的小裴</title>
-  <meta name="description" content="先摆出实际问题：本人在项目中写了钩子方法，在service方法中，通过父类方法，调用子类的实现，结果出现，service无法注入问题？ 解决方案：既然spring无法完成普通类的依赖注入，那么我们就手动getBean（思路就是手动调用ApplicationContext.getBean() ）。 1、我们手动创建工具类ApplicationContextProvider12345678910111">
+  <title>Kafka、ActiveMQ、RabbitMQ、RocketMQ 都有什么区别，以及适合哪些场景？ | 溺水的小裴</title>
+  <meta name="description" content="正如其他面试题，问到“Redis和Memcached之间的区别？”或者“Dubbo和Spring Cloud之间的区别？” 一样，相同领域技术之间进行比较也是一个经常面试的考点！ 一方面，考察了你对当前技术的了解程度，他适应的场景和不适应的场景，摸清楚你是否真正的用过，是否有“最佳实践”。你说你对技术了解的比较深入，问了几个比较有难度的问题，你都游刃有余，但是问到你为什么使用这个，而不是用另外一个">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SpringBoot中普通类无法注入service的解决方案">
-<meta property="og:url" content="http://ellisonpei.gitee.io/blog/2020/05/19/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:title" content="Kafka、ActiveMQ、RabbitMQ、RocketMQ 都有什么区别，以及适合哪些场景？">
+<meta property="og:url" content="http://ellisonpei.gitee.io/blog/2020/05/20/Kafka%E3%80%81ActiveMQ%E3%80%81RabbitMQ%E3%80%81RocketMQ%20%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%80%82%E5%90%88%E5%93%AA%E4%BA%9B%E5%9C%BA%E6%99%AF%EF%BC%9F/index.html">
 <meta property="og:site_name" content="溺水的小裴">
-<meta property="og:description" content="先摆出实际问题：本人在项目中写了钩子方法，在service方法中，通过父类方法，调用子类的实现，结果出现，service无法注入问题？ 解决方案：既然spring无法完成普通类的依赖注入，那么我们就手动getBean（思路就是手动调用ApplicationContext.getBean() ）。 1、我们手动创建工具类ApplicationContextProvider12345678910111">
+<meta property="og:description" content="正如其他面试题，问到“Redis和Memcached之间的区别？”或者“Dubbo和Spring Cloud之间的区别？” 一样，相同领域技术之间进行比较也是一个经常面试的考点！ 一方面，考察了你对当前技术的了解程度，他适应的场景和不适应的场景，摸清楚你是否真正的用过，是否有“最佳实践”。你说你对技术了解的比较深入，问了几个比较有难度的问题，你都游刃有余，但是问到你为什么使用这个，而不是用另外一个">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-05-19T11:58:56.000Z">
-<meta property="article:modified_time" content="2020-05-19T13:16:17.539Z">
+<meta property="article:published_time" content="2020-05-20T11:58:56.000Z">
+<meta property="article:modified_time" content="2020-05-20T02:35:15.341Z">
 <meta property="article:author" content="EllisonPei">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="Spring">
-<meta property="article:tag" content="ApplicationContext">
+<meta property="article:tag" content="Kafka">
+<meta property="article:tag" content="ActiveMQ">
+<meta property="article:tag" content="RabbitMQ">
+<meta property="article:tag" content="RocketMQ">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://ellisonpei.gitee.io/blog/2020/05/19/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+  <link rel="canonical" href="http://ellisonpei.gitee.io/blog/2020/05/20/Kafka%E3%80%81ActiveMQ%E3%80%81RabbitMQ%E3%80%81RocketMQ%20%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%80%82%E5%90%88%E5%93%AA%E4%BA%9B%E5%9C%BA%E6%99%AF%EF%BC%9F/index.html">
   
     <link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
   
@@ -230,58 +231,13 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
+                <a class="category-link" href="/blog/categories/MQ/">MQ</a>
               </p>
               <p class="item-title">
-                <a href="/blog/2020/05/19/JVM%20%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" class="title">JVM 中的对象</a>
+                <a href="/blog/2020/05/20/Kafka%E3%80%81ActiveMQ%E3%80%81RabbitMQ%E3%80%81RocketMQ%20%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%80%82%E5%90%88%E5%93%AA%E4%BA%9B%E5%9C%BA%E6%99%AF%EF%BC%9F/" class="title">Kafka、ActiveMQ、RabbitMQ、RocketMQ 都有什么区别，以及适合哪些场景？</a>
               </p>
               <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
-              </p>
-              <p class="item-title">
-                <a href="/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">JVM 内存结构</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/blog/categories/Java/">Java</a>
-              </p>
-              <p class="item-title">
-                <a href="/blog/2020/05/19/Java8---JUC/" class="title">Java8之 JUC</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/blog/categories/Java/">Java</a>
-              </p>
-              <p class="item-title">
-                <a href="/blog/2020/05/19/Java8---NIO/" class="title">Java8之 NIO</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
               </p>
             </div>
           </li>
@@ -293,10 +249,55 @@
                 <a class="category-link" href="/blog/categories/SSL/">SSL</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/SSL/Https/">Https</a>
               </p>
               <p class="item-title">
-                <a href="/blog/2020/05/19/SSL%E8%AF%81%E4%B9%A6%E5%8F%8Ahttps%E9%85%8D%E7%BD%AE/" class="title">SSL证书配置及https跳转</a>
+                <a href="/blog/2020/05/20/SSL%E8%AF%81%E4%B9%A6%E5%8F%8Ahttps%E9%85%8D%E7%BD%AE/" class="title">SSL证书配置及https跳转</a>
               </p>
               <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring-Boot/">Spring Boot</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/Spring%20Boot%202.2.2%20%E5%90%AF%E5%8A%A8%E5%85%A8%E8%BF%87%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="title">Spring Boot 2.2.2 启动全过程源码分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring-Boot/">Spring Boot</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/Spring-Boot/tomcat/">tomcat</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/" class="title">SpringBoot内置tomcat启动原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring/">Spring</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/Spring/Spring-Boot/">Spring Boot</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="title">SpringBoot中普通类无法注入service的解决方案</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
               </p>
             </div>
           </li>
@@ -314,14 +315,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-Spring中普通类无法注入service的解决方案" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-Kafka、ActiveMQ、RabbitMQ、RocketMQ 都有什么区别，以及适合哪些场景？" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      SpringBoot中普通类无法注入service的解决方案
+      Kafka、ActiveMQ、RabbitMQ、RocketMQ 都有什么区别，以及适合哪些场景？
     </h1>
   
 
@@ -329,47 +330,105 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/blog/2020/05/19/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="article-date">
-	  <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+	<a href="/blog/2020/05/20/Kafka%E3%80%81ActiveMQ%E3%80%81RabbitMQ%E3%80%81RocketMQ%20%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%80%82%E5%90%88%E5%93%AA%E4%BA%9B%E5%9C%BA%E6%99%AF%EF%BC%9F/" class="article-date">
+	  <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
 	</a>
 </span>
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/blog/categories/Spring/">Spring</a>►<a class="article-category-link" href="/blog/categories/Spring/Spring-Boot/">Spring Boot</a>►<a class="article-category-link" href="/blog/categories/Spring/Spring-Boot/Java/">Java</a>
+    <a class="article-category-link" href="/blog/categories/MQ/">MQ</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/blog/tags/ApplicationContext/" rel="tag">ApplicationContext</a>, <a class="article-tag-link" href="/blog/tags/Java/" rel="tag">Java</a>, <a class="article-tag-link" href="/blog/tags/Spring/" rel="tag">Spring</a>
+	<a class="article-tag-link" href="/blog/tags/ActiveMQ/" rel="tag">ActiveMQ</a>, <a class="article-tag-link" href="/blog/tags/Kafka/" rel="tag">Kafka</a>, <a class="article-tag-link" href="/blog/tags/RabbitMQ/" rel="tag">RabbitMQ</a>, <a class="article-tag-link" href="/blog/tags/RocketMQ/" rel="tag">RocketMQ</a>
   </span>
 
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/05/19/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/05/20/Kafka%E3%80%81ActiveMQ%E3%80%81RabbitMQ%E3%80%81RocketMQ%20%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%80%82%E5%90%88%E5%93%AA%E4%BA%9B%E5%9C%BA%E6%99%AF%EF%BC%9F/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 429(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.3k(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
 	
 
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p>先摆出实际问题：本人在项目中写了钩子方法，在service方法中，通过父类方法，调用子类的实现，结果出现，service无法注入问题？</p>
-<p>解决方案：既然spring无法完成普通类的依赖注入，那么我们就手动getBean（思路就是手动调用ApplicationContext.getBean() ）。</p>
-<h3 id="1、我们手动创建工具类ApplicationContextProvider"><a href="#1、我们手动创建工具类ApplicationContextProvider" class="headerlink" title="1、我们手动创建工具类ApplicationContextProvider"></a>1、我们手动创建工具类ApplicationContextProvider</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.beans.BeansException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContextAware;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * spring boot 项目中  普通类中无法注入service问题解决方案，手动getBean</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ellisonpei</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplicationContextProvider</span> <span class="keyword">implements</span> <span class="title">ApplicationContextAware</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 上下文对象实例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"static-access"</span>)</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setApplicationContext</span><span class="params">(ApplicationContext applicationContext)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.applicationContext = applicationContext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取applicationContext</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ApplicationContext <span class="title">getApplicationContext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> applicationContext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过name获取 Bean对象.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> name</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getBean</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getApplicationContext().getBean(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过class获取Bean对象.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> clazz</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">getBean</span><span class="params">(Class&lt;T&gt; clazz)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getApplicationContext().getBean(clazz);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过name,以及Clazz返回指定的Bean对象</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> name</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> clazz</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">getBean</span><span class="params">(String name, Class&lt;T&gt; clazz)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getApplicationContext().getBean(name, clazz);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>正如其他面试题，问到“Redis和Memcached之间的区别？”或者“Dubbo和Spring Cloud之间的区别？” 一样，相同领域技术之间进行比较也是一个经常面试的考点！</p>
+<p>一方面，考察了你对当前技术的了解程度，他适应的场景和不适应的场景，摸清楚你是否真正的用过，是否有“最佳实践”。你说你对技术了解的比较深入，问了几个比较有难度的问题，你都游刃有余，但是问到你为什么使用这个，而不是用另外一个，你却回答不上来，那老板还安心让你做技术选型吗？还能给你一个小组长或者架构师的职位吗？</p>
+<p>另一方面，考察了你对技术的广度。很多小伙伴在简历中个人评价的时候，常常会写到对技术热爱，喜欢新技术啥的，结果相同领域的技术，只知道一个，而对其他的不知道，面试官还能认为你对技术热爱，比较有追求的激情吗？</p>
+<hr>
+<p>针对本小节要说的消息队列，既然你用了 MQ，可能是某一种 MQ，那么你当时做没做过调研？</p>
+<p>你别傻乎乎的自己拍脑袋看个人喜好就瞎用了一个 MQ，比如 Kafka，甚至都从没调研过业界流行的 MQ 到底有哪几种。每一个 MQ 的优点和缺点是什么。每一个 MQ 没有绝对的好坏，但是就是看用在哪个场景可以扬长避短，利用其优势，规避其劣势。</p>
+<p>如果是一个不考虑技术选型的候选人招进了团队，leader 交给他一个任务，去设计个什么系统，他在里面用一些技术，可能都没考虑过选型，最后选的技术可能并不一定合适，一样是留坑。</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>ActiveMQ</th>
+<th>RabbitMQ</th>
+<th>RocketMQ</th>
+<th>Kafka</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单机吞吐量</td>
+<td>万级，比 RocketMQ、Kafka 低一个数量级</td>
+<td>同 ActiveMQ</td>
+<td>10 万级，支撑高吞吐</td>
+<td>10 万级，高吞吐，一般配合大数据类的系统来进行实时数据计算、日志采集等场景</td>
+</tr>
+<tr>
+<td>topic 数量对吞吐量的影响</td>
+<td></td>
+<td></td>
+<td>topic 可以达到几百/几千的级别，吞吐量会有较小幅度的下降，这是 RocketMQ 的一大优势，在同等机器下，可以支撑大量的 topic</td>
+<td>topic 从几十到几百个时候，吞吐量会大幅度下降，在同等机器下，Kafka 尽量保证 topic 数量不要过多，如果要支撑大规模的 topic，需要增加更多的机器资源</td>
+</tr>
+<tr>
+<td>时效性</td>
+<td>ms 级</td>
+<td>微秒级，这是RabbitMQ 的一大特点，延迟最低</td>
+<td>ms 级</td>
+<td>延迟在 ms 级以内</td>
+</tr>
+<tr>
+<td>可用性</td>
+<td>高，基于主从架构实现高可用</td>
+<td>同 ActiveMQ</td>
+<td>非常高，分布式架构</td>
+<td>非常高，分布式，一个数据多个副本，少数机器宕机，不会丢失数据，不会导致不可用</td>
+</tr>
+<tr>
+<td>消息可靠性</td>
+<td>有较低的概率丢失数据</td>
+<td>基本不丢</td>
+<td>经过参数优化配置，可以做到 0 丢失</td>
+<td>同 RocketMQ</td>
+</tr>
+<tr>
+<td>功能支持</td>
+<td>MQ 领域的功能极其完备</td>
+<td>基于 erlang 开发，并发能力很强，性能极好，延时很低</td>
+<td>MQ 功能较为完善，还是分布式的，扩展性好</td>
+<td>功能较为简单，主要支持简单的 MQ 功能，在大数据领域的实时计算以及日志采集被大规模使用</td>
+</tr>
+</tbody></table>
+<p>综上，各种对比之后，有如下建议：</p>
+<p>一般的业务系统要引入 MQ，最早大家都用 ActiveMQ，但是现在确实大家用的不多了，没经过大规模吞吐量场景的验证，社区也不是很活跃，所以大家还是算了吧，我个人不推荐用这个了；</p>
+<p>后来大家开始用 RabbitMQ，但是确实 erlang 语言阻止了大量的 Java 工程师去深入研究和掌控它，对公司而言，几乎处于不可控的状态，但是确实人家是开源的，比较稳定的支持，活跃度也高；</p>
+<p>不过现在确实越来越多的公司会去用 RocketMQ，确实很不错，毕竟是阿里出品，但社区可能有突然黄掉的风险（目前 RocketMQ 已捐给 Apache，但 GitHub 上的活跃度其实不算高）对自己公司技术实力有绝对自信的，推荐用 RocketMQ，否则回去老老实实用 RabbitMQ 吧，人家有活跃的开源社区，绝对不会黄。</p>
+<p>所以中小型公司，技术实力较为一般，技术挑战不是特别高，用 RabbitMQ 是不错的选择；大型公司，基础架构研发实力较强，用 RocketMQ 是很好的选择。</p>
+<p>如果是大数据领域的实时计算、日志采集等场景，用 Kafka 是业内标准的，绝对没问题，社区活跃度很高，绝对不会黄，何况几乎是全世界这个领域的事实性规范。</p>
 
-<h3 id="2、父类不用做什么修改"><a href="#2、父类不用做什么修改" class="headerlink" title="2、父类不用做什么修改"></a>2、父类不用做什么修改</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 抽象父类</span></span><br><span class="line"><span class="comment"> * 父类通过钩子方法调用子类中的方法</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ellisonpei</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &lt;T&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">SelectDataForm</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//按照年、季度、月份筛选数据</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> List&lt;T&gt; <span class="title">selectedForm</span><span class="params">(T y)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3、在子类中修改调用"><a href="#3、在子类中修改调用" class="headerlink" title="3、在子类中修改调用"></a>3、在子类中修改调用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 按月份计算</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ellisonpei</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SelectFormByMonth</span> <span class="keyword">extends</span> <span class="title">SelectDataForm</span>&lt;<span class="title">IpdrpmgFrptForm</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> IIpdrpmgFrptFormService ipdrpmgFrptFormService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;IpdrpmgFrptForm&gt; <span class="title">selectedForm</span><span class="params">(IpdrpmgFrptForm ipdrpmgFrptForm)</span> </span>&#123;</span><br><span class="line">      <span class="comment">//通过我们自定义封装的 ApplicationContextProvider 来主动getBean</span></span><br><span class="line">        ipdrpmgFrptFormService = ApplicationContextProvider.getBean(IIpdrpmgFrptFormService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        <span class="keyword">return</span> ipdrpmgFrptFormService.selectFormByMonth(ipdrpmgFrptForm);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改完毕。ipdrpmgFrptFormService此时再调用就不是null了。"><a href="#修改完毕。ipdrpmgFrptFormService此时再调用就不是null了。" class="headerlink" title="修改完毕。ipdrpmgFrptFormService此时再调用就不是null了。"></a>修改完毕。ipdrpmgFrptFormService此时再调用就不是null了。</h3>
       
     </div>
     <div class="article-footer">
@@ -378,7 +437,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://ellisonpei.gitee.io/blog/2020/05/19/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="SpringBoot中普通类无法注入service的解决方案" target="_blank" rel="external">http://ellisonpei.gitee.io/blog/2020/05/19/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</a>
+      <a href="http://ellisonpei.gitee.io/blog/2020/05/20/Kafka%E3%80%81ActiveMQ%E3%80%81RabbitMQ%E3%80%81RocketMQ%20%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%80%82%E5%90%88%E5%93%AA%E4%BA%9B%E5%9C%BA%E6%99%AF%EF%BC%9F/" title="Kafka、ActiveMQ、RabbitMQ、RocketMQ 都有什么区别，以及适合哪些场景？" target="_blank" rel="external">http://ellisonpei.gitee.io/blog/2020/05/20/Kafka%E3%80%81ActiveMQ%E3%80%81RabbitMQ%E3%80%81RocketMQ%20%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%80%82%E5%90%88%E5%93%AA%E4%BA%9B%E5%9C%BA%E6%99%AF%EF%BC%9F/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -424,13 +483,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/blog/2020/05/19/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/" title="SpringBoot内置tomcat启动原理"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/blog/2020/05/19/Tomcat%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE%E5%90%8E%EF%BC%8C%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E6%98%BE%E7%A4%BA%E4%B9%B1%E7%A0%81%EF%BC%9A/" title="Tomcat部署项目后，项目中的中文显示乱码"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/blog/2020/05/20/SSL%E8%AF%81%E4%B9%A6%E5%8F%8Ahttps%E9%85%8D%E7%BD%AE/" title="SSL证书配置及https跳转"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     

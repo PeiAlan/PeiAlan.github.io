@@ -21,20 +21,20 @@
   <meta name="description" content="SpringBoot内置tomcat启动原理前言不得不说SpringBoot的开发者是在为大众程序猿谋福利，把大家都惯成了懒汉，xml不配置了，连tomcat也懒的配置了，典型的一键启动系统，那么tomcat在springboot是怎么启动的呢？ 内置tomcat开发阶段对我们来说使用内置的tomcat是非常够用了，当然也可以使用jetty。12345&lt;dependency&gt;   &amp;l">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot内置tomcat启动原理">
-<meta property="og:url" content="http://ellisonpei.gitee.io/blog/2020/05/19/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:url" content="http://ellisonpei.gitee.io/blog/2020/05/20/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="溺水的小裴">
 <meta property="og:description" content="SpringBoot内置tomcat启动原理前言不得不说SpringBoot的开发者是在为大众程序猿谋福利，把大家都惯成了懒汉，xml不配置了，连tomcat也懒的配置了，典型的一键启动系统，那么tomcat在springboot是怎么启动的呢？ 内置tomcat开发阶段对我们来说使用内置的tomcat是非常够用了，当然也可以使用jetty。12345&lt;dependency&gt;   &amp;l">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ellison.lovewinter.top/upload/2020/2/image-a93bbb0d334c441fa8fcae9cb5ef7cc6.png">
 <meta property="og:image" content="https://ellison.lovewinter.top/upload/2020/2/image-36943566926e41fcb20680292ae0e5e2.png">
-<meta property="article:published_time" content="2020-05-19T11:58:56.000Z">
-<meta property="article:modified_time" content="2020-05-19T16:50:26.762Z">
+<meta property="article:published_time" content="2020-05-20T11:58:56.000Z">
+<meta property="article:modified_time" content="2020-05-20T02:36:12.222Z">
 <meta property="article:author" content="EllisonPei">
 <meta property="article:tag" content="tomcat">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://ellison.lovewinter.top/upload/2020/2/image-a93bbb0d334c441fa8fcae9cb5ef7cc6.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://ellisonpei.gitee.io/blog/2020/05/19/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/index.html">
+  <link rel="canonical" href="http://ellisonpei.gitee.io/blog/2020/05/20/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/index.html">
   
     <link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
   
@@ -231,58 +231,13 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
+                <a class="category-link" href="/blog/categories/MQ/">MQ</a>
               </p>
               <p class="item-title">
-                <a href="/blog/2020/05/19/JVM%20%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" class="title">JVM 中的对象</a>
+                <a href="/blog/2020/05/20/Kafka%E3%80%81ActiveMQ%E3%80%81RabbitMQ%E3%80%81RocketMQ%20%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%80%82%E5%90%88%E5%93%AA%E4%BA%9B%E5%9C%BA%E6%99%AF%EF%BC%9F/" class="title">Kafka、ActiveMQ、RabbitMQ、RocketMQ 都有什么区别，以及适合哪些场景？</a>
               </p>
               <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
-              </p>
-              <p class="item-title">
-                <a href="/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">JVM 内存结构</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/blog/categories/Java/">Java</a>
-              </p>
-              <p class="item-title">
-                <a href="/blog/2020/05/19/Java8---JUC/" class="title">Java8之 JUC</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/blog/categories/Java/">Java</a>
-              </p>
-              <p class="item-title">
-                <a href="/blog/2020/05/19/Java8---NIO/" class="title">Java8之 NIO</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
               </p>
             </div>
           </li>
@@ -294,10 +249,55 @@
                 <a class="category-link" href="/blog/categories/SSL/">SSL</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/SSL/Https/">Https</a>
               </p>
               <p class="item-title">
-                <a href="/blog/2020/05/19/SSL%E8%AF%81%E4%B9%A6%E5%8F%8Ahttps%E9%85%8D%E7%BD%AE/" class="title">SSL证书配置及https跳转</a>
+                <a href="/blog/2020/05/20/SSL%E8%AF%81%E4%B9%A6%E5%8F%8Ahttps%E9%85%8D%E7%BD%AE/" class="title">SSL证书配置及https跳转</a>
               </p>
               <p class="item-date">
-                <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring-Boot/">Spring Boot</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/Spring%20Boot%202.2.2%20%E5%90%AF%E5%8A%A8%E5%85%A8%E8%BF%87%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="title">Spring Boot 2.2.2 启动全过程源码分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring-Boot/">Spring Boot</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/Spring-Boot/tomcat/">tomcat</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/" class="title">SpringBoot内置tomcat启动原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring/">Spring</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/Spring/Spring-Boot/">Spring Boot</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="title">SpringBoot中普通类无法注入service的解决方案</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
               </p>
             </div>
           </li>
@@ -330,8 +330,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/blog/2020/05/19/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/" class="article-date">
-	  <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+	<a href="/blog/2020/05/20/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/" class="article-date">
+	  <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
 	</a>
 </span>
         
@@ -349,7 +349,7 @@
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/05/19/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/05/20/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/#comments" class="article-comment-link">评论</a></span>
         
 	
 		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2k(字)</span>
@@ -400,7 +400,7 @@ getWebServer方法返回的是TomcatWebServer。</code></pre><figure class="high
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://ellisonpei.gitee.io/blog/2020/05/19/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/" title="SpringBoot内置tomcat启动原理" target="_blank" rel="external">http://ellisonpei.gitee.io/blog/2020/05/19/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/</a>
+      <a href="http://ellisonpei.gitee.io/blog/2020/05/20/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/" title="SpringBoot内置tomcat启动原理" target="_blank" rel="external">http://ellisonpei.gitee.io/blog/2020/05/20/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -447,12 +447,12 @@ getWebServer方法返回的是TomcatWebServer。</code></pre><figure class="high
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/blog/2020/05/19/Spring%20Boot%202.2.2%20%E5%90%AF%E5%8A%A8%E5%85%A8%E8%BF%87%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" title="Spring Boot 2.2.2 启动全过程源码分析"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/blog/2020/05/20/Spring%20Boot%202.2.2%20%E5%90%AF%E5%8A%A8%E5%85%A8%E8%BF%87%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" title="Spring Boot 2.2.2 启动全过程源码分析"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/blog/2020/05/19/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="SpringBoot中普通类无法注入service的解决方案"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/blog/2020/05/20/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="SpringBoot中普通类无法注入service的解决方案"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
