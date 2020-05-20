@@ -233,7 +233,7 @@
                 <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
               </p>
               <p class="item-title">
-                <a href="/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">JVM 内存结构</a>
+                <a href="/blog/2020/05/19/JVM%20%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" class="title">JVM 中的对象</a>
               </p>
               <p class="item-date">
                 <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
@@ -248,7 +248,7 @@
                 <a class="category-link" href="/blog/categories/JVM/">JVM</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/JVM/Java/">Java</a>
               </p>
               <p class="item-title">
-                <a href="/blog/2020/05/19/JVM%20%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" class="title">JVM 中的对象</a>
+                <a href="/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">JVM 内存结构</a>
               </p>
               <p class="item-date">
                 <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
@@ -465,14 +465,24 @@
   
   <ul class="pager pull-left">
     
+    <li class="prev">
+      <a href="/blog/2020/05/19/JVM%20%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" title="JVM 中的对象"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
     
     <li class="next">
-      <a href="/blog/2020/05/19/JVM%20%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" title="JVM 中的对象"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/blog/2020/05/19/Java8---JUC/" title="Java8之 JUC"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
   </ul>
   
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
   
   
   <div class="bar-right">
@@ -483,6 +493,48 @@
   </div>
 </nav>
   
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/blog/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/blog/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 </main>
