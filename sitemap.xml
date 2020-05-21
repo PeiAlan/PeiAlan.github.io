@@ -149,7 +149,7 @@
   </url>
   
   <url>
-    <loc>http://ellisonpei.gitee.io/blog/repository/index.html</loc>
+    <loc>http://ellisonpei.gitee.io/blog/links/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.283Z</lastmod>
     
@@ -163,16 +163,9 @@
   </url>
   
   <url>
-    <loc>http://ellisonpei.gitee.io/blog/links/index.html</loc>
+    <loc>http://ellisonpei.gitee.io/blog/repository/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.283Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://ellisonpei.gitee.io/blog/about/index.html</loc>
-    
-    <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
   </url>
   
@@ -185,6 +178,13 @@
   
   <url>
     <loc>http://ellisonpei.gitee.io/blog/categories/index.html</loc>
+    
+    <lastmod>2020-05-19T05:00:20.282Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://ellisonpei.gitee.io/blog/about/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
