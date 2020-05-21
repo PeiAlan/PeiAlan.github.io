@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>HashMap及concurrentHashMap原理分析 | 溺水的小裴</title>
+  <meta name="description" content="一、1.7HashMap原理分析打开源码找到put方法中的addEntry()方法，点进去(下面我贴出主要部分源码)。 123456789101112131415161718192021222324252627282930313233343536373839404142434445&#x2F;&#x2F;addEntry方法    void addEntry(int hash, K key, V value, int">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HashMap及concurrentHashMap原理分析">
+<meta property="og:url" content="http://ellisonpei.gitee.io/blog/2020/05/21/HashMap%E5%8F%8AconcurrentHashMap%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="溺水的小裴">
+<meta property="og:description" content="一、1.7HashMap原理分析打开源码找到put方法中的addEntry()方法，点进去(下面我贴出主要部分源码)。 123456789101112131415161718192021222324252627282930313233343536373839404142434445&#x2F;&#x2F;addEntry方法    void addEntry(int hash, K key, V value, int">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-d4b32626c7c9215b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-43ecb9592df3f4ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-aeaf612c5969b99a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-bf10a1dfa99fb538.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-d29df8180e452359.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-fef9eaf126074875.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-cd193786a8d2c258.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-2a445ed0d612bc91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-2dfc627dfc420f0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22907713-99a0a4970f1f0654.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-05-21T11:58:56.000Z">
+<meta property="article:modified_time" content="2020-05-21T13:33:25.527Z">
+<meta property="article:author" content="EllisonPei">
+<meta property="article:tag" content="concurrentHashMap">
+<meta property="article:tag" content="HashMap">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/22907713-d4b32626c7c9215b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://ellisonpei.gitee.io/blog/2020/05/21/HashMap%E5%8F%8AconcurrentHashMap%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/blog/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ellisonpei" target="_blank">
+          <img class="img-circle img-rotate" src="/blog/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溺水的小裴</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">EllisonPei</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/blog/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ellisonpei" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/blog/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/HashMap/">HashMap</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/HashMap/concurrentHashMap/">concurrentHashMap</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/JVM/">JVM</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/JVM/Java/">Java</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Java/">Java</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/MQ/">MQ</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/">SSL</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/Https/">Https</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/">Spring</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/Spring-Boot/">Spring Boot</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/Spring-Boot/Java/">Java</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring-Boot/">Spring Boot</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring-Boot/tomcat/">tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/centos7/">centos7</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/centos7/Oracle/">Oracle</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/docker/">docker</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/docker/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">分布式锁</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/">Redis</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">动态代理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/Java/">Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/">SpringCloud</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ActiveMQ/" rel="tag">ActiveMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ApplicationContext/" rel="tag">ApplicationContext</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/HashMap/" rel="tag">HashMap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JUC/" rel="tag">JUC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Java/" rel="tag">Java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Kafka/" rel="tag">Kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Lambda/" rel="tag">Lambda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Oracle18C/" rel="tag">Oracle18C</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RabbitMQ/" rel="tag">RabbitMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Tomcat/" rel="tag">Tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Zookeeper/" rel="tag">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/concurrentHashMap/" rel="tag">concurrentHashMap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/docker/" rel="tag">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/https/" rel="tag">https</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/springboot/" rel="tag">springboot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ssl/" rel="tag">ssl</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/tomcat/" rel="tag">tomcat</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/blog/tags/ActiveMQ/" style="font-size: 13px;">ActiveMQ</a> <a href="/blog/tags/ApplicationContext/" style="font-size: 13px;">ApplicationContext</a> <a href="/blog/tags/HashMap/" style="font-size: 13px;">HashMap</a> <a href="/blog/tags/JUC/" style="font-size: 13px;">JUC</a> <a href="/blog/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/blog/tags/Java/" style="font-size: 14px;">Java</a> <a href="/blog/tags/Kafka/" style="font-size: 13px;">Kafka</a> <a href="/blog/tags/Lambda/" style="font-size: 13px;">Lambda</a> <a href="/blog/tags/NIO/" style="font-size: 13px;">NIO</a> <a href="/blog/tags/Oracle18C/" style="font-size: 13px;">Oracle18C</a> <a href="/blog/tags/RabbitMQ/" style="font-size: 13px;">RabbitMQ</a> <a href="/blog/tags/Redis/" style="font-size: 13px;">Redis</a> <a href="/blog/tags/RocketMQ/" style="font-size: 13px;">RocketMQ</a> <a href="/blog/tags/Spring/" style="font-size: 13px;">Spring</a> <a href="/blog/tags/SpringCloud/" style="font-size: 13px;">SpringCloud</a> <a href="/blog/tags/Tomcat/" style="font-size: 13px;">Tomcat</a> <a href="/blog/tags/Zookeeper/" style="font-size: 13px;">Zookeeper</a> <a href="/blog/tags/concurrentHashMap/" style="font-size: 13px;">concurrentHashMap</a> <a href="/blog/tags/docker/" style="font-size: 13px;">docker</a> <a href="/blog/tags/https/" style="font-size: 13px;">https</a> <a href="/blog/tags/springboot/" style="font-size: 13.33px;">springboot</a> <a href="/blog/tags/ssl/" style="font-size: 13.33px;">ssl</a> <a href="/blog/tags/tomcat/" style="font-size: 13.67px;">tomcat</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/05/">五月 2020</a><span class="archive-list-count">21</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/HashMap/">HashMap</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/HashMap/concurrentHashMap/">concurrentHashMap</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/21/HashMap%E5%8F%8AconcurrentHashMap%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" class="title">HashMap及concurrentHashMap原理分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-21T11:58:56.000Z" itemprop="datePublished">2020-05-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/SSL/">SSL</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/SSL/Https/">Https</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/SSL%E8%AF%81%E4%B9%A6%E5%8F%8Ahttps%E9%85%8D%E7%BD%AE/" class="title">SSL证书配置及https跳转</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring-Boot/">Spring Boot</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/Spring%20Boot%202.2.2%20%E5%90%AF%E5%8A%A8%E5%85%A8%E8%BF%87%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="title">Spring Boot 2.2.2 启动全过程源码分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring-Boot/">Spring Boot</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/Spring-Boot/tomcat/">tomcat</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/" class="title">SpringBoot内置tomcat启动原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Spring/">Spring</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/Spring/Spring-Boot/">Spring Boot</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/20/Spring%E4%B8%AD%E6%99%AE%E9%80%9A%E7%B1%BB%E6%97%A0%E6%B3%95%E6%B3%A8%E5%85%A5service%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="title">SpringBoot中普通类无法注入service的解决方案</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-20T11:58:56.000Z" itemprop="datePublished">2020-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-HashMap及concurrentHashMap原理分析" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HashMap及concurrentHashMap原理分析
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/blog/2020/05/21/HashMap%E5%8F%8AconcurrentHashMap%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" class="article-date">
+	  <time datetime="2020-05-21T11:58:56.000Z" itemprop="datePublished">2020-05-21</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/blog/categories/HashMap/">HashMap</a>►<a class="article-category-link" href="/blog/categories/HashMap/concurrentHashMap/">concurrentHashMap</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/blog/tags/HashMap/" rel="tag">HashMap</a>, <a class="article-tag-link" href="/blog/tags/concurrentHashMap/" rel="tag">concurrentHashMap</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/05/21/HashMap%E5%8F%8AconcurrentHashMap%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.6k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 11(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="一、1-7HashMap原理分析"><a href="#一、1-7HashMap原理分析" class="headerlink" title="一、1.7HashMap原理分析"></a>一、1.7HashMap原理分析</h2><p>打开源码找到put方法中的addEntry()方法，点进去(下面我贴出主要部分源码)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//addEntry方法    </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addEntry</span><span class="params">(<span class="keyword">int</span> hash, K key, V value, <span class="keyword">int</span> bucketIndex)</span> </span>&#123;</span><br><span class="line">  <span class="comment">//判断size大小，与阈值大小，size大就调用扩容方法</span></span><br><span class="line">  <span class="keyword">if</span> ((size &gt;= threshold) &amp;&amp; (<span class="keyword">null</span> != table[bucketIndex])) &#123;</span><br><span class="line">    <span class="comment">//2倍扩充容量</span></span><br><span class="line">    resize(<span class="number">2</span> * table.length);</span><br><span class="line">    hash = (<span class="keyword">null</span> != key) ? hash(key) : <span class="number">0</span>;</span><br><span class="line">    bucketIndex = indexFor(hash, table.length);</span><br><span class="line">  &#125;</span><br><span class="line">  createEntry(hash, key, value, bucketIndex);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//resize扩容方法</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">resize</span><span class="params">(<span class="keyword">int</span> newCapacity)</span> </span>&#123;</span><br><span class="line">  Entry[] oldTable = table;</span><br><span class="line">  <span class="keyword">int</span> oldCapacity = oldTable.length;</span><br><span class="line">  <span class="keyword">if</span> (oldCapacity == MAXIMUM_CAPACITY) &#123;</span><br><span class="line">    threshold = Integer.MAX_VALUE;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Entry[] newTable = <span class="keyword">new</span> Entry[newCapacity];</span><br><span class="line">  <span class="comment">//主要扩容的方法</span></span><br><span class="line">  transfer(newTable, initHashSeedAsNeeded(newCapacity));</span><br><span class="line">  table = newTable;</span><br><span class="line">  threshold = (<span class="keyword">int</span>)Math.min(newCapacity * loadFactor, MAXIMUM_CAPACITY + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Transfers all entries from current table to newTable.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable, <span class="keyword">boolean</span> rehash)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> newCapacity = newTable.length;</span><br><span class="line">  <span class="keyword">for</span> (Entry&lt;K,V&gt; e : table) &#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="keyword">null</span> != e) &#123;</span><br><span class="line">      Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">      <span class="keyword">if</span> (rehash) &#123;</span><br><span class="line">        e.hash = <span class="keyword">null</span> == e.key ? <span class="number">0</span> : hash(e.key);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</span><br><span class="line">      e.next = newTable[i];</span><br><span class="line">      newTable[i] = e;</span><br><span class="line">      e = next;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>HashMap一次扩容的过程：</strong></p>
+<p>1、取当前table的2倍作为新table的大小<br>2、根据算出的新table的大小new出一个新的Entry数组来，名为newTable<br>3、轮询原table的每一个位置，将每个位置上连接的Entry，算出在新table上的位置，并以链表形式连接<br>4、原table上的所有Entry全部轮询完毕之后，意味着原table上面的所有Entry已经移到了新的table上，HashMap中的table指向newTable</p>
+<p><strong>下面进行死循环分析</strong></p>
+<p>按照源码中的for循环：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (Entry&lt;K,V&gt; e : table) &#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="keyword">null</span> != e) &#123;</span><br><span class="line">      Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">      <span class="keyword">if</span> (rehash) &#123;</span><br><span class="line">        e.hash = <span class="keyword">null</span> == e.key ? <span class="number">0</span> : hash(e.key);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</span><br><span class="line">      e.next = newTable[i];</span><br><span class="line">      newTable[i] = e;</span><br><span class="line">      e = next;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>正常的单线程扩容过程应该这样（<strong>注意扩容时，采用头插法进行</strong>）：<br><img src="https://upload-images.jianshu.io/upload_images/22907713-d4b32626c7c9215b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><img src="https://upload-images.jianshu.io/upload_images/22907713-43ecb9592df3f4ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>那么在并发环境下呢？情况就这样了（假如线程1执行一半被阻塞，线程2去执行扩容）：<br><img src="https://upload-images.jianshu.io/upload_images/22907713-aeaf612c5969b99a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>线程2执行完后，线程1被CPU调度回来执行：<br>第一步：<br><img src="https://upload-images.jianshu.io/upload_images/22907713-bf10a1dfa99fb538.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>第二步：<br><img src="https://upload-images.jianshu.io/upload_images/22907713-d29df8180e452359.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>第三步：<br><img src="https://upload-images.jianshu.io/upload_images/22907713-fef9eaf126074875.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">          while(null !&#x3D; e) &#123;</span><br><span class="line">            Entry&lt;K,V&gt; next &#x3D; e.next;</span><br><span class="line">                if (rehash) &#123;</span><br><span class="line">                    e.hash &#x3D; null &#x3D;&#x3D; e.key ? 0 : hash(e.key);</span><br><span class="line">                &#125;</span><br><span class="line">                int i &#x3D; indexFor(e.hash, newCapacity);</span><br><span class="line">                e.next &#x3D; newTable[i];</span><br><span class="line">                newTable[i] &#x3D; e;</span><br><span class="line">                e &#x3D; next;</span><br><span class="line">            &#125;</span><br><span class="line">第四步:</span><br><span class="line">执行到</span><br><span class="line">e.next &#x3D; newTable[i]; </span><br><span class="line">newTable[i] &#x3D; e;  </span><br><span class="line">后，线程1的table变成如果所示，循环链表产生！</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/22907713-cd193786a8d2c258.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>这时候,e =  next 导致 e = null，while条件不满足，循环终止。<br><img src="https://upload-images.jianshu.io/upload_images/22907713-2a445ed0d612bc91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="二、ConcurrentHashMap原理分析"><a href="#二、ConcurrentHashMap原理分析" class="headerlink" title="二、ConcurrentHashMap原理分析"></a>二、ConcurrentHashMap原理分析</h2><p>区别：除了Map系列应该有的线程安全的get，put等方法外，ConcurrentHashMap还提供了一个在并发下比较有用的方法 <strong>putIfAbsent</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//putIfAbsent方法块</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> the previous value associated with the specified key,</span></span><br><span class="line"><span class="comment">                返回 与指定键key关联的先前value值</span></span><br><span class="line"><span class="comment">     *         or &lt;tt&gt;null&lt;/tt&gt; if there was no mapping for the key</span></span><br><span class="line"><span class="comment">                或 null （如果键没有映射）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> NullPointerException if the specified key or value is null</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> V <span class="title">putIfAbsent</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">        Segment&lt;K,V&gt; s;</span><br><span class="line">        <span class="keyword">if</span> (value == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">        <span class="keyword">int</span> hash = hash(key);</span><br><span class="line">        <span class="keyword">int</span> j = (hash &gt;&gt;&gt; segmentShift) &amp; segmentMask;</span><br><span class="line">        <span class="keyword">if</span> ((s = (Segment&lt;K,V&gt;)UNSAFE.getObject</span><br><span class="line">             (segments, (j &lt;&lt; SSHIFT) + SBASE)) == <span class="keyword">null</span>)</span><br><span class="line">            s = ensureSegment(j);</span><br><span class="line">        <span class="keyword">return</span> s.put(key, hash, value, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>从源码明显可以看出，如果传入key对应的value已经存在，就返回存在的value，不进行替换。如果不存在，就添加key和value，返回null。</p>
+<h3 id="JDK1-7中的ConcurrentHashMap"><a href="#JDK1-7中的ConcurrentHashMap" class="headerlink" title="JDK1.7中的ConcurrentHashMap"></a>JDK1.7中的ConcurrentHashMap</h3><p><img src="https://upload-images.jianshu.io/upload_images/22907713-2dfc627dfc420f0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="JDK1-8中的ConcurrentHashMap"><a href="#JDK1-8中的ConcurrentHashMap" class="headerlink" title="JDK1.8中的ConcurrentHashMap"></a>JDK1.8中的ConcurrentHashMap</h3><p><img src="https://upload-images.jianshu.io/upload_images/22907713-99a0a4970f1f0654.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="最后附上常见的这块的面试题？"><a href="#最后附上常见的这块的面试题？" class="headerlink" title="最后附上常见的这块的面试题？"></a>最后附上常见的这块的面试题？</h2><p>1、HashMap 和 HashTable 有什么区别？<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①、HashMap 是线程不安全的，HashTable 是线程安全的；<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②、由于线程安全，所以 HashTable 的效率比不上 HashMap；<br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;③、HashMap 最多只允许一条记录的键为 null，允许多条记录的值为 null， 而 HashTable 不允许；<br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;④、HashMap 默认初始化数组的大小为 16，HashTable 为 11，前者扩容时， 扩大两倍，后者扩大两倍+1；<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⑤、HashMap 需要重新计算 hash 值，而 HashTable 直接使用对象的 hashCode</p>
+<p>2、Java 中的另一个线程安全的与 HashMap 极其类似的类是什么？同样是线程安全，它与 HashTable 在线程同步上有什么不同？<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ConcurrentHashMap 类（是 Java 并发包 java.util.concurrent 中提供的一 个线程安全且高效的 HashMap 实现）。<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashTable 是使用 synchronize 关键字加锁的原理（就是对对象加锁）； 而针对 ConcurrentHashMap，在 JDK 1.7 中采用分段锁(Segment内部类)的方式；JDK 1.8 中 直接采用了 CAS（无锁算法）+ synchronized，也采用分段锁的方式并大大缩小了 锁的粒度。</p>
+<p>3、HashMap &amp; ConcurrentHashMap 的区别？<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;除了加锁，原理上无太大区别。 另外，HashMap 的键值对允许有 null，但是 ConCurrentHashMap 都不允许。 在数据结构上，红黑树相关的节点类</p>
+<p>4、为什么 ConcurrentHashMap 比 HashTable 效率要高？<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashTable 使用一把锁（锁住整个链表结构）处理并发问题，多个线程 竞争一把锁，容易阻塞； ConcurrentHashMap JDK 1.7 中使用分段锁（ReentrantLock + Segment + HashEntry），相当于把一 个 HashMap 分成多个段，每段分配一把锁，这样支持多线程访问。锁粒度：基 于 Segment，包含多个 HashEntry。 JDK 1.8 中使用 CAS + synchronized + Node + 红黑树。锁粒度：Node（首结 点）（实现 Map.Entry&lt;K,V&gt;）。锁粒度降低了。</p>
+<p>5、ConcurrentHashMap 锁机制具体分析（JDK 1.7 VS JDK 1.8）？<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JDK 1.7 中，采用分段锁的机制，实现并发的更新操作，底层采用数组+链表 的存储结构，包括两个核心静态内部类 Segment 和 HashEntry。<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①、Segment 继承 ReentrantLock（重入锁） 用来充当锁的角色，每个 Segment 对象守护每个散列映射表的若干个桶；<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②、HashEntry 用来封装映射表的键-值对；<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;③、每个桶是由若干个 HashEntry 对象链接起来的链表。 JDK 1.8 中，采用 Node + CAS + Synchronized 来保证并发安全。取消类 Segment，直接用 table 数组存储键值对；当 HashEntry 对象组成的链表长度超 过 TREEIFY_THRESHOLD 时，链表转换为红黑树，提升性能。底层变更为数组 + 链表 + 红黑树。</p>
+<p>6、ConcurrentHashMap 在 JDK 1.8 中，为什么要使用内置锁 synchronized 来代替重入锁 ReentrantLock？<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、JVM 开发团队在 1.8 中对 synchronized 做了大量性能上的优化，而且基 于 JVM 的 synchronized 优化空间更大，更加自然。<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、在大量的数据操作下，对于 JVM 的内存压力，基于 API 的 ReentrantLock 会开销更多的内存。</p>
+<p>7、1.8下ConcurrentHashMap 简单介绍？<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>①、重要的常量</strong>： private transient volatile int sizeCtl; 当为负数时，-1 表示正在初始化，-N 表示 N - 1 个线程正在进行扩容； 当为 0 时，表示 table 还没有初始化； 当为其他正数时，表示初始化或者下一次进行扩容的大小。<br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>②、数据结构</strong>： Node 是存储结构的基本单元，继承 HashMap 中的 Entry，用于存储数据； TreeNode 继承 Node，但是数据结构换成了二叉树结构，是红黑树的存储 结构，用于红黑树中存储数据； TreeBin 是封装 TreeNode 的容器，提供转换红黑树的一些条件和锁的控制。<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>③、存储对象时（put() 方法）</strong>： 1.如果没有初始化，就调用 initTable() 方法来进行初始化； 2.如果没有 hash 冲突就直接 CAS 无锁插入； 3.如果需要扩容，就先进行扩容； 4.如果存在 hash 冲突，就加锁来保证线程安全，两种情况：一种是链表形 式就直接遍历到尾端插入，一种是红黑树就按照红黑树结构插入； 5.如果该链表的数量大于阀值 8，就要先转换成红黑树的结构，break 再一 次进入循环 6.如果添加成功就调用 addCount() 方法统计 size，并且检查是否需要扩容。<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>④、扩容方法 transfer()</strong>：默认容量为 16，扩容时，容量变为原来的两倍。 helpTransfer()：调用多个工作线程一起帮助进行扩容，这样的效率就会更高。<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>⑤、获取对象时（get()方法）</strong>：<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.计算 hash 值，定位到该 table 索引位置，如果是首结点符合就返回；<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.如果遇到扩容时，会调用标记正在扩容结点 ForwardingNode.find()方法， 查找该结点，匹配就返回；<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.以上都不符合的话，就往下遍历结点，匹配就返回，否则最后就返回 null。</p>
+<p>8、ConcurrentHashMap 的并发度是什么？<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.7 中程序运行时能够同时更新 ConccurentHashMap 且不产生锁竞争的 最大线程数。默认为 16，且可以在构造函数中设置。当用户设置并发度时， ConcurrentHashMap 会使用大于等于该值的最小 2 幂指数作为实际并发度（假如 用户设置并发度为 17，实际并发度则为 32）。<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.8 中并发度则无太大的实际意义了，主要用处就是当设置的初始容量小于 并发度，将初始容量提升至并发度大小。</p>
+<p>9、synchronized 底层实现原理<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;synchronized (this)原理：涉及两条指令：monitorenter，monitorexit；再说同 步方法，从同步方法反编译的结果来看，方法的同步并没有通过指令 monitorenter 和 monitorexit 来实现，相对于普通方法，其常量池中多了 ACC_SYNCHRONIZED 标示符。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JVM 就是根据该标示符来实现方法的同步的：当方法被调用时，调用指令将 会检查方法的 ACC_SYNCHRONIZED 访问标志是否被设置，如果设置了，执行线 程将先获取 monitor，获取成功之后才能执行方法体，方法执行完后再释放 monitor。在方法执行期间，其他任何线程都无法再获得同一个 monitor 对象。 注意，这个问题可能会接着追问，java 对象头信息，偏向锁，轻量锁，重量 级锁及其他们相互间转化。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://ellisonpei.gitee.io/blog/2020/05/21/HashMap%E5%8F%8AconcurrentHashMap%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" title="HashMap及concurrentHashMap原理分析" target="_blank" rel="external">http://ellisonpei.gitee.io/blog/2020/05/21/HashMap%E5%8F%8AconcurrentHashMap%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ellisonpei" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/blog/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ellisonpei" target="_blank"><span class="text-dark">溺水的小裴</span><small class="ml-1x">EllisonPei</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/blog/2020/05/20/SSL%E8%AF%81%E4%B9%A6%E5%8F%8Ahttps%E9%85%8D%E7%BD%AE/" title="SSL证书配置及https跳转"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/blog/images/donate/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/blog/images/donate/wechatpayimg.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ellisonpei" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/blog/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/blog/js/plugin.min.js"></script>
+
+
+<script src="/blog/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/blog/',
+        CONTENT_URL: '/blog/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/blog/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'iMJmYJpiQTmDIHuXctJxx4EF-gzGzoHsz',
+    appKey: 'MDrcq4xdFWWsWdOjPQOYalu9',
+    placeholder: '输入评论...',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+    <script defer>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?f9fea782cdb78ae85079c77afe7fab59";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+</body>
+</html>
