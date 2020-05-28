@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://ellisonpei.gitee.io/blog/links/index.html</loc>
+    
+    <lastmod>2020-05-28T12:50:21.760Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://ellisonpei.gitee.io/blog/2020/05/20/docker%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</loc>
     
     <lastmod>2020-05-27T02:18:30.355Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>http://ellisonpei.gitee.io/blog/2020/05/25/Mac%20vmware%E4%BA%8C%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP%EF%BC%8C%E4%B8%8E%E4%B8%BB%E6%9C%BA%E4%BA%92%E9%80%9A%E8%81%94%E7%BD%91/</loc>
     
     <lastmod>2020-05-25T15:03:25.768Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://ellisonpei.gitee.io/blog/links/index.html</loc>
-    
-    <lastmod>2020-05-25T13:35:35.997Z</lastmod>
     
   </url>
   
@@ -170,14 +170,14 @@
   </url>
   
   <url>
-    <loc>http://ellisonpei.gitee.io/blog/tags/index.html</loc>
+    <loc>http://ellisonpei.gitee.io/blog/repository/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.283Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://ellisonpei.gitee.io/blog/repository/index.html</loc>
+    <loc>http://ellisonpei.gitee.io/blog/tags/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.283Z</lastmod>
     
@@ -191,14 +191,14 @@
   </url>
   
   <url>
-    <loc>http://ellisonpei.gitee.io/blog/categories/index.html</loc>
+    <loc>http://ellisonpei.gitee.io/blog/books/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://ellisonpei.gitee.io/blog/books/index.html</loc>
+    <loc>http://ellisonpei.gitee.io/blog/categories/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
