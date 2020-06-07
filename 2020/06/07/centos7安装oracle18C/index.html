@@ -26,7 +26,7 @@
 <meta property="og:description" content="centos7安装Oracle18C 下载oracle database 18c的RPM安装包 。  https:&#x2F;&#x2F;www.oracle.com&#x2F;technetwork&#x2F;database&#x2F;enterprise-edition&#x2F;downloads&#x2F;index.html  1、克隆主机2、修改IP地址12345678910111213141516171819202122232425262728293">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-06-07T11:58:56.000Z">
-<meta property="article:modified_time" content="2020-06-07T08:14:27.238Z">
+<meta property="article:modified_time" content="2020-06-07T08:20:02.379Z">
 <meta property="article:author" content="EllisonPei">
 <meta property="article:tag" content="Oracle18C">
 <meta name="twitter:card" content="summary">
@@ -310,6 +310,15 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#centos7安装Oracle18C"><span class="toc-number">1.</span> <span class="toc-text">centos7安装Oracle18C</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、克隆主机"><span class="toc-number">1.1.</span> <span class="toc-text">1、克隆主机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、修改IP地址"><span class="toc-number">1.2.</span> <span class="toc-text">2、修改IP地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、修改用户名"><span class="toc-number">1.3.</span> <span class="toc-text">3、修改用户名</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法1：临时有效"><span class="toc-number">1.3.1.</span> <span class="toc-text">方法1：临时有效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法2：永久生效"><span class="toc-number">1.3.2.</span> <span class="toc-text">方法2：永久生效</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、上传RPM安装包"><span class="toc-number">1.4.</span> <span class="toc-text">4、上传RPM安装包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、安装Oracle"><span class="toc-number">1.5.</span> <span class="toc-text">5、安装Oracle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6、Oracle操作"><span class="toc-number">1.6.</span> <span class="toc-text">6、Oracle操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、切换到Oracle用户"><span class="toc-number">1.6.1.</span> <span class="toc-text">1、切换到Oracle用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、登录sys用户"><span class="toc-number">1.6.2.</span> <span class="toc-text">2、登录sys用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、创建表空间"><span class="toc-number">1.6.3.</span> <span class="toc-text">3、创建表空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、利用dbca-创建数据库实例"><span class="toc-number">1.6.4.</span> <span class="toc-text">4、利用dbca 创建数据库实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、查询数据库实例"><span class="toc-number">1.6.5.</span> <span class="toc-text">5、查询数据库实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、Oracle创建Scheme"><span class="toc-number">1.6.6.</span> <span class="toc-text">6、Oracle创建Scheme</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、创建用户"><span class="toc-number">1.6.7.</span> <span class="toc-text">7、创建用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8、所有scheme、table查看"><span class="toc-number">1.6.8.</span> <span class="toc-text">8、所有scheme、table查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9、Oracle修改实例用户密码"><span class="toc-number">1.6.9.</span> <span class="toc-text">9、Oracle修改实例用户密码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7、最后成功创建的步骤"><span class="toc-number">1.7.</span> <span class="toc-text">7、最后成功创建的步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8、Oracle启动关闭"><span class="toc-number">1.8.</span> <span class="toc-text">8、Oracle启动关闭</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、Linux下启动Oracle"><span class="toc-number">1.8.1.</span> <span class="toc-text">一、Linux下启动Oracle</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-登录服务器，切换到oracle用户，或者以oracle用户登录"><span class="toc-number">1.8.1.1.</span> <span class="toc-text">1.登录服务器，切换到oracle用户，或者以oracle用户登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-打开监听服务"><span class="toc-number">1.8.1.2.</span> <span class="toc-text">2.打开监听服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-以SYS用户身份登录Oracle"><span class="toc-number">1.8.1.3.</span> <span class="toc-text">3.以SYS用户身份登录Oracle</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-通过startup命令启动实例"><span class="toc-number">1.8.1.4.</span> <span class="toc-text">4.通过startup命令启动实例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、Linux下关闭Oracle"><span class="toc-number">1.8.2.</span> <span class="toc-text">二、Linux下关闭Oracle</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-关闭数据库实例"><span class="toc-number">1.8.2.1.</span> <span class="toc-text">1.关闭数据库实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-关闭监听器"><span class="toc-number">1.8.2.2.</span> <span class="toc-text">2.关闭监听器</span></a></li></ol></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-centos7安装oracle18C" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
@@ -483,6 +492,15 @@
       <a href="/blog/2020/05/25/Mac%20vmware%E4%BA%8C%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP%EF%BC%8C%E4%B8%8E%E4%B8%BB%E6%9C%BA%E4%BA%92%E9%80%9A%E8%81%94%E7%BD%91/" title="Mac vmware二配置静态IP，与主机互通联网"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
     
   </ul>
   
