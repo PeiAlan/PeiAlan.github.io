@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>ELK的入门与安装 | 溺水的小裴</title>
+  <meta name="description" content="了解ELK之前，首先要知道什么是Restful。假如面试官让你简单说下RestFul，你要怎么回答？  Rest是Representational State Transfer的缩写，它包括三部分（资源、表现层、状态转化）。  一、资源（Resources）REST的名称”表现层状态转化”中,省略了主语。”表现层”其实指的是”资源”(Resources)的”表现层”。所谓”资源”,就是网络上的一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ELK的入门与安装">
+<meta property="og:url" content="https://ellisonpei.gitee.io/blog/2020/06/10/ELK%E7%9A%84%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%89%E8%A3%85/index.html">
+<meta property="og:site_name" content="溺水的小裴">
+<meta property="og:description" content="了解ELK之前，首先要知道什么是Restful。假如面试官让你简单说下RestFul，你要怎么回答？  Rest是Representational State Transfer的缩写，它包括三部分（资源、表现层、状态转化）。  一、资源（Resources）REST的名称”表现层状态转化”中,省略了主语。”表现层”其实指的是”资源”(Resources)的”表现层”。所谓”资源”,就是网络上的一个">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-10T08:16:16.000Z">
+<meta property="article:modified_time" content="2020-06-10T08:17:31.947Z">
+<meta property="article:author" content="EllisonPei">
+<meta property="article:tag" content="elasticsearch">
+<meta property="article:tag" content="kibana">
+<meta property="article:tag" content="logstash">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ellisonpei.gitee.io/blog/2020/06/10/ELK%E7%9A%84%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%89%E8%A3%85/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="./favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/blog/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ellisonpei" target="_blank">
+          <img class="img-circle img-rotate" src="/blog/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溺水的小裴</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">EllisonPei</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/blog/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ellisonpei" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/blog/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/ELK/">ELK</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/HashMap/">HashMap</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/HashMap/concurrentHashMap/">concurrentHashMap</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/JVM/">JVM</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/JVM/Java/">Java</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Java/">Java</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/MQ/">MQ</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Maven/">Maven</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Maven/Java/">Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/">SSL</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/Https/">Https</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SSL/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/">Spring</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/Spring-Boot/">Spring Boot</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring/Spring-Boot/Java/">Java</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring-Boot/">Spring Boot</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Spring-Boot/tomcat/">tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SpringBoot/Maven/">Maven</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/SpringBoot/Maven/docker/">docker</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/centos7/">centos7</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/centos7/Oracle/">Oracle</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/docker/">docker</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/docker/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">分布式锁</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/">Redis</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">动态代理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/Java/">Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/">SpringCloud</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ActiveMQ/" rel="tag">ActiveMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ApplicationContext/" rel="tag">ApplicationContext</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/HashMap/" rel="tag">HashMap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JUC/" rel="tag">JUC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Java/" rel="tag">Java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Kafka/" rel="tag">Kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Lambda/" rel="tag">Lambda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Oracle18C/" rel="tag">Oracle18C</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RabbitMQ/" rel="tag">RabbitMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Tomcat/" rel="tag">Tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/VMware/" rel="tag">VMware</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Zookeeper/" rel="tag">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/concurrentHashMap/" rel="tag">concurrentHashMap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/elasticsearch/" rel="tag">elasticsearch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/https/" rel="tag">https</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/kibana/" rel="tag">kibana</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/logstash/" rel="tag">logstash</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/maven/" rel="tag">maven</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/springBoot/" rel="tag">springBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/springboot/" rel="tag">springboot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ssl/" rel="tag">ssl</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/tomcat/" rel="tag">tomcat</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/blog/tags/ActiveMQ/" style="font-size: 13px;">ActiveMQ</a> <a href="/blog/tags/ApplicationContext/" style="font-size: 13px;">ApplicationContext</a> <a href="/blog/tags/HashMap/" style="font-size: 13px;">HashMap</a> <a href="/blog/tags/JUC/" style="font-size: 13px;">JUC</a> <a href="/blog/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/blog/tags/Java/" style="font-size: 14px;">Java</a> <a href="/blog/tags/Kafka/" style="font-size: 13px;">Kafka</a> <a href="/blog/tags/Lambda/" style="font-size: 13px;">Lambda</a> <a href="/blog/tags/NIO/" style="font-size: 13px;">NIO</a> <a href="/blog/tags/Oracle18C/" style="font-size: 13px;">Oracle18C</a> <a href="/blog/tags/RabbitMQ/" style="font-size: 13px;">RabbitMQ</a> <a href="/blog/tags/Redis/" style="font-size: 13px;">Redis</a> <a href="/blog/tags/RocketMQ/" style="font-size: 13px;">RocketMQ</a> <a href="/blog/tags/Spring/" style="font-size: 13px;">Spring</a> <a href="/blog/tags/SpringCloud/" style="font-size: 13px;">SpringCloud</a> <a href="/blog/tags/Tomcat/" style="font-size: 13px;">Tomcat</a> <a href="/blog/tags/VMware/" style="font-size: 13px;">VMware</a> <a href="/blog/tags/Zookeeper/" style="font-size: 13px;">Zookeeper</a> <a href="/blog/tags/concurrentHashMap/" style="font-size: 13px;">concurrentHashMap</a> <a href="/blog/tags/docker/" style="font-size: 13.33px;">docker</a> <a href="/blog/tags/elasticsearch/" style="font-size: 13px;">elasticsearch</a> <a href="/blog/tags/https/" style="font-size: 13px;">https</a> <a href="/blog/tags/kibana/" style="font-size: 13px;">kibana</a> <a href="/blog/tags/logstash/" style="font-size: 13px;">logstash</a> <a href="/blog/tags/maven/" style="font-size: 13.33px;">maven</a> <a href="/blog/tags/springBoot/" style="font-size: 13px;">springBoot</a> <a href="/blog/tags/springboot/" style="font-size: 13.33px;">springboot</a> <a href="/blog/tags/ssl/" style="font-size: 13.33px;">ssl</a> <a href="/blog/tags/tomcat/" style="font-size: 13.67px;">tomcat</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/05/">五月 2020</a><span class="archive-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/ELK/">ELK</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/06/10/ELK%E7%9A%84%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%89%E8%A3%85/" class="title">ELK的入门与安装</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-10T08:16:16.000Z" itemprop="datePublished">2020-06-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/Maven/">Maven</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/Maven/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/06/08/Maven%E6%89%B9%E9%87%8F%E6%89%93%E5%8C%85jar%E6%96%87%E4%BB%B6%E5%88%B0%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/" class="title">Maven批量打包jar到本地仓库</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-08T08:25:56.000Z" itemprop="datePublished">2020-06-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/centos7/">centos7</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/centos7/Oracle/">Oracle</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/06/07/centos7%E5%AE%89%E8%A3%85oracle18C/" class="title">centos7安装Oracle18C</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-07T11:58:56.000Z" itemprop="datePublished">2020-06-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/25/Mac%20vmware%E4%BA%8C%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP%EF%BC%8C%E4%B8%8E%E4%B8%BB%E6%9C%BA%E4%BA%92%E9%80%9A%E8%81%94%E7%BD%91/" class="title">Mac vmware二配置静态IP，与主机互通联网</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-25T11:58:56.000Z" itemprop="datePublished">2020-05-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/blog/categories/SpringBoot/">SpringBoot</a><i class="icon icon-angle-right"></i><a class="category-link" href="/blog/categories/SpringBoot/Maven/">Maven</a>
+              </p>
+              <p class="item-title">
+                <a href="/blog/2020/05/25/SpringBoot-Maven%E5%A4%9A%E6%A8%A1%E5%9D%97%E9%A1%B9%E7%9B%AEDocker%E5%8C%96/" class="title">SpringBoot-Maven多模块项目Docker化</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-25T11:58:56.000Z" itemprop="datePublished">2020-05-25</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#了解ELK之前，首先要知道什么是Restful。"><span class="toc-number">1.</span> <span class="toc-text">了解ELK之前，首先要知道什么是Restful。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ELK简介"><span class="toc-number">2.</span> <span class="toc-text">ELK简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装ELK"><span class="toc-number">3.</span> <span class="toc-text">安装ELK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Elasticsearch："><span class="toc-number">3.1.</span> <span class="toc-text">安装Elasticsearch：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装kibana："><span class="toc-number">3.2.</span> <span class="toc-text">安装kibana：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装logstash"><span class="toc-number">3.3.</span> <span class="toc-text">安装logstash:</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-ELK的入门与安装" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ELK的入门与安装
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/blog/2020/06/10/ELK%E7%9A%84%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%89%E8%A3%85/" class="article-date">
+	  <time datetime="2020-06-10T08:16:16.000Z" itemprop="datePublished">2020-06-10</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/blog/categories/ELK/">ELK</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/blog/tags/elasticsearch/" rel="tag">elasticsearch</a>, <a class="article-tag-link" href="/blog/tags/kibana/" rel="tag">kibana</a>, <a class="article-tag-link" href="/blog/tags/logstash/" rel="tag">logstash</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/06/10/ELK%E7%9A%84%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%89%E8%A3%85/#comments" class="article-comment-link">评论</a></span>
+        
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="了解ELK之前，首先要知道什么是Restful。"><a href="#了解ELK之前，首先要知道什么是Restful。" class="headerlink" title="了解ELK之前，首先要知道什么是Restful。"></a>了解ELK之前，首先要知道什么是Restful。</h2><p>假如面试官让你简单说下RestFul，你要怎么回答？</p>
+<p> <strong>Rest是Representational State Transfer的缩写，它包括三部分（资源、表现层、状态转化）。</strong></p>
+<ul>
+<li><p><strong>一、资源（Resources）</strong><br>REST的名称”表现层状态转化”中,省略了主语。”表现层”其实指的是”资源”(Resources)<br>的”表现层”。<br>所谓”资源”,就是网络上的一个实体,或者说是网络上的一个具体信息。它可以是一段文<br>本、一张图片、一首歌曲、一种服务,总之就是一个具体的实在。你可以用一个URI</p>
+</li>
+<li><p><strong>二、表现层（Representation）</strong><br>“资源”是一种信息的实体，他有很多外在的表现形式。我们把“资源”具体呈现出来的形式，叫做它的“表现层”（Representation）。<br>比如，文本可以用TXT展现，也可以用HTML格式、XML格式、JSON格式等等。URI只代表资源的实体，不代表它的形式。它的具体表现形式应该在HTTP请求中的Accept和Content-type指定，这两个字段才是对“表现层”的指定</p>
+</li>
+<li><p><strong>三、状态转化（State Transfer）</strong></p>
+<p>互联网通信协议HTTP协议是一种无状态的协议，这意味着，所有的状态信息都保存在服务器端。因此，如果客户端想要操作服务器，必须通过某种手段，让服务器发生“状态转化（State Transfer）”，而这种转换是建立在表现成之上的，所以就是“表现层状态转换”。</p>
+<p>客户端用到的手段，只能是HTTP协议。具体来说就是协议中的四个操作方式：GET、POST、PUT、DELETE。他们分别对应四种基本操作：<strong>GET用来获取资源，POST用来新建资源（也可以用于更新资源），PUT用来更新资源，DELETE用来删除资源。</strong></p>
+</li>
+</ul>
+<p>综上：总结一下什么是RestFul架构?</p>
+<p>（1）每个URI代表一种资源。</p>
+<p>（2）客户端和服务器之间，传递这种资源的某种表现层。</p>
+<p>（3）客户端通过四个HTTP动词，对服务器的资源进行操作，实现“表现成状态转换”。</p>
+<h2 id="ELK简介"><a href="#ELK简介" class="headerlink" title="ELK简介"></a>ELK简介</h2><p>什么是ELK（Elasticsearch , Logstash, Kibana）？</p>
+<p>是一种能够从任意数据源抽取数据，并实时对数据进行搜索、分析和可视化展现的数据分析框架。（hadoop同一个开发人员）java 开发的开源的全文搜索引擎工具，基于lucence搜索引擎的，采用 restful - api 标准的，高可用、高扩展的分布式框架，提供实时数据分析。</p>
+<p>官网地址：<a href="https://www.elastic.co/cn/" target="_blank" rel="noopener">https://www.elastic.co/cn/</a></p>
+<h2 id="安装ELK"><a href="#安装ELK" class="headerlink" title="安装ELK"></a>安装ELK</h2><p>本人为docker铁粉，这里只叙述，docker安装方法。安装准备：Linux、JAVA8、Docker</p>
+<p>安装包下载地址：<a href="https://www.elastic.co/cn/downloads" target="_blank" rel="noopener">https://www.elastic.co/cn/downloads</a></p>
+<h3 id="安装Elasticsearch："><a href="#安装Elasticsearch：" class="headerlink" title="安装Elasticsearch："></a>安装Elasticsearch：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull docker.elastic.co/elasticsearch/elasticsearch:7.7.1</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># docker 运行时报没有权限的错误，就赋权限</span></span></span><br><span class="line">sudo chmod 777 -R /opt/elasticsearch/</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 演示单机启动</span></span></span><br><span class="line">sudo docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch01 -v /opt/elasticsearch/data:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:7.7.1</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="安装kibana："><a href="#安装kibana：" class="headerlink" title="安装kibana："></a>安装kibana：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull docker.elastic.co/kibana/kibana:7.7.1</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建挂载文件夹</span></span><br><span class="line">sudo mkdir /opt/kibana</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 此步骤是为了防止挂载run时，报错，提前把文件copy出来，然后重新运行挂载</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># sudo docker run -d --link elasticsearch01:elasticsearch -p 5601:5601 --name kibana docker.elastic.co/kibana/kibana:7.7.1</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># sudo docker cp ....</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 注意以下命令，--link 是连接elasticsearch01容器的，上面我的elasticsearch的容器名称为elasticsearch01，这里的elasticsearch01 需要换成你创建的容器的name.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 官方命令是这样的：</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> docker run --link 【你的elasticsearch容器的名称或者ID】:elasticsearch -p 5601:5601 &#123;docker-repo&#125;:&#123;version&#125;</span></span><br><span class="line">sudo docker run -d --link elasticsearch01:elasticsearch -p 5601:5601 --name kibana -v /opt/kibana/:/usr/share/kibana/config/ docker.elastic.co/kibana/kibana:7.7.1</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="安装logstash"><a href="#安装logstash" class="headerlink" title="安装logstash:"></a>安装logstash:</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull docker.elastic.co/logstash/logstash:7.7.1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 以下步骤为了防止挂载run时，报错，提前把文件copy出来，然后重新运行挂载</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo mkdir /opt/logstash/pipeline</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo mkdir /opt/logstash/settings</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo chmod 777 -R /opt/logstash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo docker run --rm -it --name logstash docker.elastic.co/logstash/logstash:7.7.1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo docker cp logstash:/usr/share/logstash/pipeline/ /opt/logstash/</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo docker cp logstash:/usr/share/logstash/config/ /opt/logstash/</span></span><br><span class="line"></span><br><span class="line">sudo docker run -d -it --name logstash  -v /opt/logstash/pipeline/:/usr/share/logstash/pipeline/ -v /opt/logstash/settings/:/usr/share/logstash/config/ docker.elastic.co/logstash/logstash:7.7.1</span><br></pre></td></tr></table></figure>
+
+
+
+<p>至此，就安装完成了。可以直接访问服务器地址：<a href="http://IP:5601/app/kibana" target="_blank" rel="noopener">http://IP:5601/app/kibana</a> 进行查看。</p>
+<p>ELK中至于Logstash的配置，下节讲述。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://ellisonpei.gitee.io/blog/2020/06/10/ELK%E7%9A%84%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%89%E8%A3%85/" title="ELK的入门与安装" target="_blank" rel="external">https://ellisonpei.gitee.io/blog/2020/06/10/ELK%E7%9A%84%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%89%E8%A3%85/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ellisonpei" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/blog/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ellisonpei" target="_blank"><span class="text-dark">溺水的小裴</span><small class="ml-1x">EllisonPei</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/blog/2020/06/08/Maven%E6%89%B9%E9%87%8F%E6%89%93%E5%8C%85jar%E6%96%87%E4%BB%B6%E5%88%B0%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/" title="Maven批量打包jar到本地仓库"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/blog/images/donate/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/blog/images/donate/wechatpayimg.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ellisonpei" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/blog/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/blog/js/plugin.min.js"></script>
+
+
+<script src="/blog/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/blog/',
+        CONTENT_URL: '/blog/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/blog/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'iMJmYJpiQTmDIHuXctJxx4EF-gzGzoHsz',
+    appKey: 'MDrcq4xdFWWsWdOjPQOYalu9',
+    placeholder: '输入评论...',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+    <script defer>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?f9fea782cdb78ae85079c77afe7fab59";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+</body>
+</html>
