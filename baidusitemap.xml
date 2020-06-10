@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://ellisonpei.gitee.io/blog/blog/2020/06/10/ELK%E4%B9%8Bfilebeat%E7%9A%84%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2020-06-10</lastmod>
+  </url>  <url>
     <loc>https://ellisonpei.gitee.io/blog/blog/2020/06/10/ELK%E7%9A%84%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%89%E8%A3%85/</loc>
     <lastmod>2020-06-10</lastmod>
   </url>  <url>
