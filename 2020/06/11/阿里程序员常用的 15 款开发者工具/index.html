@@ -17,23 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>JVM 内存结构 | 溺水的小裴</title>
-  <meta name="description" content="一、内存结构为什么要了解虚拟机&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;JVM 不单单只支持 Java 语言，也支持其他语言（Scala、Kotlin、Groovy 等等） 区块链 2.0–以太坊(比特币是区块链 1.0) 中提供了 EVM 的虚拟机，它的实现和 JVM 类似，基于栈、生成脚本编译成字节码来执行。 虚拟机历史&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;解释执行和编译执行（">
+  <title>阿里程序员常用的 15 款开发者工具 | 溺水的小裴</title>
+  <meta name="description" content="分享一波阿里常用的一些开发工具。（来源：jianshu.com&#x2F;p&#x2F;58ec32eef2d4）  一、Java 线上诊断工具 Arthas 二、IDE 插件 Cloud Toolkit 三、混沌实验注入工具 ChaosBlade 四、Java 代码规约扫描插件 五、应用实时监控工具 ARMS 六、静态开源站点搭建工具 Docsite 七、Android 平台上的秒级编译方案 Freeline 八、">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM 内存结构">
-<meta property="og:url" content="https://ellisonpei.gitee.io/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:title" content="阿里程序员常用的 15 款开发者工具">
+<meta property="og:url" content="https://ellisonpei.gitee.io/blog/2020/06/11/%E9%98%BF%E9%87%8C%E7%A8%8B%E5%BA%8F%E5%91%98%E5%B8%B8%E7%94%A8%E7%9A%84%2015%20%E6%AC%BE%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7/index.html">
 <meta property="og:site_name" content="溺水的小裴">
-<meta property="og:description" content="一、内存结构为什么要了解虚拟机&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;JVM 不单单只支持 Java 语言，也支持其他语言（Scala、Kotlin、Groovy 等等） 区块链 2.0–以太坊(比特币是区块链 1.0) 中提供了 EVM 的虚拟机，它的实现和 JVM 类似，基于栈、生成脚本编译成字节码来执行。 虚拟机历史&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;解释执行和编译执行（">
+<meta property="og:description" content="分享一波阿里常用的一些开发工具。（来源：jianshu.com&#x2F;p&#x2F;58ec32eef2d4）  一、Java 线上诊断工具 Arthas 二、IDE 插件 Cloud Toolkit 三、混沌实验注入工具 ChaosBlade 四、Java 代码规约扫描插件 五、应用实时监控工具 ARMS 六、静态开源站点搭建工具 Docsite 七、Android 平台上的秒级编译方案 Freeline 八、">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ellison.lovewinter.top/upload/2020/3/image-01ed61d67cb847239b9650f7ba51f08d.png">
-<meta property="article:published_time" content="2020-05-19T11:58:56.000Z">
-<meta property="article:modified_time" content="2020-05-19T16:54:10.844Z">
+<meta property="article:published_time" content="2020-06-11T01:38:56.000Z">
+<meta property="article:modified_time" content="2020-06-11T01:39:24.413Z">
 <meta property="article:author" content="EllisonPei">
-<meta property="article:tag" content="JVM">
+<meta property="article:tag" content="devtool">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ellison.lovewinter.top/upload/2020/3/image-01ed61d67cb847239b9650f7ba51f08d.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://ellisonpei.gitee.io/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+  <link rel="canonical" href="https://ellisonpei.gitee.io/blog/2020/06/11/%E9%98%BF%E9%87%8C%E7%A8%8B%E5%BA%8F%E5%91%98%E5%B8%B8%E7%94%A8%E7%9A%84%2015%20%E6%AC%BE%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7/index.html">
   
     <link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
   
@@ -312,16 +310,25 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Java-线上诊断工具-Arthas"><span class="toc-number">1.</span> <span class="toc-text">一、Java 线上诊断工具 Arthas</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、IDE-插件-Cloud-Toolkit"><span class="toc-number">2.</span> <span class="toc-text">二、IDE 插件 Cloud Toolkit</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、混沌实验注入工具-ChaosBlade"><span class="toc-number">3.</span> <span class="toc-text">三、混沌实验注入工具 ChaosBlade</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、Java-代码规约扫描插件"><span class="toc-number">4.</span> <span class="toc-text">四、Java 代码规约扫描插件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#五、应用实时监控工具-ARMS"><span class="toc-number">5.</span> <span class="toc-text">五、应用实时监控工具 ARMS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#六、静态开源站点搭建工具-Docsite"><span class="toc-number">6.</span> <span class="toc-text">六、静态开源站点搭建工具 Docsite</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#七、Android-平台上的秒级编译方案-Freeline"><span class="toc-number">7.</span> <span class="toc-text">七、Android 平台上的秒级编译方案 Freeline</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#八、性能测试工具-PTS"><span class="toc-number">8.</span> <span class="toc-text">八、性能测试工具 PTS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#九、云效开发者工具-KT"><span class="toc-number">9.</span> <span class="toc-text">九、云效开发者工具 KT</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#十、架构可视化工具-AHAS"><span class="toc-number">10.</span> <span class="toc-text">十、架构可视化工具 AHAS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#十一、数据处理工具-EasyExcel"><span class="toc-number">11.</span> <span class="toc-text">十一、数据处理工具 EasyExcel</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#十二、iOS-类工具-HandyJSON"><span class="toc-number">12.</span> <span class="toc-text">十二、iOS 类工具 HandyJSON</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#十三、云上资源和应用部署工具-EDAS-Serverless"><span class="toc-number">13.</span> <span class="toc-text">十三、云上资源和应用部署工具 EDAS Serverless</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#十四、数据库连接池-Druid"><span class="toc-number">14.</span> <span class="toc-text">十四、数据库连接池 Druid</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#十五、Java-工具集-Dragonwell"><span class="toc-number">15.</span> <span class="toc-text">十五、Java 工具集 Dragonwell</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
-  <article id="post-JVM学习笔记" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-阿里程序员常用的 15 款开发者工具" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      JVM 内存结构
+      阿里程序员常用的 15 款开发者工具
     </h1>
   
 
@@ -329,26 +336,26 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
-	  <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+	<a href="/blog/2020/06/11/%E9%98%BF%E9%87%8C%E7%A8%8B%E5%BA%8F%E5%91%98%E5%B8%B8%E7%94%A8%E7%9A%84%2015%20%E6%AC%BE%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7/" class="article-date">
+	  <time datetime="2020-06-11T01:38:56.000Z" itemprop="datePublished">2020-06-11</time>
 	</a>
 </span>
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/blog/categories/JVM/">JVM</a>►<a class="article-category-link" href="/blog/categories/JVM/Java/">Java</a>
+    <a class="article-category-link" href="/blog/categories/DevTools/">DevTools</a>►<a class="article-category-link" href="/blog/categories/DevTools/Java/">Java</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/blog/tags/JVM/" rel="tag">JVM</a>
+	<a class="article-tag-link" href="/blog/tags/devtool/" rel="tag">devtool</a>
   </span>
 
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/06/11/%E9%98%BF%E9%87%8C%E7%A8%8B%E5%BA%8F%E5%91%98%E5%B8%B8%E7%94%A8%E7%9A%84%2015%20%E6%AC%BE%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7/#comments" class="article-comment-link">评论</a></span>
         
 	
 	
@@ -357,55 +364,129 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h2 id="一、内存结构"><a href="#一、内存结构" class="headerlink" title="一、内存结构"></a>一、内存结构</h2><h3 id="为什么要了解虚拟机"><a href="#为什么要了解虚拟机" class="headerlink" title="为什么要了解虚拟机"></a>为什么要了解虚拟机</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;JVM 不单单只支持 Java 语言，也支持其他语言（Scala、Kotlin、Groovy 等等） 区块链 2.0–以太坊(比特币是区块链 1.0) 中提供了 EVM 的虚拟机，它的实现和 JVM 类似，基于栈、生成脚本编译成字节码来执行。</p>
-<h3 id="虚拟机历史"><a href="#虚拟机历史" class="headerlink" title="虚拟机历史"></a>虚拟机历史</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;解释执行和编译执行（针对字节码的执行） 解释执行就是边翻译为机器码边执行、即时编译（编译执行）就是先将一个方法中的所有字节码全部编译成机器码之后再执行。 Hotspot 采用的是先解释执行，到了一定时机后热点代码（多次执行、循环等）再翻译成机器码 热点代码探测技术（通过执行计数器找到最有编译价值的代码，如果代码用得非常频繁，就会把这些代码编译成本地代码）。 JRockit 采取的方法是在执行 class 时直接编译为机器码（Java 程序启动速度会比较慢） J9 和 Hotspot 比较接近，主要是用在 IBM 产品（IBM WebSphere 和 IBM 的 AIX 平台上），华为有的项目用的 J9。 谷歌：Google Android Dalivk VM：使用的寄存器架构，执行 dex（Dalvik Executable）通过 class 转化而来。</p>
-<h3 id="未来的-Java-技术"><a href="#未来的-Java-技术" class="headerlink" title="未来的 Java 技术"></a>未来的 Java 技术</h3><p><strong>模块化:OSGI（动态化、模块化）</strong>，应用层面就是微服务，互联网的发展方向。<br><strong>混合语言</strong>：多个语言都可以运行在 JVM 中，google 的 Kotlin 成为了 Android 的官方语言。<br><strong>Scala(Kafka) 多核并行</strong>：CPU 从高频次转变为多核心，多核时代。JDK1.7 引入了 Fork/Join，JDK1.8 提出 lambda 表达式(函数式编程天生适合并行运 行) 。<br><strong>丰富语法</strong>：JDK5 提出自动装箱、泛型(并发编程讲到)、动态注解等语法。JDK7 二进制原生支持。try-catch-finally 至 try-with-resource 。<br><strong>64 位</strong>：虽然同样的程序 64 位内存消耗比 32 位要多一点，但是支持内存大，所以虚拟机都会完全过渡到 64 位，32 位的 JVM 有 4G 的 堆大小限制（寻址范围 2 的 32 次方）。<br><strong>更强的垃圾回收器（现在主流 CMS、G1）</strong>：JDK11 –ZGC（暂停时间不超过 10 毫秒，且不会随着堆的增加而增加，TB 级别的堆回收））： 有色指针、加载屏障。JDK12 支持并发类卸载，进一步缩短暂停时间 JDK13(计划于 2019 年 9 月)将最大堆大小从 4TB 增加到 16TB。</p>
-<h3 id="Java-SE-体系架构"><a href="#Java-SE-体系架构" class="headerlink" title="Java SE 体系架构"></a>Java SE 体系架构</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;JavaSE，Java 平台标准版，为 Java EE 和 Java ME 提供了基础。<br>&nbsp;&nbsp;&nbsp;&nbsp;JDK：Java 开发工具包，JDK 是 JRE 的超集，包含 JRE 中的所有内容，以及开发程序所需的编译器和调试程序等工具。<br>&nbsp;&nbsp;&nbsp;&nbsp;JRE：Java SE 运行时环境 ，提供库、Java 虚拟机和其他组件来运行用 Java 编程语言编写的程序。主要类库，包括：程序部署发布、用 户界面工具类、继承库、其他基础库，语言和工具基础库<br>&nbsp;&nbsp;&nbsp;&nbsp;JVM：java 虚拟机，负责 JavaSE 平台的硬件和操作系统无关性、编译执行代码（字节码）和平台安全性 </p>
-<h3 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;这个是抽象概念，内部实现依赖寄存器、高速缓存、主内存（具体要分析 JVM 源码 C++语言实现，没必要看） 计算机的运行=指令+数据，指令用于执行方法的，数据用于存放数据和对象的。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;虚拟机栈—-执行 java 方法、本地方法栈—执行本地方法、程序计数器—程序执行的计数器 Java 中的数据：变量、常量、对象、数组相关。</p>
-<h3 id="线程私有"><a href="#线程私有" class="headerlink" title="线程私有"></a>线程私有</h3><h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;较小的内存空间，当前线程执行的字节码的行号指示器；各线程之间独立存储，互不影响（面试可能问到为什么需要）<br>如果线程正在执行的是一个 Java 方法，则指明当前线程执行的代字节码行数 如果正在执行的是 Natvie 方法，这个计数器值则为空（Undefined）。<br>此内存区域是唯一一个不会出现 OutOfMemoryError 情况的区域。<br>虚拟机栈（JVM 后续的执行子程序有详细的见解）</p>
-<p><img src="https://ellison.lovewinter.top/upload/2020/3/image-01ed61d67cb847239b9650f7ba51f08d.png" alt="image.png"></p>
-<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>数据结构的特点和 java 中方法中调用方法的特性一致。（为什么 JVM 使用栈 –演示代码 StackFilo） </p>
-<p>虚拟机栈： </p>
-<h3 id="异常："><a href="#异常：" class="headerlink" title="异常："></a>异常：</h3><p>线程请求的栈深度大于虚拟机所允许的深度：StackOverflowError </p>
-<p>JVM 动态扩展时无法申请到足够的内存时：OutOfMemoryError </p>
-<h3 id="虚拟机栈："><a href="#虚拟机栈：" class="headerlink" title="虚拟机栈："></a>虚拟机栈：</h3><p>每个线程私有的，线程在运行时，在执行每个方法的时候都会打包成一个栈帧，存储了局部变量表，操作数栈，动态链接，方法出口等信息，然后放入 </p>
-<p>栈。每个时刻正在执行的当前方法就是虚拟机栈顶的栈桢。方法的执行就对应着栈帧在虚拟机栈中入栈和出栈的过程。 </p>
-<p>栈的大小缺省为 1M，可用参数 –Xss 调整大小，例如-Xss256k </p>
-<p>在编译程序代码的时候，栈帧中需要多大的局部变量表，多深的操作数栈都已经完全确定了，并且写入到方法表的 Code 属性之中，因此一个栈帧需要分 </p>
-<p>配多少内存，不会受到程序运行期变量数据的影响，而仅仅取决于具体的虚拟机实现。 </p>
-<p><span style="color:red"><strong>局部变量表</strong>: 顾名思义就是局部变量的表</span>，用于存放我们的局部变量的。首先它是一个 32 位的长度，主要存放我们的 Java 的八大基础数据类型，一般 32 </p>
-<p>位就可以存放下，如果是 64 位的就使用高低位占用两个也可以存放下，如果是局部的一些对象，比如我们的 Object 对象，我们只需要存放它的一个引用 </p>
-<p>地址即可。（基本数据类型、对象引用、returnAddress 类型） </p>
-<p><span style="color:red"><strong>操作数据栈</strong>：存放我们方法执行的操作数的</span>，它就是一个栈，先进后出的栈结构，操作数栈，就是用来操作的，操作的的元素可以是任意的 java 数据类 </p>
-<p>型，所以我们知道一个方法刚刚开始的时候，这个方法的操作数栈就是空的，操作数栈运行方法是会一直运行入栈/出栈的操作 </p>
-<p><span style="color:red"><strong>动态连接</strong></span>：Java 语言特性多态（需要类加载、运行时才能确定具体的方法，后续有详细的讲解） </p>
-<p><span style="color:red"><strong>返回地址</strong></span>：</p>
-<p>正常返回：（调用程序计数器中的地址作为返回） </p>
-<p>三步曲：恢复上层方法的局部变量表和操作数栈、 </p>
-<p>把返回值（如果有的话）压入调用者栈帧的操作数栈中、 </p>
-<p>调整 PC 计数器的值以指向方法调用指令后面的一条指令、 </p>
-<p>异常的话：（通过异常处理器表&lt;非栈帧中的&gt;来确定） </p>
-<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p>各虚拟机自由实现，本地方法栈 native 方法调用 JNI 到了底层的 C/C++(c/c++可以触发汇编语言，然后驱动硬件) </p>
-<h3 id="线程共享的区域"><a href="#线程共享的区域" class="headerlink" title="线程共享的区域"></a>线程共享的区域</h3><h4 id="方法区-永久代"><a href="#方法区-永久代" class="headerlink" title="方法区/永久代"></a>方法区/永久代</h4><p>用于存储已经被虚拟机加载的<span style="color:red">类信息，常量(“zdy”,”123”等)，静态变量(static 变量)等数据</span>，可用以下参数调整：<br>jdk1.7 及以前：-XX:PermSize；-XX:MaxPermSize；<br>jdk1.8 以后：-XX:MetaspaceSize； -XX:MaxMetaspaceSize<br>jdk1.8 以后大小就只受本机总内存的限制<br>如：-XX:MaxMetaspaceSize=3M<br>*<em>类信息： *</em><br>类的完整有效名、返回值类型、修饰符（public，private…）、变量名、方法名、方法代码、这个类型直接父类的完整有效名(除非这个类型是 interface 或是 java.lang.Object，两种情况下都没有父类)、类的直接接口的一个有序列表。</p>
-<h4 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h4><p>几乎所有对象都分配在这里，也是垃圾回收发生的主要区域，可用以下参数调整：<br>-Xms：堆的最小值；<br>-Xmx：堆的最大值；<br>-Xmn：新生代的大小；<br>-XX:NewSize；新生代最小值；<br>-XX:MaxNewSize：新生代最大值；<br>例如- Xmx256m </p>
-<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><p><strong>符号引用（一个概念）</strong><br>一个 java 类（假设为 People 类）被编译成一个 class 文件时，如果 People 类引用了 Tool 类，但是在编译时 People 类并不知道引用类的实际内存地址，因此只能使用符号引用来代替。 而在类装载器装载 People 类时，此时可以通过虚拟机获取 Tool 类的实际内存地址，因此便可以既将符号 org.simple.Tool 替换为 Tool 类的实际内存地址， 及直接引用地址。<br>即在编译时用符号引用来代替引用类，在加载时再通过虚拟机获取该引用类的实际地址. 以一组符号来描述所引用的目标，符号可以是任何形式的字面量，只要使用时能无歧义地定位到目标即可。符号引用与虚拟机实现的内存布局是无关的， 引用的目标不一定已经加载到内存中。</p>
-<p><strong>字面量</strong><br>文本字符串 String a = “abc”,这个 abc 就是字面量<br>八种基本类型 int a = 1; 这个 1 就是字面量<br>声明为 final 的常量 。</p>
-<p><strong>常量池的变化</strong><br><strong>各版本之间的变化</strong><br>运行时常量池<br>Class 文件中的常量池（编译器生成的各种字面量和符号引用）会在类加载后被放入这个区域。<br>符号引用:<br>字面量：String a =“aaaa”<br><span style="color:red">JDK1.6</span><br>    运行时常量池在方法区中<br><span style="color:red">JDK1.7</span><br>    运行时常量池在堆中<br><span style="color:red">JDK1.8</span><br>    去永久代：使用元空间(空间大小只受制于机器的内存)替代永久代<br>    久代参数    -XX:PermSize；-XX:MaxPermSize =100M   超过100M OOM（）<br>    元空间参数    -XX:MetaspaceSize； -XX:MaxMetaspaceSize<br>    永久代来存储类信息、常量、静态变量等数据不是个好主意, 很容易遇到内存溢出的问题。<br>    对永久代进行调优是很困难的,同时将元空间与堆的垃圾回收进行了隔离，避免永久代引发的Full GC和OOM等问题；</p>
-<p><strong>直接内存</strong><br>使用 Native 函数库直接分配堆外内存(NIO) 并不是 JVM 运行时数据区域的一部分，但是会被频繁使用(可以通过-XX:MaxDirectMemorySize 来设置（不设置的话默认与堆内存最大值 一样,也会出现 OOM 异常) 使用直接内存避免了在 Java 堆和 Native 堆中来回复制数据，能够提高效率 测试用例 JavaStack：设置 JVM 参数-Xmx100m，运行异常，因为如果没设置-XX:MaxDirectMemorySize，则默认与-Xmx 参数值相同为 100M， 分配 128M 直接内存超出限制范围</p>
-<p><strong>站在线程角度来看</strong><br>虚拟机栈、本地方法栈、程序计数器三个区域的生命周期和线程相同。<br>线程共享区域：设计到生命周期管理和垃圾回收等概念，后续章节有细讲。 </p>
-<p><strong>深入辨析堆和栈</strong> </p>
-<p>` <strong>功能</strong> </p>
-<p> 以栈帧的方式存储方法调用的过程，并存储方法调用过程中基本数据类型的变量（int、short、long、byte、float、 </p>
-<p>double、boolean、char 等）以及对象的引用变量（reference），其内存分配在栈上，变量出了作用域就会自 </p>
-<p>动释放； </p>
-<p> 而堆内存用来存储 Java 中的对象。无论是成员变量，局部变量，还是类变量，它们指向的对象都存储在堆内 </p>
-<p>存中； </p>
-<p>`  <strong>线程独享还是共享</strong> </p>
-<p> 栈内存归属于单个线程，每个线程都会有一个栈内存，其存储的变量只能在其所属线程中可见，即栈内存可 </p>
-<p>以理解成线程的私有内存。 堆内存中的对象对所有线程可见。堆内存中的对象可以被所有线程访问。 </p>
-<p>` <strong>空间大小</strong><br>栈的内存要远远小于堆内存 </p>
-<h3 id="栈溢出"><a href="#栈溢出" class="headerlink" title="栈溢出"></a>栈溢出</h3><p>参数：-Xss256k<br>java.lang.StackOverflowError 一般的方法调用是很难出现的，如果出现了可能会是无限递归。<br>虚拟机栈带给我们的启示：方法的执行因为要打包成栈桢，所以天生要比实现同样功能的循环慢，所以树的遍历算 法中：递归和非递归(循环来实现)都有存在的意义。递归代码简洁，非递归代码复杂但是速度较快。<br>OutOfMemoryError：不断建立线程。（一般演示不出，演示出来机器也死了）</p>
+        <p>分享一波阿里常用的一些开发工具。（来源：jianshu.com/p/58ec32eef2d4）</p>
+<ul>
+<li>一、Java 线上诊断工具 Arthas</li>
+<li>二、IDE 插件 Cloud Toolkit</li>
+<li>三、混沌实验注入工具 ChaosBlade</li>
+<li>四、Java 代码规约扫描插件</li>
+<li>五、应用实时监控工具 ARMS</li>
+<li>六、静态开源站点搭建工具 Docsite</li>
+<li>七、Android 平台上的秒级编译方案 Freeline</li>
+<li>八、性能测试工具 PTS</li>
+<li>九、云效开发者工具 KT</li>
+<li>十、架构可视化工具 AHAS</li>
+<li>十一、数据处理工具 EasyExcel</li>
+<li>十二、iOS 类工具 HandyJSON</li>
+<li>十三、云上资源和应用部署工具 EDAS Serverless</li>
+<li>十四、数据库连接池 Druid</li>
+<li>十五、Java 工具集 Dragonwell</li>
+</ul>
+<hr>
+<p>从人工到自动化，从重复到创新，技术演进的历程中，伴随着开发者工具类产品的发展。</p>
+<p>阿里巴巴将自身在各类业务场景下的技术积淀，通过开源、云上实现或工具等形式对外开放，本文将精选了一些阿里巴巴的开发者工具，希望能帮助开发者们提高开发效率、更优雅的写代码。</p>
+<p>由于开发者涉及的技术领域众多，笔者仅从自己熟悉的领域，以后端开发者的视角盘点平时可能用得到的工具。每个工具按照以下几点进行介绍：</p>
+<p>工具名称和简介</p>
+<p>使用场景</p>
+<p>使用教程</p>
+<p>获取方式</p>
+<h1 id="一、Java-线上诊断工具-Arthas"><a href="#一、Java-线上诊断工具-Arthas" class="headerlink" title="一、Java 线上诊断工具 Arthas"></a>一、Java 线上诊断工具 Arthas</h1><p>Arthas 是阿里巴巴 2018 年 9 月开源的一款 Java 线上诊断工具。</p>
+<p>工具的使用场景：</p>
+<p>这个类从哪个 jar 包加载的？为什么会报各种类相关的 Exception？</p>
+<p>我改的代码为什么没有执行到？难道是我没 commit？分支搞错了？</p>
+<p>遇到问题无法在线上 debug，难道只能通过加日志再重新发布吗？</p>
+<p>线上遇到某个用户的数据处理有问题，但线上同样无法 debug，线下无法重现！</p>
+<p>是否有一个全局视角来查看系统的运行状况？</p>
+<p>有什么办法可以监控到 JVM 的实时运行状态？</p>
+<p>Arthas 支持 JDK 6+，支持 Linux/Mac/Windows，采用命令行交互模式，同时提供丰富的 Tab 自动补全功能，进一步方便进行问题的定位和诊断。</p>
+<p>使用教程：</p>
+<p>基础教程：<a href="https://alibaba.github.io/arthas/arthas-tutorials?language=cn&amp;id=arthas-basics" target="_blank" rel="noopener">https://alibaba.github.io/arthas/arthas-tutorials?language=cn&amp;id=arthas-basics</a></p>
+<p>进阶教程：<a href="https://alibaba.github.io/arthas/arthas-tutorials?language=cn&amp;id=arthas-advanced" target="_blank" rel="noopener">https://alibaba.github.io/arthas/arthas-tutorials?language=cn&amp;id=arthas-advanced</a></p>
+<p>获取方式：（开源）</p>
+<p>开源地址：<a href="https://github.com/alibaba/arthas" target="_blank" rel="noopener">https://github.com/alibaba/arthas</a></p>
+<h1 id="二、IDE-插件-Cloud-Toolkit"><a href="#二、IDE-插件-Cloud-Toolkit" class="headerlink" title="二、IDE 插件 Cloud Toolkit"></a>二、IDE 插件 Cloud Toolkit</h1><p>Cloud Toolkit 是一款 IDE 插件，可以帮助开发者更高效地开发、测试、诊断并部署应用。通过 Cloud Toolkit，开发者能够方便地将本地应用一键部署到任意机器（本地或云端），并内置 Arthas 诊断、高效执行终端命令和 SQL 等，提供 IntelliJ IDEA 版，Eclipse 版，PyCharm 版和 Maven 版。</p>
+<p>工具的使用场景：</p>
+<p>每次修改完代码后，是否正在经历反复地打包？</p>
+<p>在 Maven 、Git 以及其他运维脚本和工具的之间频繁切换？</p>
+<p>采用 SCP 工具上传？使用 XShell 或 SecureCRT 登录服务器？替换部署包？重启？</p>
+<p>文件上传到服务器指定目录，在各种 FTP、SCP 工具之间频繁切换 ？</p>
+<p>使用教程：</p>
+<p>IntelliJ IDEA 版：<a href="https://help.aliyun.com/document_detail/98762.html" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/98762.html</a></p>
+<p>Eclipse 版：<a href="https://help.aliyun.com/document_detail/29970.html" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/29970.html</a></p>
+<p>PyCharm 版：<a href="https://help.aliyun.com/document_detail/112740.html" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/112740.html</a></p>
+<p>Maven 版：<a href="https://help.aliyun.com/document_detail/108682.html" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/108682.html</a></p>
+<p>获取方式：（免费）</p>
+<p>工具地址：<a href="https://www.aliyun.com/product/cloudtoolkit" target="_blank" rel="noopener">https://www.aliyun.com/product/cloudtoolkit</a></p>
+<h1 id="三、混沌实验注入工具-ChaosBlade"><a href="#三、混沌实验注入工具-ChaosBlade" class="headerlink" title="三、混沌实验注入工具 ChaosBlade"></a>三、混沌实验注入工具 ChaosBlade</h1><p>ChaosBlade 是一款遵循混沌工程实验原理，提供丰富故障场景实现，帮助分布式系统提升容错性和可恢复性的混沌工程工具，可实现底层故障的注入，提供了延迟、异常、返回特定值、修改参数值、重复调用和 try-catch 块异常等异常场景。</p>
+<p>工具的使用场景：</p>
+<p>微服务的容错能力不易衡量？</p>
+<p>容器编排配置是否合理无法验证？</p>
+<p>PaaS 层健壮性的测试工作无从入手？</p>
+<p>使用教程：<a href="https://github.com/chaosblade-io/chaosblade/wiki/新手指南" target="_blank" rel="noopener">https://github.com/chaosblade-io/chaosblade/wiki/新手指南</a></p>
+<p>获取方式：（开源）</p>
+<p>开源地址：<a href="https://github.com/chaosblade-io/chaosblade/wiki/新手指南" target="_blank" rel="noopener">https://github.com/chaosblade-io/chaosblade/wiki/新手指南</a></p>
+<h1 id="四、Java-代码规约扫描插件"><a href="#四、Java-代码规约扫描插件" class="headerlink" title="四、Java 代码规约扫描插件"></a>四、Java 代码规约扫描插件</h1><p>该插件用于检测 Java 代码中存在的不规范的位置，并给予提示。规约插件是采用 Kotlin 语言开发。</p>
+<p>使用教程：</p>
+<p>IDEA插件使用文档：<a href="https://github.com/alibaba/p3c/wiki/IDEA插件使用文档" target="_blank" rel="noopener">https://github.com/alibaba/p3c/wiki/IDEA插件使用文档</a></p>
+<p>Eclipse插件使用文档：<a href="https://github.com/alibaba/p3c/wiki/Eclipse插件使用文档" target="_blank" rel="noopener">https://github.com/alibaba/p3c/wiki/Eclipse插件使用文档</a></p>
+<p>获取方式：（开源）</p>
+<p>开源地址：<a href="https://github.com/alibaba/p3c" target="_blank" rel="noopener">https://github.com/alibaba/p3c</a></p>
+<h1 id="五、应用实时监控工具-ARMS"><a href="#五、应用实时监控工具-ARMS" class="headerlink" title="五、应用实时监控工具 ARMS"></a>五、应用实时监控工具 ARMS</h1><p>ARMS 是一款 APM 类的监控工具，提供前端、应用、自定义监控 3 类监控选项，可快速构建实时的应用性能和业务监控能力。</p>
+<p>工具的使用场景：</p>
+<p>晚上 10 点收到 37 报警信息，你却无从下手？</p>
+<p>当我们发现问题的时候，客户/业务方已经发起投诉？</p>
+<p>每个月花几十万买服务器，却无法保障用户体验？</p>
+<p>使用教程：</p>
+<p>前端监控接入：<a href="https://help.aliyun.com/documentdetail/106086.html" target="_blank" rel="noopener">https://help.aliyun.com/documentdetail/106086.html</a></p>
+<p>应用监控接入：<a href="https://help.aliyun.com/documentdetail/63796.html" target="_blank" rel="noopener">https://help.aliyun.com/documentdetail/63796.html</a></p>
+<p>自定义监控：<a href="https://help.aliyun.com/document_detail/47474.html" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/47474.html</a></p>
+<p>获取方式：（收费）</p>
+<p>工具地址：<a href="https://www.aliyun.com/product/arms" target="_blank" rel="noopener">https://www.aliyun.com/product/arms</a></p>
+<h1 id="六、静态开源站点搭建工具-Docsite"><a href="#六、静态开源站点搭建工具-Docsite" class="headerlink" title="六、静态开源站点搭建工具 Docsite"></a>六、静态开源站点搭建工具 Docsite</h1><p>Docsite 一款集官网、文档、博客和社区为一体的静态开源站点的解决方案，具有简单易上手、上手不撒手的特质，同时支持 react 和静态渲染、PC端和移动端、支持中英文国际化、SEO、markdown 文档、全局站点搜索、站点风格自定义、页面自定义等功能。</p>
+<p>使用教程：<a href="https://docsite.js.org/zh-cn/docs/installation.html" target="_blank" rel="noopener">https://docsite.js.org/zh-cn/docs/installation.html</a></p>
+<p>获取方式：（开源）</p>
+<p>项目地址：<a href="https://github.com/txd-team/docsite" target="_blank" rel="noopener">https://github.com/txd-team/docsite</a></p>
+<h1 id="七、Android-平台上的秒级编译方案-Freeline"><a href="#七、Android-平台上的秒级编译方案-Freeline" class="headerlink" title="七、Android 平台上的秒级编译方案 Freeline"></a>七、Android 平台上的秒级编译方案 Freeline</h1><p>Freeline 可以充分利用缓存文件，在几秒钟内迅速地对代码的改动进行编译并部署到设备上，有效地减少了日常开发中的大量重新编译与安装的耗时。Freeline 最快捷的使用方法就是直接安装 Android Studio 插件。</p>
+<p>使用教程：<a href="https://github.com/alibaba/freeline/blob/master/README-zh.md" target="_blank" rel="noopener">https://github.com/alibaba/freeline/blob/master/README-zh.md</a></p>
+<p>获取方式：（开源）</p>
+<p>项目地址：<a href="https://github.com/alibaba/freeline" target="_blank" rel="noopener">https://github.com/alibaba/freeline</a></p>
+<h1 id="八、性能测试工具-PTS"><a href="#八、性能测试工具-PTS" class="headerlink" title="八、性能测试工具 PTS"></a>八、性能测试工具 PTS</h1><p>PTS 可以模拟大量用户访问业务的场景，任务随时发起，免去搭建和维护成本，支持 JMeter 脚本转化为 PTS 压测，同样支持原生 JMeter 引擎进行压测。</p>
+<p>使用教程：<a href="https://help.aliyun.com/document_detail/70290.html" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/70290.html</a></p>
+<p>获取方式：（收费）</p>
+<p>工具地址：<a href="https://www.aliyun.com/product/pts" target="_blank" rel="noopener">https://www.aliyun.com/product/pts</a></p>
+<h1 id="九、云效开发者工具-KT"><a href="#九、云效开发者工具-KT" class="headerlink" title="九、云效开发者工具 KT"></a>九、云效开发者工具 KT</h1><p>KT 可以简化在 Kubernetes 下进行联调测试的复杂度，提高基于 Kubernetes 的研发效率。</p>
+<p>使用教程：<a href="https://yq.aliyun.com/articles/690519" target="_blank" rel="noopener">https://yq.aliyun.com/articles/690519</a></p>
+<p>获取方式：（免费）</p>
+<p>工具地址：<a href="https://yq.aliyun.com/download/3393" target="_blank" rel="noopener">https://yq.aliyun.com/download/3393</a></p>
+<h1 id="十、架构可视化工具-AHAS"><a href="#十、架构可视化工具-AHAS" class="headerlink" title="十、架构可视化工具 AHAS"></a>十、架构可视化工具 AHAS</h1><p>AHAS 为 K8s 等容器环境提供了架构可视化的功能，同时，具有故障注入式高可用能力评测和一键流控降级等功能，可以快速低成本的提升应用可用性。</p>
+<p>工具的使用场景：</p>
+<p>服务化改造过程中，想精确的了解资源实例的构成和交互情况，实现架构的可视化？</p>
+<p>想引入真实的故障场景和演练模型？</p>
+<p>低门槛获得流控、降级功能？</p>
+<p>使用教程：<a href="https://help.aliyun.com/document_detail/90323.html" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/90323.html</a></p>
+<p>获取方式：（免费）</p>
+<p>工具地址：<a href="https://www.aliyun.com/product/ahas" target="_blank" rel="noopener">https://www.aliyun.com/product/ahas</a></p>
+<h1 id="十一、数据处理工具-EasyExcel"><a href="#十一、数据处理工具-EasyExcel" class="headerlink" title="十一、数据处理工具 EasyExcel"></a>十一、数据处理工具 EasyExcel</h1><p>EasyExcel 是一个用来对 Java 进行解析、生成Excel 的框架，它重写了 poi 对07版 Excel 的解析，原本一个3M的 Excel 用POI sax需要100M左右内存，EasyExcel可降低到 KB 级别，并且再大的excel也不会出现内存溢出的情况。03版依赖 POI 的 sax 模式。在上层做了模型转换的封装，让使用者更加简单方便。</p>
+<p>使用教程：<a href="https://github.com/alibaba/easyexcel/blob/master/quickstart.md" target="_blank" rel="noopener">https://github.com/alibaba/easyexcel/blob/master/quickstart.md</a></p>
+<p>获取方式：（开源）</p>
+<p>工具地址：<a href="https://github.com/alibaba/easyexcel" target="_blank" rel="noopener">https://github.com/alibaba/easyexcel</a></p>
+<h1 id="十二、iOS-类工具-HandyJSON"><a href="#十二、iOS-类工具-HandyJSON" class="headerlink" title="十二、iOS 类工具 HandyJSON"></a>十二、iOS 类工具 HandyJSON</h1><p>HandyJSON 是一个用于 Swift 语言中的JSON序列化/反序列化库。</p>
+<p>与其他流行的 Swift JSON 库相比，HandyJSON 的特点是，它支持纯 Swift 类，使用也简单。它反序列化时（把 JSON 转换为 Model）不要求 Model从 NSObject 继承(因为它不是基于 KVC 机制)，也不要求你为 Model 定义一个 Mapping 函数。只要你定义好 Model 类，声明它服从 HandyJSON 协议，HandyJSON 就能自行以各个属性的属性名为 Key，从 JSON 串中解析值。</p>
+<p>使用教程：<a href="https://github.com/alibaba/HandyJSON/blob/master/README_cn.md" target="_blank" rel="noopener">https://github.com/alibaba/HandyJSON/blob/master/README_cn.md</a></p>
+<p>获取方式：（开源）</p>
+<p>工具地址：<a href="https://github.com/alibaba/HandyJSON" target="_blank" rel="noopener">https://github.com/alibaba/HandyJSON</a></p>
+<h1 id="十三、云上资源和应用部署工具-EDAS-Serverless"><a href="#十三、云上资源和应用部署工具-EDAS-Serverless" class="headerlink" title="十三、云上资源和应用部署工具 EDAS Serverless"></a>十三、云上资源和应用部署工具 EDAS Serverless</h1><p>EDAS Serverless 一款基于 Kubernetes，面向应用和微服务的 Serverless 平台。用户无需管理和维护集群与服务器，即可通过镜像、WAR 包和 JAR 包，快速创建原生支持 Kubernetes 的容器应用，同时支持 Spring Cloud 和 Dubbo 等主流微服务框架。</p>
+<p>使用教程：<a href="https://help.aliyun.com/document_detail/102048.html" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/102048.html</a></p>
+<p>获取方式：（公测期间免费）</p>
+<p>工具地址：<a href="https://help.aliyun.com/document_detail/97792.html" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/97792.html</a></p>
+<h1 id="十四、数据库连接池-Druid"><a href="#十四、数据库连接池-Druid" class="headerlink" title="十四、数据库连接池 Druid"></a>十四、数据库连接池 Druid</h1><p>Druid 是 Java 语言下的数据库连接池，它能够提供强大的监控和扩展功能。</p>
+<p>使用教程：<a href="https://github.com/alibaba/druid/wiki/常见问题" target="_blank" rel="noopener">https://github.com/alibaba/druid/wiki/常见问题</a></p>
+<p>获取方式：（开源）</p>
+<p>工具地址：<a href="http://central.maven.org/maven2/com/alibaba/druid/" target="_blank" rel="noopener">http://central.maven.org/maven2/com/alibaba/druid/</a></p>
+<h1 id="十五、Java-工具集-Dragonwell"><a href="#十五、Java-工具集-Dragonwell" class="headerlink" title="十五、Java 工具集 Dragonwell"></a>十五、Java 工具集 Dragonwell</h1><p>Alibaba Dragonwell 是阿里巴巴内部 OpenJDK 定制版 AJDK 的开源版本， AJDK 为在线电商，金融，物流做了结合业务场景的优化，运行在超大规模的，100,000+ 服务器的阿里巴巴数据中心。Alibaba Dragonwell 与 Java SE 标准兼容，目前仅支持 Linux/x86_64 平台。</p>
+<p>使用教程：<a href="https://github.com/alibaba/dragonwell8/wiki/阿里巴巴Dragonwell8用户指南" target="_blank" rel="noopener">https://github.com/alibaba/dragonwell8/wiki/阿里巴巴Dragonwell8用户指南</a></p>
+<p>获取方式：（开源）</p>
+<p>工具地址：<a href="https://github.com/alibaba/dragonwell8" target="_blank" rel="noopener">https://github.com/alibaba/dragonwell8</a></p>
 
       
     </div>
@@ -415,7 +496,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://ellisonpei.gitee.io/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="JVM 内存结构" target="_blank" rel="external">https://ellisonpei.gitee.io/blog/2020/05/19/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a>
+      <a href="https://ellisonpei.gitee.io/blog/2020/06/11/%E9%98%BF%E9%87%8C%E7%A8%8B%E5%BA%8F%E5%91%98%E5%B8%B8%E7%94%A8%E7%9A%84%2015%20%E6%AC%BE%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7/" title="阿里程序员常用的 15 款开发者工具" target="_blank" rel="external">https://ellisonpei.gitee.io/blog/2020/06/11/%E9%98%BF%E9%87%8C%E7%A8%8B%E5%BA%8F%E5%91%98%E5%B8%B8%E7%94%A8%E7%9A%84%2015%20%E6%AC%BE%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -461,15 +542,20 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/blog/2020/05/20/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B8%AD%E7%9A%84%E5%90%8D%E8%AF%8D/" title="微服务中的名词"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/blog/2020/05/19/Java8---NIO/" title="Java8之 NIO"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/blog/2020/06/10/ELK%E4%B9%8Bfilebeat%E7%9A%84%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8/" title="ELK之filebeat的配置与使用"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
     
   </ul>
   
