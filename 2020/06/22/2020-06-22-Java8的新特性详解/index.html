@@ -17,27 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Java8之 NIO | 溺水的小裴</title>
-  <meta name="description" content="Java8之 NIO的学习一、什么是NIO？Java NIO（New IO）是从Java 1.4版本开始引入的一个新的IO API，可以替代标准的Java IO API。NIO与原来的IO有同样的作用和目的，但是使用的方式完全不同，NIO支持面向缓冲区的、基于通道的IO操作。NIO将以更加高效的方式进行文件的读写操作。 二、Java NIO 与 IO 的主要区别   IO NIO    面向流（S">
+  <title>Java8的新特性详解 | 溺水的小裴</title>
+  <meta name="description" content="访问接口的默认方法Lambda表达式中是无法访问到默认方法的，以下代码将无法编译：复制代码 代码如下:(关于Lambda的用法:请转站https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_40741855&#x2F;article&#x2F;details&#x2F;83543728) 12Formula formula &#x3D; (a) -&gt; sqrt( a * 100);Built-in Functional Interfac">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java8之 NIO">
-<meta property="og:url" content="https://ellisonpei.gitee.io/blog/2020/05/19/Java8---NIO/index.html">
+<meta property="og:title" content="Java8的新特性详解">
+<meta property="og:url" content="https://ellisonpei.gitee.io/blog/2020/06/22/2020-06-22-Java8%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="溺水的小裴">
-<meta property="og:description" content="Java8之 NIO的学习一、什么是NIO？Java NIO（New IO）是从Java 1.4版本开始引入的一个新的IO API，可以替代标准的Java IO API。NIO与原来的IO有同样的作用和目的，但是使用的方式完全不同，NIO支持面向缓冲区的、基于通道的IO操作。NIO将以更加高效的方式进行文件的读写操作。 二、Java NIO 与 IO 的主要区别   IO NIO    面向流（S">
+<meta property="og:description" content="访问接口的默认方法Lambda表达式中是无法访问到默认方法的，以下代码将无法编译：复制代码 代码如下:(关于Lambda的用法:请转站https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_40741855&#x2F;article&#x2F;details&#x2F;83543728) 12Formula formula &#x3D; (a) -&gt; sqrt( a * 100);Built-in Functional Interfac">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:%5CUsers%5Cpei%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1571903856390.png">
-<meta property="og:image" content="c:%5CUsers%5Cpei%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1571906138020.png">
-<meta property="og:image" content="c:%5CUsers%5Cpei%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1571906190502.png">
-<meta property="og:image" content="f:%5C%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99%5C%E7%AC%94%E8%AE%B0%5CMaYun1%5Crespository%5C%E5%9B%BE%E7%89%87%5C1572951093774.png">
-<meta property="article:published_time" content="2020-05-19T11:58:56.000Z">
-<meta property="article:modified_time" content="2020-05-19T16:58:26.552Z">
+<meta property="article:published_time" content="2020-06-22T11:34:56.000Z">
+<meta property="article:modified_time" content="2020-06-22T11:35:25.157Z">
 <meta property="article:author" content="EllisonPei">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="NIO">
+<meta property="article:tag" content="Java8">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:%5CUsers%5Cpei%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1571903856390.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://ellisonpei.gitee.io/blog/2020/05/19/Java8---NIO/index.html">
+  <link rel="canonical" href="https://ellisonpei.gitee.io/blog/2020/06/22/2020-06-22-Java8%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7%E8%AF%A6%E8%A7%A3/index.html">
   
     <link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
   
@@ -324,14 +318,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-Java8---NIO" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-2020-06-22-Java8的新特性详解" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Java8之 NIO
+      Java8的新特性详解
     </h1>
   
 
@@ -339,8 +333,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/blog/2020/05/19/Java8---NIO/" class="article-date">
-	  <time datetime="2020-05-19T11:58:56.000Z" itemprop="datePublished">2020-05-19</time>
+	<a href="/blog/2020/06/22/2020-06-22-Java8%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7%E8%AF%A6%E8%A7%A3/" class="article-date">
+	  <time datetime="2020-06-22T11:34:56.000Z" itemprop="datePublished">2020-06-22</time>
 	</a>
 </span>
         
@@ -352,13 +346,13 @@
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/blog/tags/Java/" rel="tag">Java</a>, <a class="article-tag-link" href="/blog/tags/NIO/" rel="tag">NIO</a>
+	<a class="article-tag-link" href="/blog/tags/Java8/" rel="tag">Java8</a>
   </span>
 
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/05/19/Java8---NIO/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/blog/2020/06/22/2020-06-22-Java8%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7%E8%AF%A6%E8%A7%A3/#comments" class="article-comment-link">评论</a></span>
         
 	
 	
@@ -367,145 +361,60 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h2 id="Java8之-NIO的学习"><a href="#Java8之-NIO的学习" class="headerlink" title="Java8之 NIO的学习"></a>Java8之 NIO的学习</h2><h3 id="一、什么是NIO？"><a href="#一、什么是NIO？" class="headerlink" title="一、什么是NIO？"></a>一、什么是NIO？</h3><p>Java NIO（New IO）是从Java 1.4版本开始引入的一个新的IO API，可以替代标准的Java IO API。NIO与原来的IO有同样的作用和目的，但是使用的方式完全不同，NIO支持面向缓冲区的、基于通道的IO操作。NIO将以更加高效的方式进行文件的读写操作。</p>
-<h3 id="二、Java-NIO-与-IO-的主要区别"><a href="#二、Java-NIO-与-IO-的主要区别" class="headerlink" title="二、Java NIO 与 IO 的主要区别"></a>二、Java NIO 与 IO 的主要区别</h3><table>
-<thead>
-<tr>
-<th>IO</th>
-<th>NIO</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>面向流（Steam Oriented）</td>
-<td>面向缓冲区（Buffer Oriented）</td>
-</tr>
-<tr>
-<td>阻塞IO（Blocking IO）</td>
-<td>非阻塞IO（Non Blocking IO）</td>
-</tr>
-<tr>
-<td>(无)</td>
-<td>选择器（Selector）</td>
-</tr>
-</tbody></table>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="三、缓冲区-Buffer-和通道-Channel"><a href="#三、缓冲区-Buffer-和通道-Channel" class="headerlink" title="三、缓冲区(Buffer)和通道(Channel)"></a>三、缓冲区(Buffer)和通道(Channel)</h3><h4 id="1、Buffer缓冲区："><a href="#1、Buffer缓冲区：" class="headerlink" title="1、Buffer缓冲区："></a>1、Buffer缓冲区：</h4><p>Buffer 就像一个数组，可以保存多个相同类型的数据。根据数据类型不同(boolean 除外) ，有以下 Buffer 常用子类：</p>
-<ul>
-<li>​    ByteBuffer</li>
-<li>​    CharBuffer</li>
-<li>​    ShortBuffer</li>
-<li>​    IntBuffer</li>
-<li>​    LongBuffer</li>
-<li>​    FloatBuffer</li>
-<li>​    DoubleBuffer</li>
-</ul>
-<p>上述 Buffer 类 他们都采用相似的方法进行管理数据，只是各自管理的数据类型不同而已。都是通过如下方法获取一个 Buffer对象：static XxxBuffer allocate(int capacity) : 创建一个容量为 capacity 的 XxxBuffer 对象</p>
-<h5 id="缓冲区中的四个属性："><a href="#缓冲区中的四个属性：" class="headerlink" title="缓冲区中的四个属性："></a>缓冲区中的四个属性：</h5><ul>
-<li><em>capacity：容量，表示缓冲区中最大存储数据的容量。一旦声明不能改变。</em></li>
-<li><em>limit：界限，表示缓冲区中可以操作数据的大小。（limit 后数据不能进行读写）。</em></li>
-<li><em>position：位置，<em>下一个要读取或写入的数据的索引。缓冲区的位置不能为负，并且不能大于其限制</em>表示缓冲区中正在操作数据的位置。</em></li>
-<li><em>标记 (mark)与重置 (reset)：标记是一个索引，指定 Buffer 中一个当前的 position位置，之后可以通过调用 reset() 方法恢复到这个 position位置.</em></li>
-</ul>
-<p><strong>0 &lt;= mark &lt;= position &lt;= limit &lt;= capacity</strong></p>
-<p><img src="C:%5CUsers%5Cpei%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1571903856390.png" alt="1571903856390"></p>
-<h5 id="Buffer中的常用的properties："><a href="#Buffer中的常用的properties：" class="headerlink" title="Buffer中的常用的properties："></a>Buffer中的常用的properties：</h5><table>
-<thead>
-<tr>
-<th>put()</th>
-<th>想缓冲区中写入数据</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Buffer flip()</td>
-<td>将缓冲区的界限设置为当前位置（position），并将当前位置（position）赋值为 0</td>
-</tr>
-<tr>
-<td>Buffer get()</td>
-<td>切换至读模式之后，获取数据</td>
-</tr>
-<tr>
-<td>Buffer clear()</td>
-<td>清空缓冲区并返回对缓冲区的引用，缓冲区中的数据依然存在只是处于”<strong>被遗忘</strong>“状态</td>
-</tr>
-<tr>
-<td>Buffer mark()</td>
-<td>对缓冲区设置标记</td>
-</tr>
-<tr>
-<td>Buffer position(int n)</td>
-<td>将设置缓冲区的当前位置为 n , 并返回修改后的 Buffer 对象</td>
-</tr>
-<tr>
-<td>Buffer limit(int n)</td>
-<td>将设置缓冲区界限为 n, 并返回一个具有新 limit 的缓冲区对象</td>
-</tr>
-<tr>
-<td>boolean hasRemaining()</td>
-<td>判断缓冲区中是否还有元素</td>
-</tr>
-<tr>
-<td>int limit()</td>
-<td>返回 Buffer 的界限(limit) 的位置</td>
-</tr>
-<tr>
-<td>int capacity()</td>
-<td>返回 Buffer 的 capacity 大小</td>
-</tr>
-<tr>
-<td>int position()</td>
-<td>返回缓冲区的当前位置 position</td>
-</tr>
-<tr>
-<td>int remaining()</td>
-<td>返回 position 和 limit 之间的元素个数</td>
-</tr>
-<tr>
-<td>Buffer reset()</td>
-<td>将位置 position 转到以前设置的 mark 所在的位置</td>
-</tr>
-<tr>
-<td>Buffer rewind()</td>
-<td>将位置设为为 0， 取消设置的 mark</td>
-</tr>
-</tbody></table>
-<h5 id="Buffer中的数据操作-get-与put-方法："><a href="#Buffer中的数据操作-get-与put-方法：" class="headerlink" title="Buffer中的数据操作,get()与put()方法："></a><strong>Buffer中的数据操作,get()与put()方法：</strong></h5><p>获取 Buffer 中的数据：</p>
-<ul>
-<li>get() ：读取单个字节</li>
-<li>get(byte[] dst)：批量读取多个字节到 dst 中</li>
-<li>get(int index)：读取指定索引位置的字节(不会移动 position)</li>
-</ul>
-<p>放入数据到 Buffer 中：</p>
-<ul>
-<li>put(byte b)：将给定单个字节写入缓冲区的当前位置</li>
-<li>put(byte[] src)：将 src 中的字节写入缓冲区的当前位置</li>
-<li>put(int index, byte b)：将指定字节写入缓冲区的索引位置(不会移动 position)</li>
-</ul>
-<h5 id="直接缓冲区与非直接缓冲区："><a href="#直接缓冲区与非直接缓冲区：" class="headerlink" title="直接缓冲区与非直接缓冲区："></a>直接缓冲区与非直接缓冲区：</h5><p>​        <strong>直接缓冲区：</strong>通过allocate()方法分配缓冲区，将缓冲区建立在JVM 的内存中。</p>
-<p>​        <strong>非直接缓冲区：</strong>通过allocateDirect()方法分配直接缓冲区，将缓冲区建立在物理内存中，可以提高效率。</p>
-<p><img src="C:%5CUsers%5Cpei%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1571906138020.png" alt="1571906138020"></p>
-<p><img src="C:%5CUsers%5Cpei%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1571906190502.png" alt="1571906190502"></p>
-<h4 id="2、通道（Channel）"><a href="#2、通道（Channel）" class="headerlink" title="2、通道（Channel）"></a>2、通道（Channel）</h4><h3 id="四、文件通道-FileChannel"><a href="#四、文件通道-FileChannel" class="headerlink" title="四、文件通道(FileChannel)"></a>四、文件通道(FileChannel)</h3><p> 通道（Channel）：由 java.nio.channels 包定义 的。Channel 表示 IO 源与目标打开的连接。 Channel 类似于传统的“流”。只不过 Channel 本身不能直接访问数据，Channel 只能与 Buffer 进行交互。</p>
-<ul>
-<li><p><strong>FileChannel</strong></p>
-<p>—- 用于读取、写入、映射和操作文件的通道 </p>
-<ul>
-<li><p>直接字节缓冲区可以通过调用此类的 allocateDirect() 工厂方法来创建。此方法返回的缓冲区进行分配和取消 分配所需成本通常高于非直接缓冲区。直接缓冲区的内容可以驻留在常规的垃圾回收堆之外，因此，它们对 应用程序的内存需求量造成的影响可能并不明显。所以，建议将直接缓冲区主要分配给那些易受基础系统的 本机 I/O 操作影响的大型、持久的缓冲区。一般情况下，最好仅在直接缓冲区能在程序性能方面带来明显好 处时分配它们。 </p>
-</li>
-<li><p>直接字节缓冲区还可以通过 FileChannel 的 map() 方法 将文件区域直接映射到内存中来创建。该方法返回 MappedByteBuffer 。Java 平台的实现有助于通过 JNI 从本机代码创建直接字节缓冲区。如果以上这些缓冲区 中的某个缓冲区实例指的是不可访问的内存区域，则试图访问该区域不会更改该缓冲区的内容，并且将会在 访问期间或稍后的某个时间导致抛出不确定的异常。  </p>
-<p><img src="F:%5C%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99%5C%E7%AC%94%E8%AE%B0%5CMaYun1%5Crespository%5C%E5%9B%BE%E7%89%87%5C1572951093774.png" alt=""></p>
-</li>
-</ul>
-</li>
-<li><p><strong>SocketChannel</strong></p>
-<p>—- 通过 TCP 读写网络中的数据。 </p>
-</li>
-<li><p><strong>ServerSocketChannel</strong></p>
-<p>—- 可以监听新进来的 TCP 连接，对每一个新进来 的连接都会创建一个 SocketChannel。 </p>
-</li>
-<li><p><strong>DatagramChannel</strong></p>
-<p>—- 通过 UDP 读写网络中的数据通道 </p>
-</li>
-</ul>
-<h3 id="五、NIO-的非阻塞式网络通信"><a href="#五、NIO-的非阻塞式网络通信" class="headerlink" title="五、NIO 的非阻塞式网络通信"></a>五、NIO 的非阻塞式网络通信</h3><h4 id="1、选择器-Selector"><a href="#1、选择器-Selector" class="headerlink" title="1、选择器(Selector)"></a>1、选择器(Selector)</h4><h4 id="2、SocketChannel、ServerSocketChannel、DatagramChannel"><a href="#2、SocketChannel、ServerSocketChannel、DatagramChannel" class="headerlink" title="2、SocketChannel、ServerSocketChannel、DatagramChannel"></a>2、SocketChannel、ServerSocketChannel、DatagramChannel</h4><h3 id="六、管道-Pipe"><a href="#六、管道-Pipe" class="headerlink" title="六、管道(Pipe)"></a>六、管道(Pipe)</h3><h3 id="七、Java-NIO2-Path、Paths-与-Files"><a href="#七、Java-NIO2-Path、Paths-与-Files" class="headerlink" title="七、Java NIO2 (Path、Paths 与 Files )"></a>七、Java NIO2 (Path、Paths 与 Files )</h3>
+        <h2 id="访问接口的默认方法"><a href="#访问接口的默认方法" class="headerlink" title="访问接口的默认方法"></a>访问接口的默认方法</h2><p>Lambda表达式中是无法访问到默认方法的，以下代码将无法编译：<br>复制代码 代码如下:<br>(关于Lambda的用法:<br>请转站<a href="https://blog.csdn.net/qq_40741855/article/details/83543728" target="_blank" rel="noopener">https://blog.csdn.net/qq_40741855/article/details/83543728</a><br>)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Formula formula = (a) -&gt; sqrt( a * <span class="number">100</span>);</span><br><span class="line">Built-in Functional Interfaces</span><br></pre></td></tr></table></figure>
+<p>JDK 1.8 API包含了很多内建的函数式接口，在老Java中常用到的比如Comparator或者Runnable接口，这些接口都增加了@FunctionalInterface注解以便能用在lambda上。<br>Java 8 API同样还提供了很多全新的函数式接口来让工作更加方便，有一些接口是来自Google Guava库里的，即便你对这些很熟悉了，还是有必要看看这些是如何扩展到lambda上使用的。</p>
+<h2 id="Predicate接口"><a href="#Predicate接口" class="headerlink" title="Predicate接口"></a>Predicate接口</h2><p>Predicate 接口只有一个参数，返回boolean类型。该接口包含多种默认方法来将Predicate组合成其他复杂的逻辑（比如：与，或，非）：<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Predicate&lt;String&gt; predicate = (s) -&gt; s.length() &gt; <span class="number">0</span>;</span><br><span class="line">predicate.test(<span class="string">"foo"</span>);              </span><br><span class="line">predicate.negate().test(<span class="string">"foo"</span>);     </span><br><span class="line">Predicate&lt;Boolean&gt; nonNull = Objects::nonNull;</span><br><span class="line">Predicate&lt;Boolean&gt; isNull = Objects::isNull;</span><br><span class="line">Predicate&lt;String&gt; isEmpty = String::isEmpty;</span><br><span class="line">Predicate&lt;String&gt; isNotEmpty = isEmpty.negate();</span><br></pre></td></tr></table></figure>
+<h2 id="Function-接口"><a href="#Function-接口" class="headerlink" title="Function 接口"></a>Function 接口</h2><p>Function 接口有一个参数并且返回一个结果，并附带了一些可以和其他函数组合的默认方法（compose, andThen）：<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Function&lt;String, Integer&gt; toInteger = Integer::valueOf;</span><br><span class="line">Function&lt;String, String&gt; backToString = toInteger.andThen(String::valueOf);</span><br><span class="line">backToString.apply(<span class="string">"123"</span>);     <span class="comment">// "123"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Supplier-接口"><a href="#Supplier-接口" class="headerlink" title="Supplier 接口"></a>Supplier 接口</h2><p>Supplier 接口返回一个任意范型的值，和Function接口不同的是该接口没有任何参数<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Supplier&lt;Person&gt; personSupplier = Person::<span class="keyword">new</span>;</span><br><span class="line">personSupplier.get();</span><br></pre></td></tr></table></figure>
+<h2 id="Consumer-接口"><a href="#Consumer-接口" class="headerlink" title="Consumer 接口"></a>Consumer 接口</h2><p>Consumer 接口表示执行在单个参数上的操作。<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Consumer&lt;Person&gt; greeter = (p) -&gt; System.out.println(<span class="string">"Hello, "</span> + p.firstName)</span><br><span class="line">greeter.accept(<span class="keyword">new</span> Person(<span class="string">"Luke"</span>, <span class="string">"Skywalker"</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="Comparator-接口"><a href="#Comparator-接口" class="headerlink" title="Comparator 接口"></a>Comparator 接口</h2><p>Comparator 是老Java中的经典接口， Java 8在此之上添加了多种默认方法：<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Comparator&lt;Person&gt; comparator = (p1, p2) -&gt; p1.firstName.compareTo(p2.firstName)</span><br><span class="line">Person p1 = <span class="keyword">new</span> Person(<span class="string">"John"</span>, <span class="string">"Doe"</span>)</span><br><span class="line">Person p2 = <span class="keyword">new</span> Person(<span class="string">"Alice"</span>, <span class="string">"Wonderland"</span>)</span><br><span class="line">comparator.compare(p1, p2)</span><br><span class="line">comparator.reversed().compare(p1, p2)</span><br></pre></td></tr></table></figure>
+<h2 id="Optional-接口"><a href="#Optional-接口" class="headerlink" title="Optional 接口"></a>Optional 接口</h2><p>Optional 不是函数是接口，这是个用来防止NullPointerException异常的辅助类型，这是下一届中将要用到的重要概念，现在先简单的看看这个接口能干什么：<br>Optional 被定义为一个简单的容器，其值可能是null或者不是null。在Java 8之前一般某个函数应该返回非空对象但是偶尔却可能返回了null，而在Java 8中，不推荐你返回null而是返回Optional。<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;String&gt; optional = Optional.of(<span class="string">"bam"</span>);</span><br><span class="line">optional.isPresent();           <span class="comment">// true</span></span><br><span class="line">optional.get();                 <span class="comment">// "bam"</span></span><br><span class="line">optional.orElse(<span class="string">"fallback"</span>);    <span class="comment">// "bam"</span></span><br><span class="line">optional.ifPresent((s) -&gt; System.out.println(s.charAt(<span class="number">0</span>)));     <span class="comment">// "b"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Stream-接口"><a href="#Stream-接口" class="headerlink" title="Stream 接口"></a>Stream 接口</h2><p>java.util.Stream 表示能应用在一组元素上一次执行的操作序列。Stream 操作分为中间操作或者最终操作两种，最终操作返回一特定类型的计算结果，而中间操作返回Stream本身，这样你就可以将多个操作依次串起来。Stream 的创建需要指定一个数据源，比如 java.util.Collection的子类，List或者Set， Map不支持。Stream的操作可以串行执行或者并行执行。<br>首先看看Stream是怎么用，首先创建实例代码的用到的数据List：<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; stringCollection = <span class="keyword">new</span> ArrayList&lt;&gt;()</span><br><span class="line">stringCollection.add(<span class="string">"ddd2"</span>)</span><br><span class="line">stringCollection.add(<span class="string">"aaa2"</span>)</span><br><span class="line">stringCollection.add(<span class="string">"bbb1"</span>)</span><br><span class="line">stringCollection.add(<span class="string">"aaa1"</span>)</span><br><span class="line">stringCollection.add(<span class="string">"bbb3"</span>)</span><br><span class="line">stringCollection.add(<span class="string">"ccc"</span>)</span><br><span class="line">stringCollection.add(<span class="string">"bbb2"</span>)</span><br><span class="line">stringCollection.add(<span class="string">"ddd1"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Java 8扩展了集合类，可以通过 Collection.stream() 或者 Collection.parallelStream() 来创建一个Stream。下面几节将详细解释常用的Stream操作：</p>
+<h2 id="Filter-过滤"><a href="#Filter-过滤" class="headerlink" title="Filter 过滤"></a>Filter 过滤</h2><p>过滤通过一个predicate接口来过滤并只保留符合条件的元素，该操作属于中间操作，所以我们可以在过滤后的结果来应用其他Stream操作（比如forEach）。forEach需要一个函数来对过滤后的元素依次执行。forEach是一个最终操作，所以我们不能在forEach之后来执行其他Stream操作。<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">stringCollection</span><br><span class="line">   .stream()</span><br><span class="line">   .filter((s) -&gt; s.startsWith(<span class="string">"a"</span>))</span><br><span class="line">   .forEach(System.out::println)</span><br><span class="line"><span class="comment">// "aaa2", "aaa1"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Sort-排序"><a href="#Sort-排序" class="headerlink" title="Sort 排序"></a>Sort 排序</h2><p>排序是一个中间操作，返回的是排序好后的Stream。如果你不指定一个自定义的Comparator则会使用默认排序。<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">stringCollection</span><br><span class="line">   .stream()</span><br><span class="line">   .sorted()</span><br><span class="line">   .filter((s) -&gt; s.startsWith(<span class="string">"a"</span>))</span><br><span class="line">   .forEach(System.out::println)</span><br><span class="line"><span class="comment">// "aaa1", "aaa2"</span></span><br></pre></td></tr></table></figure>
+<p>需要注意的是，排序只创建了一个排列好后的Stream，而不会影响原有的数据源，排序之后原数据stringCollection是不会被修改的：<br>复制代码 代码如下:<br>System.out.println(stringCollection);</p>
+<h2 id="Map-映射"><a href="#Map-映射" class="headerlink" title="Map 映射"></a>Map 映射</h2><p>中间操作map会将元素根据指定的Function接口来依次将元素转成另外的对象，下面的示例展示了将字符串转换为大写字符串。你也可以通过map来讲对象转换成其他类型，map返回的Stream类型是根据你map传递进去的函数的返回值决定的。<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> anyStartsWithA = stringCollection</span><br><span class="line">   .stream()</span><br><span class="line">   .map(String::toUpperCase)</span><br><span class="line">   .sorted((a, b) -&gt; b.compareTo(a))</span><br><span class="line">   .forEach(System.out::println)</span><br><span class="line"><span class="comment">// "DDD2", "DDD1", "CCC", "BBB3", "BBB2", "AAA2", "AAA1"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Match-匹配"><a href="#Match-匹配" class="headerlink" title="Match 匹配"></a>Match 匹配</h2><p>Stream提供了多种匹配操作，允许检测指定的Predicate是否匹配整个Stream。所有的匹配操作都是最终操作，并返回一个boolean类型的值。<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> anyStartsWithA = </span><br><span class="line">   stringCollection</span><br><span class="line">       .stream()</span><br><span class="line">       .anyMatch((s) -&gt; s.startsWith(<span class="string">"a"</span>));</span><br><span class="line">System.out.println(anyStartsWithA);      <span class="comment">// true</span></span><br><span class="line"><span class="keyword">boolean</span> allStartsWithA = </span><br><span class="line">   stringCollection</span><br><span class="line">       .stream()</span><br><span class="line">       .allMatch((s) -&gt; s.startsWith(<span class="string">"a"</span>));</span><br><span class="line">System.out.println(allStartsWithA);      <span class="comment">// false</span></span><br><span class="line"><span class="keyword">boolean</span> noneStartsWithZ = </span><br><span class="line">   stringCollection</span><br><span class="line">       .stream()</span><br><span class="line">       .noneMatch((s) -&gt; s.startsWith(<span class="string">"z"</span>));</span><br><span class="line">System.out.println(noneStartsWithZ);      <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h2 id="Count-计数"><a href="#Count-计数" class="headerlink" title="Count 计数"></a>Count 计数</h2><p>计数是一个最终操作，返回Stream中元素的个数，返回值类型是long。<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> startsWithB = </span><br><span class="line">   stringCollection</span><br><span class="line">       .stream()</span><br><span class="line">       .filter((s) -&gt; s.startsWith(<span class="string">"b"</span>))</span><br><span class="line">       .count();</span><br><span class="line">System.out.println(startsWithB);    <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<h2 id="Reduce-规约"><a href="#Reduce-规约" class="headerlink" title="Reduce 规约"></a>Reduce 规约</h2><p>这是一个最终操作，允许通过指定的函数来讲stream中的多个元素规约为一个元素，规越后的结果是通过Optional接口表示的：<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;String&gt; reduced =</span><br><span class="line">   stringCollection</span><br><span class="line">       .stream()</span><br><span class="line">       .sorted()</span><br><span class="line">       .reduce((s1, s2) -&gt; s1 + <span class="string">"#"</span> + s2)</span><br><span class="line">reduced.ifPresent(System.out::println)</span><br><span class="line"><span class="comment">// "aaa1#aaa2#bbb1#bbb2#bbb3#ccc#ddd1#ddd2"</span></span><br></pre></td></tr></table></figure>
+<h2 id="并行Streams"><a href="#并行Streams" class="headerlink" title="并行Streams"></a>并行Streams</h2><p>前面提到过Stream有串行和并行两种，串行Stream上的操作是在一个线程中依次完成，而并行Stream则是在多个线程上同时执行。<br>下面的例子展示了是如何通过并行Stream来提升性能：<br>首先我们创建一个没有重复元素的大表：<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> max = <span class="number">1000000</span>;</span><br><span class="line">List&lt;String&gt; values = <span class="keyword">new</span> ArrayList&lt;&gt;(max);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; max; i++) &#123;</span><br><span class="line">   UUID uuid = UUID.randomUUID();</span><br><span class="line">   values.add(uuid.toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们计算一下排序这个Stream要耗时多久， </p>
+<h3 id="串行排序："><a href="#串行排序：" class="headerlink" title="串行排序："></a>串行排序：</h3><p>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> t0 = System.nanoTime()</span><br><span class="line"><span class="keyword">long</span> count = values.stream().sorted().count()</span><br><span class="line">System.out.println(count)</span><br><span class="line"><span class="keyword">long</span> t1 = System.nanoTime()</span><br><span class="line"><span class="keyword">long</span> millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0)</span><br><span class="line">System.out.println(String.format(<span class="string">"sequential sort took: %d ms"</span>, millis))</span><br><span class="line"><span class="comment">// 串行耗时: 899 ms</span></span><br></pre></td></tr></table></figure>
+<h3 id="并行排序："><a href="#并行排序：" class="headerlink" title="并行排序："></a>并行排序：</h3><p>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> t0 = System.nanoTime()</span><br><span class="line"><span class="keyword">long</span> count = values.parallelStream().sorted().count()</span><br><span class="line">System.out.println(count)</span><br><span class="line"><span class="keyword">long</span> t1 = System.nanoTime()</span><br><span class="line"><span class="keyword">long</span> millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0)</span><br><span class="line">System.out.println(String.format(<span class="string">"parallel sort took: %d ms"</span>, millis))</span><br><span class="line"><span class="comment">// 并行排序耗时: 472 ms</span></span><br></pre></td></tr></table></figure>
+<p>上面两个代码几乎是一样的，但是并行版的快了50%之多，唯一需要做的改动就是将stream()改为parallelStream()。</p>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p>前面提到过，Map类型不支持stream，不过Map提供了一些新的有用的方法来处理一些日常任务。<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Integer, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">   map.putIfAbsent(i, <span class="string">"val"</span> + i);</span><br><span class="line">&#125;</span><br><span class="line">map.forEach((id, val) -&gt; System.out.println(val));</span><br></pre></td></tr></table></figure>
+<p>以上代码很容易理解， putIfAbsent 不需要我们做额外的存在性检查，而forEach则接收一个Consumer接口来对map里的每一个键值对进行操作。<br>下面的例子展示了map上的其他有用的函数：<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">map.computeIfPresent(<span class="number">3</span>, (num, val) -&gt; val + num);</span><br><span class="line">map.get(<span class="number">3</span>);             <span class="comment">// val33</span></span><br><span class="line">map.computeIfPresent(<span class="number">9</span>, (num, val) -&gt; <span class="keyword">null</span>);</span><br><span class="line">map.containsKey(<span class="number">9</span>);     <span class="comment">// false</span></span><br><span class="line">map.computeIfAbsent(<span class="number">23</span>, num -&gt; <span class="string">"val"</span> + num);</span><br><span class="line">map.containsKey(<span class="number">23</span>);    <span class="comment">// true</span></span><br><span class="line">map.computeIfAbsent(<span class="number">3</span>, num -&gt; <span class="string">"bam"</span>);</span><br><span class="line">map.get(<span class="number">3</span>);            <span class="comment">// val33</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来展示如何在Map里删除一个键值全都匹配的项：<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">map.remove(<span class="number">3</span>, <span class="string">"val3"</span>);map.get(<span class="number">3</span>);             </span><br><span class="line">map.remove(<span class="number">3</span>, <span class="string">"val33"</span>);map.get(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p>另外一个有用的方法：<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.getOrDefault(<span class="number">42</span>, <span class="string">"not found"</span>);  <span class="comment">// not found</span></span><br></pre></td></tr></table></figure>
+<p>对Map的元素做合并也变得很容易了：<br>复制代码 代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">map.merge(<span class="number">9</span>, <span class="string">"val9"</span>, (value, newValue) -&gt; value.concat(newValue));</span><br><span class="line">map.get(<span class="number">9</span>);             <span class="comment">// val9</span></span><br><span class="line">map.merge(<span class="number">9</span>, <span class="string">"concat"</span>, (value, newValue) -&gt; value.concat(newValue));</span><br><span class="line">map.get(<span class="number">9</span>);<span class="comment">// val9concat</span></span><br></pre></td></tr></table></figure>
+
+<p>Merge做的事情是如果键名不存在则插入，否则则对原键对应的值做合并操作并重新插入到map中。</p>
+
       
     </div>
     <div class="article-footer">
@@ -514,7 +423,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://ellisonpei.gitee.io/blog/2020/05/19/Java8---NIO/" title="Java8之 NIO" target="_blank" rel="external">https://ellisonpei.gitee.io/blog/2020/05/19/Java8---NIO/</a>
+      <a href="https://ellisonpei.gitee.io/blog/2020/06/22/2020-06-22-Java8%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7%E8%AF%A6%E8%A7%A3/" title="Java8的新特性详解" target="_blank" rel="external">https://ellisonpei.gitee.io/blog/2020/06/22/2020-06-22-Java8%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7%E8%AF%A6%E8%A7%A3/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -560,13 +469,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/blog/2020/05/19/JVM%20%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" title="JVM 中的对象"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/blog/2020/05/19/Java8---JUC/" title="Java8之 JUC"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/blog/2020/06/21/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F-%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0/" title="策略模式代替if—else，注解实现"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
