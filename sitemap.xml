@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://peialan.github.io/2020/05/19/jvm-xue-xi-bi-ji/</loc>
+    
+    <lastmod>2020-06-23T08:52:05.966Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://peialan.github.io/2020/05/19/jvm-zhong-de-dui-xiang/</loc>
+    
+    <lastmod>2020-06-23T08:51:49.299Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://peialan.github.io/2020/05/19/tomcat-bu-shu-xiang-mu-hou-xiang-mu-zhong-de-zhong-wen-xian-shi-luan-ma/</loc>
     
     <lastmod>2020-06-23T08:44:29.426Z</lastmod>
@@ -75,20 +89,6 @@
     <loc>https://peialan.github.io/2020/05/20/kafka-activemq-rabbitmq-rocketmq-du-you-shi-me-qu-bie-yi-ji-gua-he-na-xie-chang-jing/</loc>
     
     <lastmod>2020-06-23T08:42:50.887Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://peialan.github.io/2020/05/19/jvm-xue-xi-bi-ji/</loc>
-    
-    <lastmod>2020-06-23T08:42:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://peialan.github.io/2020/05/19/jvm-zhong-de-dui-xiang/</loc>
-    
-    <lastmod>2020-06-23T08:42:34.938Z</lastmod>
     
   </url>
   
@@ -226,6 +226,13 @@
   </url>
   
   <url>
+    <loc>https://peialan.github.io/about/index.html</loc>
+    
+    <lastmod>2020-05-19T05:00:20.282Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://peialan.github.io/books/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
@@ -234,13 +241,6 @@
   
   <url>
     <loc>https://peialan.github.io/categories/index.html</loc>
-    
-    <lastmod>2020-05-19T05:00:20.282Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://peialan.github.io/about/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
