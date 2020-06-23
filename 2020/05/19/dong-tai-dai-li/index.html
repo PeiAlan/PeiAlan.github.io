@@ -391,16 +391,16 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h1><p> <strong>动态代理其实是一种方便运行时候动态的处理代理方法的调用机制。</strong>也可以进行二次开发，例如代码封板后，进行二次开发就可以用动态代理。</p>
+                <p> <strong>动态代理其实是一种方便运行时候动态的处理代理方法的调用机制。</strong>也可以进行二次开发，例如代码封板后，进行二次开发就可以用动态代理。</p>
 <p> 通过<strong>代理可以让调用者和实现者之间解耦</strong>，例如RPC调用，对于我们调用者来说我就是想对用远程的那个方法，对于内部寻址啊，序列化反序列化等等这些交给代理来就行了，这样就能解放我们双手！ </p>
 <p> 常见的动态代理有：<strong>JDK动态代理、Cglib(基于ASM)等</strong>。 </p>
 <p><strong>JDK动态代理是基于Java的反射机制实现的</strong>，主要涉及到java.lang.reflect包中的Proxy和InvocationHandler。</p>
 <p>InvocationHandler是一个接口，通过实现这个接口定义一个横切的逻辑！然后通过反射机制调用目标类的方法，这样就能动态的把非业务逻辑和业务逻辑动态的拼接在一起！</p>
 <p>proxy则利用InvocationHandler创建代理实例，来间接的调用代理的方法.</p>
-<h3 id="什么是代理模式-Proxy"><a href="#什么是代理模式-Proxy" class="headerlink" title="什么是代理模式(Proxy)"></a>什么是代理模式(Proxy)</h3><p><strong>定义：给目标对象提供一个代理对象，并由代理对象控制对目标对象的引用</strong></p>
+<h2 id="什么是代理模式-Proxy"><a href="#什么是代理模式-Proxy" class="headerlink" title="什么是代理模式(Proxy)"></a>什么是代理模式(Proxy)</h2><p><strong>定义：给目标对象提供一个代理对象，并由代理对象控制对目标对象的引用</strong></p>
 <p>在代理模式中，是需要代理对象和目标对象实现<strong>同一个接口</strong>（如果是不同的接口，那就是适配器模式了），看下面的UML图</p>
 <p><img src="F:%5C%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99%5C%E7%AC%94%E8%AE%B0%5CMaYun1%5Crespository%5C%E5%9B%BE%E7%89%87%5C1576926063763.png" alt="1576926063763"></p>
-<h4 id="为什么要用代理"><a href="#为什么要用代理" class="headerlink" title="为什么要用代理"></a>为什么要用代理</h4><p>最最最主要的原因就是，<strong>在不改变目标对象方法的情况下对方法进行增强</strong>，比如，我们希望对方法的调用增加日志记录，或者对方法的调用进行拦截，等等…</p>
+<h2 id="为什么要用代理"><a href="#为什么要用代理" class="headerlink" title="为什么要用代理"></a>为什么要用代理</h2><p>最最最主要的原因就是，<strong>在不改变目标对象方法的情况下对方法进行增强</strong>，比如，我们希望对方法的调用增加日志记录，或者对方法的调用进行拦截，等等…</p>
 <h5 id="举一个例子"><a href="#举一个例子" class="headerlink" title="举一个例子"></a>举一个例子</h5><p>现有一个IPerson接口，只有一个方法say()</p>
 <pre class=" language-csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">IPerson</span> <span class="token punctuation">{</span>
     <span class="token keyword">void</span> <span class="token function">say</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -413,7 +413,7 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>现在需要在say方法被调用的时候，记录方法被调用的时间，最直接的就是修改Man的say方法，但是这样做的弊端就是如果有很多实现了IPerson接口的类，那就需要修改多处代码，而且这样的修改可能会导致其他的代码出问题(可能并不是所有的say都需要记录调用时间)。怎么办呢，这时候代理就要登场了！</p>
-<h4 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ManProxy</span> <span class="token keyword">implements</span> <span class="token class-name">IPerson</span><span class="token punctuation">{</span>
+<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ManProxy</span> <span class="token keyword">implements</span> <span class="token class-name">IPerson</span><span class="token punctuation">{</span>
 
     <span class="token keyword">private</span> IPerson target<span class="token punctuation">;</span>
 
@@ -435,7 +435,7 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>这样我们需要新建一个ManProxy类同样实现IPerson接口，将要代理的对象传递进来，这样就可以在不修改Man的say方法的情况下实现了我们的需求。这其实就是<strong>静态代理</strong>。那你可能要问，既然有了静态代理，为什么需要动态代理呢，因为静态代理有一个最大的缺陷：<strong>接口与代理类是1对1的，有多个接口需要代理，就需要新建多个代理类，繁琐，类爆炸</strong>。</p>
-<h4 id="动态代理-1"><a href="#动态代理-1" class="headerlink" title="动态代理"></a>动态代理</h4><p>我们先尝试用动态代理来解决上面的问题。先新建一个类实现InvocationHandler，</p>
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>我们先尝试用动态代理来解决上面的问题。先新建一个类实现InvocationHandler，</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">NormalHandler</span> <span class="token keyword">implements</span> <span class="token class-name">InvocationHandler</span> <span class="token punctuation">{</span>
 
     <span class="token keyword">private</span> Object target<span class="token punctuation">;</span>
@@ -459,12 +459,12 @@ IPerson iPerson <span class="token operator">=</span> <span class="token punctua
                 <span class="token keyword">new</span> <span class="token class-name">Class</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>IPerson<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> IAnimal<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span><span class="token punctuation">,</span> annotationHandler<span class="token punctuation">)</span><span class="token punctuation">;</span>
 iPerson<span class="token punctuation">.</span><span class="token function">say</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>可以看到NormalHandler中代理的对象是Object类型，所以它是被多个接口代理复用的，这样就解决静态代理类爆炸，维护困难的问题。我们重点看NormalHandler中的invoke方法，第二个参数method就是我们实际调用时的方法，所以动态代理使用了反射，为了灵活稍稍牺牲一点性能。</p>
-<h4 id="动态代理的成功案例"><a href="#动态代理的成功案例" class="headerlink" title="动态代理的成功案例"></a>动态代理的成功案例</h4><ul>
+<h2 id="动态代理的成功案例"><a href="#动态代理的成功案例" class="headerlink" title="动态代理的成功案例"></a>动态代理的成功案例</h2><ul>
 <li>Square公司出品的Android Restful 网络请求库Retrofit</li>
 <li>Spring AOP （默认使用动态代理，如果没有实现接口则使用CGLIB修改字节码）</li>
 </ul>
 <p>这2个库不用多说了，Github上面Star数都是好几万的网红项目。</p>
-<h4 id="利用动态代理实现一个低配的Retrofit"><a href="#利用动态代理实现一个低配的Retrofit" class="headerlink" title="利用动态代理实现一个低配的Retrofit"></a>利用动态代理实现一个低配的Retrofit</h4><p>“talk is cheap, show me the code”, 所以捋起袖子干起来。<br> 先新建需要用到的注解类和实体类</p>
+<h2 id="利用动态代理实现一个低配的Retrofit"><a href="#利用动态代理实现一个低配的Retrofit" class="headerlink" title="利用动态代理实现一个低配的Retrofit"></a>利用动态代理实现一个低配的Retrofit</h2><p>“talk is cheap, show me the code”, 所以捋起袖子干起来。<br> 先新建需要用到的注解类和实体类</p>
 <pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Target</span><span class="token punctuation">(</span>ElementType<span class="token punctuation">.</span>METHOD<span class="token punctuation">)</span>
 <span class="token annotation punctuation">@Retention</span><span class="token punctuation">(</span>RetentionPolicy<span class="token punctuation">.</span>RUNTIME<span class="token punctuation">)</span>
 <span class="token keyword">public</span> @<span class="token keyword">interface</span> <span class="token class-name">GET</span> <span class="token punctuation">{</span>
@@ -615,7 +615,7 @@ iPerson<span class="token punctuation">.</span><span class="token function">say<
 <p>最终的执行结果，当然这里只是初步实现了Retrofit的一点点功能，我们的目标还是讲解动态代理这个技术，以及它能够干什么</p>
 <p><img src="https:////upload-images.jianshu.io/upload_images/188580-61415f812aeb0f2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/680/format/webp" alt="img"></p>
 <p>执行结果</p>
-<h4 id="最后一点小Tip"><a href="#最后一点小Tip" class="headerlink" title="最后一点小Tip"></a>最后一点小Tip</h4><p>可以看到，我们上面的低配的Retrofit，并没有被代理的类，因为我们仅仅通过解析ApiService接口中的注解中的信息已经足够我们去发起Http请求，所以技术在于灵活运用。</p>
+<h2 id="最后一点小Tip"><a href="#最后一点小Tip" class="headerlink" title="最后一点小Tip"></a>最后一点小Tip</h2><p>可以看到，我们上面的低配的Retrofit，并没有被代理的类，因为我们仅仅通过解析ApiService接口中的注解中的信息已经足够我们去发起Http请求，所以技术在于灵活运用。</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {

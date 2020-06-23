@@ -2,9 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://peialan.github.io/2020/05/20/wei-fu-wu-zhong-de-ming-ci/</loc>
+    
+    <lastmod>2020-06-23T03:51:21.303Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://peialan.github.io/2020/05/20/guan-yu-fen-bu-shi-suo-yuan-li-redis-fen-bu-shi-suo-zookeeper-fen-bu-shi-suo/</loc>
+    
+    <lastmod>2020-06-23T03:50:25.992Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://peialan.github.io/2020/05/19/dong-tai-dai-li/</loc>
+    
+    <lastmod>2020-06-23T03:49:26.194Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://peialan.github.io/2020/06/11/a-li-cheng-xu-yuan-chang-yong-de-15-kuan-kai-fa-zhe-gong-ju/</loc>
+    
+    <lastmod>2020-06-23T03:46:20.333Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://peialan.github.io/2020/06/22/2020-06-22-java8-de-xin-te-xing-xiang-jie/</loc>
     
-    <lastmod>2020-06-23T03:09:00.472Z</lastmod>
+    <lastmod>2020-06-23T03:45:39.186Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://peialan.github.io/2020/05/20/docker-de-an-zhuang-yu-shi-yong/</loc>
+    
+    <lastmod>2020-06-23T03:44:07.899Z</lastmod>
     
   </url>
   
@@ -19,13 +54,6 @@
     <loc>https://peialan.github.io/2020/06/21/ce-lue-mo-shi-zhu-jie-shi-xian/</loc>
     
     <lastmod>2020-06-21T09:01:19.664Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://peialan.github.io/2020/06/11/a-li-cheng-xu-yuan-chang-yong-de-15-kuan-kai-fa-zhe-gong-ju/</loc>
-    
-    <lastmod>2020-06-11T01:39:24.413Z</lastmod>
     
   </url>
   
@@ -61,13 +89,6 @@
     <loc>https://peialan.github.io/2020/05/25/mac-vmware-er-pei-zhi-jing-tai-ip-yu-zhu-ji-hu-tong-lian-wang/</loc>
     
     <lastmod>2020-05-29T12:09:49.132Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://peialan.github.io/2020/05/20/docker-de-an-zhuang-yu-shi-yong/</loc>
-    
-    <lastmod>2020-05-28T13:05:47.535Z</lastmod>
     
   </url>
   
@@ -128,20 +149,6 @@
   </url>
   
   <url>
-    <loc>https://peialan.github.io/2020/05/20/wei-fu-wu-zhong-de-ming-ci/</loc>
-    
-    <lastmod>2020-05-20T02:34:55.720Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://peialan.github.io/2020/05/20/guan-yu-fen-bu-shi-suo-yuan-li-redis-fen-bu-shi-suo-zookeeper-fen-bu-shi-suo/</loc>
-    
-    <lastmod>2020-05-20T02:34:47.939Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://peialan.github.io/2020/05/19/tomcat-bu-shu-xiang-mu-hou-xiang-mu-zhong-de-zhong-wen-xian-shi-luan-ma/</loc>
     
     <lastmod>2020-05-19T17:12:56.017Z</lastmod>
@@ -159,13 +166,6 @@
     <loc>https://peialan.github.io/2020/05/19/spring-boot/</loc>
     
     <lastmod>2020-05-19T17:06:37.855Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://peialan.github.io/2020/05/19/dong-tai-dai-li/</loc>
-    
-    <lastmod>2020-05-19T17:05:10.991Z</lastmod>
     
   </url>
   
@@ -226,14 +226,14 @@
   </url>
   
   <url>
-    <loc>https://peialan.github.io/books/index.html</loc>
+    <loc>https://peialan.github.io/about/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://peialan.github.io/about/index.html</loc>
+    <loc>https://peialan.github.io/books/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
