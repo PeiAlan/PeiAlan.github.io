@@ -209,75 +209,12 @@
         </li>
         
         
-        <li><div class="divider"></div></li>
-        <li>
-            <a href="https://github.com/PeiAlan/PeiAlan.github.io" class="waves-effect waves-light" target="_blank">
-                <i class="fab fa-github-square fa-fw"></i>Fork Me
-            </a>
-        </li>
-        
     </ul>
 </div>
 
 
         </div>
 
-        
-            <style>
-    .nav-transparent .github-corner {
-        display: none !important;
-    }
-
-    .github-corner {
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        right: 0;
-        border: 0;
-        transform: scale(1.1);
-    }
-
-    .github-corner svg {
-        color: #0f9d58;
-        fill: #fff;
-        height: 64px;
-        width: 64px;
-    }
-
-    .github-corner:hover .octo-arm {
-        animation: a 0.56s ease-in-out;
-    }
-
-    .github-corner .octo-arm {
-        animation: none;
-    }
-
-    @keyframes a {
-        0%,
-        to {
-            transform: rotate(0);
-        }
-        20%,
-        60% {
-            transform: rotate(-25deg);
-        }
-        40%,
-        80% {
-            transform: rotate(10deg);
-        }
-    }
-</style>
-
-<a href="https://github.com/PeiAlan/PeiAlan.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
-   data-tooltip="Fork Me" data-position="left" data-delay="50">
-    <svg viewBox="0 0 250 250" aria-hidden="true">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
-              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
-              fill="currentColor" class="octo-body"></path>
-    </svg>
-</a>
         
     </nav>
 
@@ -455,148 +392,148 @@
 Built<span class="token operator">-</span>in Functional Interfaces</code></pre>
 <p>JDK 1.8 API包含了很多内建的函数式接口，在老Java中常用到的比如Comparator或者Runnable接口，这些接口都增加了@FunctionalInterface注解以便能用在lambda上。<br>Java 8 API同样还提供了很多全新的函数式接口来让工作更加方便，有一些接口是来自Google Guava库里的，即便你对这些很熟悉了，还是有必要看看这些是如何扩展到lambda上使用的。</p>
 <h2 id="Predicate接口"><a href="#Predicate接口" class="headerlink" title="Predicate接口"></a>Predicate接口</h2><p>Predicate 接口只有一个参数，返回boolean类型。该接口包含多种默认方法来将Predicate组合成其他复杂的逻辑（比如：与，或，非）：<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">Predicate<String> predicate = (s) -> s.length() > 0;
-predicate.test("foo");              
-predicate.negate().test("foo");     
-Predicate<Boolean> nonNull = Objects::nonNull;
-Predicate<Boolean> isNull = Objects::isNull;
-Predicate<String> isEmpty = String::isEmpty;
-Predicate<String> isNotEmpty = isEmpty.negate();</code></pre>
+<pre class=" language-java"><code class="language-java">Predicate<span class="token operator">&lt;</span>String<span class="token operator">></span> predicate <span class="token operator">=</span> <span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">;</span>
+predicate<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"foo"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>              
+predicate<span class="token punctuation">.</span><span class="token function">negate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"foo"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     
+Predicate<span class="token operator">&lt;</span>Boolean<span class="token operator">></span> nonNull <span class="token operator">=</span> Objects<span class="token operator">:</span><span class="token operator">:</span>nonNull<span class="token punctuation">;</span>
+Predicate<span class="token operator">&lt;</span>Boolean<span class="token operator">></span> isNull <span class="token operator">=</span> Objects<span class="token operator">:</span><span class="token operator">:</span>isNull<span class="token punctuation">;</span>
+Predicate<span class="token operator">&lt;</span>String<span class="token operator">></span> isEmpty <span class="token operator">=</span> String<span class="token operator">:</span><span class="token operator">:</span>isEmpty<span class="token punctuation">;</span>
+Predicate<span class="token operator">&lt;</span>String<span class="token operator">></span> isNotEmpty <span class="token operator">=</span> isEmpty<span class="token punctuation">.</span><span class="token function">negate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h2 id="Function-接口"><a href="#Function-接口" class="headerlink" title="Function 接口"></a>Function 接口</h2><p>Function 接口有一个参数并且返回一个结果，并附带了一些可以和其他函数组合的默认方法（compose, andThen）：<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">Function<String, Integer> toInteger = Integer::valueOf;
-Function<String, String> backToString = toInteger.andThen(String::valueOf);
-backToString.apply("123");     // "123"</code></pre>
+<pre class=" language-java"><code class="language-java">Function<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Integer<span class="token operator">></span> toInteger <span class="token operator">=</span> Integer<span class="token operator">:</span><span class="token operator">:</span>valueOf<span class="token punctuation">;</span>
+Function<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> String<span class="token operator">></span> backToString <span class="token operator">=</span> toInteger<span class="token punctuation">.</span><span class="token function">andThen</span><span class="token punctuation">(</span>String<span class="token operator">:</span><span class="token operator">:</span>valueOf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+backToString<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token string">"123"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">// "123"</span></code></pre>
 <h2 id="Supplier-接口"><a href="#Supplier-接口" class="headerlink" title="Supplier 接口"></a>Supplier 接口</h2><p>Supplier 接口返回一个任意范型的值，和Function接口不同的是该接口没有任何参数<br>复制代码 代码如下:</p>
 <pre class=" language-java"><code class="language-java">Supplier<span class="token operator">&lt;</span>Person<span class="token operator">></span> personSupplier <span class="token operator">=</span> Person<span class="token operator">:</span><span class="token operator">:</span><span class="token keyword">new</span><span class="token punctuation">;</span>
 personSupplier<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h2 id="Consumer-接口"><a href="#Consumer-接口" class="headerlink" title="Consumer 接口"></a>Consumer 接口</h2><p>Consumer 接口表示执行在单个参数上的操作。<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">Consumer<Person> greeter = (p) -> System.out.println("Hello, " + p.firstName)
-greeter.accept(new Person("Luke", "Skywalker"))</code></pre>
+<pre class=" language-java"><code class="language-java">Consumer<span class="token operator">&lt;</span>Person<span class="token operator">></span> greeter <span class="token operator">=</span> <span class="token punctuation">(</span>p<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Hello, "</span> <span class="token operator">+</span> p<span class="token punctuation">.</span>firstName<span class="token punctuation">)</span>
+greeter<span class="token punctuation">.</span><span class="token function">accept</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">"Luke"</span><span class="token punctuation">,</span> <span class="token string">"Skywalker"</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
 <h2 id="Comparator-接口"><a href="#Comparator-接口" class="headerlink" title="Comparator 接口"></a>Comparator 接口</h2><p>Comparator 是老Java中的经典接口， Java 8在此之上添加了多种默认方法：<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">Comparator<Person> comparator = (p1, p2) -> p1.firstName.compareTo(p2.firstName)
-Person p1 = new Person("John", "Doe")
-Person p2 = new Person("Alice", "Wonderland")
-comparator.compare(p1, p2)
-comparator.reversed().compare(p1, p2)</code></pre>
+<pre class=" language-java"><code class="language-java">Comparator<span class="token operator">&lt;</span>Person<span class="token operator">></span> comparator <span class="token operator">=</span> <span class="token punctuation">(</span>p1<span class="token punctuation">,</span> p2<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> p1<span class="token punctuation">.</span>firstName<span class="token punctuation">.</span><span class="token function">compareTo</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>firstName<span class="token punctuation">)</span>
+Person p1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">"John"</span><span class="token punctuation">,</span> <span class="token string">"Doe"</span><span class="token punctuation">)</span>
+Person p2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">"Alice"</span><span class="token punctuation">,</span> <span class="token string">"Wonderland"</span><span class="token punctuation">)</span>
+comparator<span class="token punctuation">.</span><span class="token function">compare</span><span class="token punctuation">(</span>p1<span class="token punctuation">,</span> p2<span class="token punctuation">)</span>
+comparator<span class="token punctuation">.</span><span class="token function">reversed</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">compare</span><span class="token punctuation">(</span>p1<span class="token punctuation">,</span> p2<span class="token punctuation">)</span></code></pre>
 <h2 id="Optional-接口"><a href="#Optional-接口" class="headerlink" title="Optional 接口"></a>Optional 接口</h2><p>Optional 不是函数是接口，这是个用来防止NullPointerException异常的辅助类型，这是下一届中将要用到的重要概念，现在先简单的看看这个接口能干什么：<br>Optional 被定义为一个简单的容器，其值可能是null或者不是null。在Java 8之前一般某个函数应该返回非空对象但是偶尔却可能返回了null，而在Java 8中，不推荐你返回null而是返回Optional。<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">Optional<String> optional = Optional.of("bam");
-optional.isPresent();           // true
-optional.get();                 // "bam"
-optional.orElse("fallback");    // "bam"
-optional.ifPresent((s) -> System.out.println(s.charAt(0)));     // "b"</code></pre>
+<pre class=" language-java"><code class="language-java">Optional<span class="token operator">&lt;</span>String<span class="token operator">></span> optional <span class="token operator">=</span> Optional<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"bam"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+optional<span class="token punctuation">.</span><span class="token function">isPresent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>           <span class="token comment" spellcheck="true">// true</span>
+optional<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                 <span class="token comment" spellcheck="true">// "bam"</span>
+optional<span class="token punctuation">.</span><span class="token function">orElse</span><span class="token punctuation">(</span><span class="token string">"fallback"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// "bam"</span>
+optional<span class="token punctuation">.</span><span class="token function">ifPresent</span><span class="token punctuation">(</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">// "b"</span></code></pre>
 <h2 id="Stream-接口"><a href="#Stream-接口" class="headerlink" title="Stream 接口"></a>Stream 接口</h2><p>java.util.Stream 表示能应用在一组元素上一次执行的操作序列。Stream 操作分为中间操作或者最终操作两种，最终操作返回一特定类型的计算结果，而中间操作返回Stream本身，这样你就可以将多个操作依次串起来。Stream 的创建需要指定一个数据源，比如 java.util.Collection的子类，List或者Set， Map不支持。Stream的操作可以串行执行或者并行执行。<br>首先看看Stream是怎么用，首先创建实例代码的用到的数据List：<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">List<String> stringCollection = new ArrayList<>()
-stringCollection.add("ddd2")
-stringCollection.add("aaa2")
-stringCollection.add("bbb1")
-stringCollection.add("aaa1")
-stringCollection.add("bbb3")
-stringCollection.add("ccc")
-stringCollection.add("bbb2")
-stringCollection.add("ddd1")</code></pre>
+<pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>String<span class="token operator">></span> stringCollection <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+stringCollection<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"ddd2"</span><span class="token punctuation">)</span>
+stringCollection<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"aaa2"</span><span class="token punctuation">)</span>
+stringCollection<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"bbb1"</span><span class="token punctuation">)</span>
+stringCollection<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"aaa1"</span><span class="token punctuation">)</span>
+stringCollection<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"bbb3"</span><span class="token punctuation">)</span>
+stringCollection<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"ccc"</span><span class="token punctuation">)</span>
+stringCollection<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"bbb2"</span><span class="token punctuation">)</span>
+stringCollection<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"ddd1"</span><span class="token punctuation">)</span></code></pre>
 <p>Java 8扩展了集合类，可以通过 Collection.stream() 或者 Collection.parallelStream() 来创建一个Stream。下面几节将详细解释常用的Stream操作：</p>
 <h2 id="Filter-过滤"><a href="#Filter-过滤" class="headerlink" title="Filter 过滤"></a>Filter 过滤</h2><p>过滤通过一个predicate接口来过滤并只保留符合条件的元素，该操作属于中间操作，所以我们可以在过滤后的结果来应用其他Stream操作（比如forEach）。forEach需要一个函数来对过滤后的元素依次执行。forEach是一个最终操作，所以我们不能在forEach之后来执行其他Stream操作。<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">stringCollection
-   .stream()
-   .filter((s) -> s.startsWith("a"))
-   .forEach(System.out::println)
-// "aaa2", "aaa1"</code></pre>
+<pre class=" language-java"><code class="language-java">stringCollection
+   <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+   <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> s<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+   <span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span>out<span class="token operator">:</span><span class="token operator">:</span>println<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// "aaa2", "aaa1"</span></code></pre>
 <h2 id="Sort-排序"><a href="#Sort-排序" class="headerlink" title="Sort 排序"></a>Sort 排序</h2><p>排序是一个中间操作，返回的是排序好后的Stream。如果你不指定一个自定义的Comparator则会使用默认排序。<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">stringCollection
-   .stream()
-   .sorted()
-   .filter((s) -> s.startsWith("a"))
-   .forEach(System.out::println)
-// "aaa1", "aaa2"</code></pre>
+<pre class=" language-java"><code class="language-java">stringCollection
+   <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+   <span class="token punctuation">.</span><span class="token function">sorted</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+   <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> s<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+   <span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span>out<span class="token operator">:</span><span class="token operator">:</span>println<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// "aaa1", "aaa2"</span></code></pre>
 <p>需要注意的是，排序只创建了一个排列好后的Stream，而不会影响原有的数据源，排序之后原数据stringCollection是不会被修改的：<br>复制代码 代码如下:<br>System.out.println(stringCollection);</p>
 <h2 id="Map-映射"><a href="#Map-映射" class="headerlink" title="Map 映射"></a>Map 映射</h2><p>中间操作map会将元素根据指定的Function接口来依次将元素转成另外的对象，下面的示例展示了将字符串转换为大写字符串。你也可以通过map来讲对象转换成其他类型，map返回的Stream类型是根据你map传递进去的函数的返回值决定的。<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">boolean anyStartsWithA = stringCollection
-   .stream()
-   .map(String::toUpperCase)
-   .sorted((a, b) -> b.compareTo(a))
-   .forEach(System.out::println)
-// "DDD2", "DDD1", "CCC", "BBB3", "BBB2", "AAA2", "AAA1"</code></pre>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">boolean</span> anyStartsWithA <span class="token operator">=</span> stringCollection
+   <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+   <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>String<span class="token operator">:</span><span class="token operator">:</span>toUpperCase<span class="token punctuation">)</span>
+   <span class="token punctuation">.</span><span class="token function">sorted</span><span class="token punctuation">(</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> b<span class="token punctuation">.</span><span class="token function">compareTo</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">)</span>
+   <span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span>out<span class="token operator">:</span><span class="token operator">:</span>println<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// "DDD2", "DDD1", "CCC", "BBB3", "BBB2", "AAA2", "AAA1"</span></code></pre>
 <h2 id="Match-匹配"><a href="#Match-匹配" class="headerlink" title="Match 匹配"></a>Match 匹配</h2><p>Stream提供了多种匹配操作，允许检测指定的Predicate是否匹配整个Stream。所有的匹配操作都是最终操作，并返回一个boolean类型的值。<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">boolean anyStartsWithA = 
+<pre class=" language-java"><code class="language-java"><span class="token keyword">boolean</span> anyStartsWithA <span class="token operator">=</span> 
    stringCollection
-       .stream()
-       .anyMatch((s) -> s.startsWith("a"));
-System.out.println(anyStartsWithA);      // true
-boolean allStartsWithA = 
+       <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">anyMatch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> s<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>anyStartsWithA<span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment" spellcheck="true">// true</span>
+<span class="token keyword">boolean</span> allStartsWithA <span class="token operator">=</span> 
    stringCollection
-       .stream()
-       .allMatch((s) -> s.startsWith("a"));
-System.out.println(allStartsWithA);      // false
-boolean noneStartsWithZ = 
+       <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">allMatch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> s<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>allStartsWithA<span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment" spellcheck="true">// false</span>
+<span class="token keyword">boolean</span> noneStartsWithZ <span class="token operator">=</span> 
    stringCollection
-       .stream()
-       .noneMatch((s) -> s.startsWith("z"));
-System.out.println(noneStartsWithZ);      // true</code></pre>
+       <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">noneMatch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> s<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"z"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>noneStartsWithZ<span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment" spellcheck="true">// true</span></code></pre>
 <h2 id="Count-计数"><a href="#Count-计数" class="headerlink" title="Count 计数"></a>Count 计数</h2><p>计数是一个最终操作，返回Stream中元素的个数，返回值类型是long。<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">long startsWithB = 
+<pre class=" language-java"><code class="language-java"><span class="token keyword">long</span> startsWithB <span class="token operator">=</span> 
    stringCollection
-       .stream()
-       .filter((s) -> s.startsWith("b"))
-       .count();
-System.out.println(startsWithB);    // 3</code></pre>
+       <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> s<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>startsWithB<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// 3</span></code></pre>
 <h2 id="Reduce-规约"><a href="#Reduce-规约" class="headerlink" title="Reduce 规约"></a>Reduce 规约</h2><p>这是一个最终操作，允许通过指定的函数来讲stream中的多个元素规约为一个元素，规越后的结果是通过Optional接口表示的：<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">Optional<String> reduced =
+<pre class=" language-java"><code class="language-java">Optional<span class="token operator">&lt;</span>String<span class="token operator">></span> reduced <span class="token operator">=</span>
    stringCollection
-       .stream()
-       .sorted()
-       .reduce((s1, s2) -> s1 + "#" + s2)
-reduced.ifPresent(System.out::println)
-// "aaa1#aaa2#bbb1#bbb2#bbb3#ccc#ddd1#ddd2"</code></pre>
+       <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">sorted</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span>s1<span class="token punctuation">,</span> s2<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> s1 <span class="token operator">+</span> <span class="token string">"#"</span> <span class="token operator">+</span> s2<span class="token punctuation">)</span>
+reduced<span class="token punctuation">.</span><span class="token function">ifPresent</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span>out<span class="token operator">:</span><span class="token operator">:</span>println<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// "aaa1#aaa2#bbb1#bbb2#bbb3#ccc#ddd1#ddd2"</span></code></pre>
 <h2 id="并行Streams"><a href="#并行Streams" class="headerlink" title="并行Streams"></a>并行Streams</h2><p>前面提到过Stream有串行和并行两种，串行Stream上的操作是在一个线程中依次完成，而并行Stream则是在多个线程上同时执行。<br>下面的例子展示了是如何通过并行Stream来提升性能：<br>首先我们创建一个没有重复元素的大表：<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">int max = 1000000;
-List<String> values = new ArrayList<>(max);
-for (int i = 0; i < max; i++) {
-   UUID uuid = UUID.randomUUID();
-   values.add(uuid.toString());
-}</code></pre>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">int</span> max <span class="token operator">=</span> <span class="token number">1000000</span><span class="token punctuation">;</span>
+List<span class="token operator">&lt;</span>String<span class="token operator">></span> values <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>max<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> max<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   UUID uuid <span class="token operator">=</span> UUID<span class="token punctuation">.</span><span class="token function">randomUUID</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   values<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>uuid<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <p>然后我们计算一下排序这个Stream要耗时多久， </p>
 <h3 id="串行排序："><a href="#串行排序：" class="headerlink" title="串行排序："></a>串行排序：</h3><p>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">long t0 = System.nanoTime()
-long count = values.stream().sorted().count()
-System.out.println(count)
-long t1 = System.nanoTime()
-long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0)
-System.out.println(String.format("sequential sort took: %d ms", millis))
-// 串行耗时: 899 ms</code></pre>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">long</span> t0 <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">nanoTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">long</span> count <span class="token operator">=</span> values<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sorted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span>
+<span class="token keyword">long</span> t1 <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">nanoTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">long</span> millis <span class="token operator">=</span> TimeUnit<span class="token punctuation">.</span>NANOSECONDS<span class="token punctuation">.</span><span class="token function">toMillis</span><span class="token punctuation">(</span>t1 <span class="token operator">-</span> t0<span class="token punctuation">)</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"sequential sort took: %d ms"</span><span class="token punctuation">,</span> millis<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 串行耗时: 899 ms</span></code></pre>
 <h3 id="并行排序："><a href="#并行排序：" class="headerlink" title="并行排序："></a>并行排序：</h3><p>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">long t0 = System.nanoTime()
-long count = values.parallelStream().sorted().count()
-System.out.println(count)
-long t1 = System.nanoTime()
-long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0)
-System.out.println(String.format("parallel sort took: %d ms", millis))
-// 并行排序耗时: 472 ms</code></pre>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">long</span> t0 <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">nanoTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">long</span> count <span class="token operator">=</span> values<span class="token punctuation">.</span><span class="token function">parallelStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sorted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span>
+<span class="token keyword">long</span> t1 <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">nanoTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">long</span> millis <span class="token operator">=</span> TimeUnit<span class="token punctuation">.</span>NANOSECONDS<span class="token punctuation">.</span><span class="token function">toMillis</span><span class="token punctuation">(</span>t1 <span class="token operator">-</span> t0<span class="token punctuation">)</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"parallel sort took: %d ms"</span><span class="token punctuation">,</span> millis<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 并行排序耗时: 472 ms</span></code></pre>
 <p>上面两个代码几乎是一样的，但是并行版的快了50%之多，唯一需要做的改动就是将stream()改为parallelStream()。</p>
 <h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p>前面提到过，Map类型不支持stream，不过Map提供了一些新的有用的方法来处理一些日常任务。<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">Map<Integer, String> map = new HashMap<>();
-for (int i = 0; i < 10; i++) {
-   map.putIfAbsent(i, "val" + i);
-}
-map.forEach((id, val) -> System.out.println(val));</code></pre>
+<pre class=" language-java"><code class="language-java">Map<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> String<span class="token operator">></span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   map<span class="token punctuation">.</span><span class="token function">putIfAbsent</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token string">"val"</span> <span class="token operator">+</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+map<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>id<span class="token punctuation">,</span> val<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>以上代码很容易理解， putIfAbsent 不需要我们做额外的存在性检查，而forEach则接收一个Consumer接口来对map里的每一个键值对进行操作。<br>下面的例子展示了map上的其他有用的函数：<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">map.computeIfPresent(3, (num, val) -> val + num);
-map.get(3);             // val33
-map.computeIfPresent(9, (num, val) -> null);
-map.containsKey(9);     // false
-map.computeIfAbsent(23, num -> "val" + num);
-map.containsKey(23);    // true
-map.computeIfAbsent(3, num -> "bam");
-map.get(3);            // val33</code></pre>
+<pre class=" language-java"><code class="language-java">map<span class="token punctuation">.</span><span class="token function">computeIfPresent</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>num<span class="token punctuation">,</span> val<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> val <span class="token operator">+</span> num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>             <span class="token comment" spellcheck="true">// val33</span>
+map<span class="token punctuation">.</span><span class="token function">computeIfPresent</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>num<span class="token punctuation">,</span> val<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+map<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">// false</span>
+map<span class="token punctuation">.</span><span class="token function">computeIfAbsent</span><span class="token punctuation">(</span><span class="token number">23</span><span class="token punctuation">,</span> num <span class="token operator">-</span><span class="token operator">></span> <span class="token string">"val"</span> <span class="token operator">+</span> num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+map<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span><span class="token number">23</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// true</span>
+map<span class="token punctuation">.</span><span class="token function">computeIfAbsent</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> num <span class="token operator">-</span><span class="token operator">></span> <span class="token string">"bam"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">// val33</span></code></pre>
 <p>接下来展示如何在Map里删除一个键值全都匹配的项：<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">map.remove(3, "val3");map.get(3);             
-map.remove(3, "val33");map.get(3);</code></pre>
+<pre class=" language-java"><code class="language-java">map<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"val3"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>             
+map<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"val33"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>另外一个有用的方法：<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">map.getOrDefault(42, "not found");  // not found</code></pre>
+<pre class=" language-java"><code class="language-java">map<span class="token punctuation">.</span><span class="token function">getOrDefault</span><span class="token punctuation">(</span><span class="token number">42</span><span class="token punctuation">,</span> <span class="token string">"not found"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// not found</span></code></pre>
 <p>对Map的元素做合并也变得很容易了：<br>复制代码 代码如下:</p>
-<pre class=" language-Java"><code class="language-Java">map.merge(9, "val9", (value, newValue) -> value.concat(newValue));
-map.get(9);             // val9
-map.merge(9, "concat", (value, newValue) -> value.concat(newValue));
-map.get(9);// val9concat</code></pre>
+<pre class=" language-java"><code class="language-java">map<span class="token punctuation">.</span><span class="token function">merge</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">,</span> <span class="token string">"val9"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>value<span class="token punctuation">,</span> newValue<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> value<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>newValue<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">;</span>             <span class="token comment" spellcheck="true">// val9</span>
+map<span class="token punctuation">.</span><span class="token function">merge</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">,</span> <span class="token string">"concat"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>value<span class="token punctuation">,</span> newValue<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> value<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>newValue<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// val9concat</span></code></pre>
 <p>Merge做的事情是如果键名不存在则插入，否则则对原键对应的值做合并操作并重新插入到map中。</p>
 <script>
         document.querySelectorAll('.github-emoji')
