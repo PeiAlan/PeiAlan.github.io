@@ -21,48 +21,48 @@
   <meta name="description" content="一、**Spring Boot 入门1、Spring Boot 简介 简化Spring应用开发的一个框架； 整个Spring技术栈的一个大整合； J2EE开发的一站式解决方案；  2、微服务2014，martin fowler 微服务：架构风格（服务微化） 一个应用应该是一组小型服务；可以通过HTTP的方式进行互通； 单体应用：ALL IN ONE 微服务：每一个功能元素最终都是一个可独立替换和独">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Boot 学习（一）">
-<meta property="og:url" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/index.html">
+<meta property="og:url" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/index.html">
 <meta property="og:site_name" content="溺水的小裴">
 <meta property="og:description" content="一、**Spring Boot 入门1、Spring Boot 简介 简化Spring应用开发的一个框架； 整个Spring技术栈的一个大整合； J2EE开发的一站式解决方案；  2、微服务2014，martin fowler 微服务：架构风格（服务微化） 一个应用应该是一组小型服务；可以通过HTTP的方式进行互通； 单体应用：ALL IN ONE 微服务：每一个功能元素最终都是一个可独立替换和独">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180129151045.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180129151112.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180129224104.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180130161620.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/concrete-bindings.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/legacy.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180131220946.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180131221411.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180203181751.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/template-engine.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/2018-02-04_123955.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180211130721.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180211134506.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180226173408.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180226180347.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180226173527.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180226180504.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180228135513.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180301142915.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180302114401.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180302144835.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180302144910.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180302221835.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180303145450.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180303145531.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180303165113.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180305194443.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180306105412.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180306145727.png">
-<meta property="og:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180306145855.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180129151045.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180129151112.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180129224104.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180130161620.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/concrete-bindings.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/legacy.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180131220946.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180131221411.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180203181751.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/template-engine.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/2018-02-04_123955.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180211130721.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180211134506.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180226173408.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180226180347.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180226173527.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180226180504.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180228135513.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180301142915.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180302114401.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180302144835.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180302144910.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180302221835.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180303145450.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180303145531.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180303165113.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180305194443.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180306105412.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180306145727.png">
+<meta property="og:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180306145855.png">
 <meta property="article:published_time" content="2020-05-19T11:58:56.000Z">
 <meta property="article:modified_time" content="2020-05-19T17:06:37.855Z">
 <meta property="article:author" content="EllisonPei">
 <meta property="article:tag" content="springboot">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180129151045.png">
+<meta name="twitter:image" content="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/images/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180129151045.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/index.html">
+  <link rel="canonical" href="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/index.html">
   
     <link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
   
@@ -1613,7 +1613,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/" title="Spring Boot 学习（一）" target="_blank" rel="external">https://ellisonpei.gitee.io/blog/2020/05/19/Spring%20Boot/</a>
+      <a href="https://peialan.github.io/blog/2020/05/19/Spring%20Boot/" title="Spring Boot 学习（一）" target="_blank" rel="external">https://peialan.github.io/blog/2020/05/19/Spring%20Boot/</a>
     </li>
     
     <li class="post-copyright-license">

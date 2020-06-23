@@ -21,19 +21,19 @@
   <meta name="description" content="docker部署Tomcat并配置manageApp1、docker部署Tomcat 123456789docker pull tomcat:latest# 分析：需要挂载的文件夹为：conf	logs  webapps # copy 容器内文件夹 （直接创建也可）[root@peiyanbing ~]# docker cp mytomcat:&#x2F;usr&#x2F;local&#x2F;tomcat&#x2F;conf &#x2F;hom">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker部署Tomcat并配置manageApp">
-<meta property="og:url" content="https://ellisonpei.gitee.io/blog/2020/05/20/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/index.html">
+<meta property="og:url" content="https://peialan.github.io/blog/2020/05/20/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/index.html">
 <meta property="og:site_name" content="溺水的小裴">
 <meta property="og:description" content="docker部署Tomcat并配置manageApp1、docker部署Tomcat 123456789docker pull tomcat:latest# 分析：需要挂载的文件夹为：conf	logs  webapps # copy 容器内文件夹 （直接创建也可）[root@peiyanbing ~]# docker cp mytomcat:&#x2F;usr&#x2F;local&#x2F;tomcat&#x2F;conf &#x2F;hom">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ellisonpei.gitee.io/Users/ellisonpei/Desktop/biji/respository/%E5%9B%BE%E7%89%87/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dtYWFhMTIz,size_16,color_FFFFFF,t_70.png">
+<meta property="og:image" content="https://peialan.github.io/Users/ellisonpei/Desktop/biji/respository/%E5%9B%BE%E7%89%87/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dtYWFhMTIz,size_16,color_FFFFFF,t_70.png">
 <meta property="article:published_time" content="2020-05-20T11:58:56.000Z">
 <meta property="article:modified_time" content="2020-05-20T02:35:38.220Z">
 <meta property="article:author" content="EllisonPei">
 <meta property="article:tag" content="Tomcat">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ellisonpei.gitee.io/Users/ellisonpei/Desktop/biji/respository/%E5%9B%BE%E7%89%87/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dtYWFhMTIz,size_16,color_FFFFFF,t_70.png">
+<meta name="twitter:image" content="https://peialan.github.io/Users/ellisonpei/Desktop/biji/respository/%E5%9B%BE%E7%89%87/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dtYWFhMTIz,size_16,color_FFFFFF,t_70.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://ellisonpei.gitee.io/blog/2020/05/20/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/index.html">
+  <link rel="canonical" href="https://peialan.github.io/blog/2020/05/20/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/index.html">
   
     <link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
   
@@ -396,7 +396,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://ellisonpei.gitee.io/blog/2020/05/20/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/" title="docker部署Tomcat并配置manageApp" target="_blank" rel="external">https://ellisonpei.gitee.io/blog/2020/05/20/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/</a>
+      <a href="https://peialan.github.io/blog/2020/05/20/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/" title="docker部署Tomcat并配置manageApp" target="_blank" rel="external">https://peialan.github.io/blog/2020/05/20/docker%E9%83%A8%E7%BD%B2Tomcat%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%9C%A8%E7%BA%BFmanageApp/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -443,12 +443,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/blog/2020/05/20/SpringBoot%E5%86%85%E7%BD%AEtomcat%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/" title="SpringBoot内置tomcat启动原理"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/blog/2020/05/20/docker%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" title="docker安装与使用"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/blog/2020/05/20/docker%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" title="docker安装与使用"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/blog/2020/05/20/%E5%85%B3%E4%BA%8E%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%8Czookeeper%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" title="关于分布式锁原理-redis分布式锁，zookeeper分布式锁"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
