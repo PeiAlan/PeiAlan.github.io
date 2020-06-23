@@ -764,20 +764,19 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/19/Tomcat%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE%E5%90%8E%EF%BC%8C%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E6%98%BE%E7%A4%BA%E4%B9%B1%E7%A0%81%EF%BC%9A/">
+                <a href="/2020/05/19/tomcat%E5%AE%89%E8%A3%85SSL%E8%AF%81%E4%B9%A6/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Tomcat部署项目后，项目中的中文显示乱码">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Tomcat服务器安装SSL证书">
                         
-                        <span class="card-title">Tomcat部署项目后，项目中的中文显示乱码</span>
+                        <span class="card-title">Tomcat服务器安装SSL证书</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Tomcat部署项目后，项目中的中文显示乱码：1.使用过locale检查Linux系统编码,若不是LANG不是utf-8则修改（修改方法自己百度）
-2.修改tomcat下conf/server.conf，所有connector标签内都加上 
+                            Tomcat服务器安装SSL证书第一步：将证书文件（.jks）拷贝到tomcat容器下conf目录第二步：修改conf目录下server.xml文件【总的来说就是修改端口，加载SSL和秘钥。端口主要是port端口修改成80，redirect
                         
                     </div>
                     <div class="publish-info">
@@ -788,7 +787,11 @@
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Tomcat/" class="post-category">
+                            <a href="/categories/SSL/" class="post-category">
+                                    SSL
+                                </a>
+                            
+                            <a href="/categories/SSL/Tomcat/" class="post-category">
                                     Tomcat
                                 </a>
                             
@@ -798,6 +801,10 @@
                 </div>
                 
                 <div class="card-action article-tags">
+                    
+                    <a href="/tags/ssl/">
+                        <span class="chip bg-color">ssl</span>
+                    </a>
                     
                     <a href="/tags/tomcat/">
                         <span class="chip bg-color">tomcat</span>
@@ -814,20 +821,20 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/19/java%E4%BD%8D%E8%BF%90%E7%AE%97/">
+                <a href="/2020/05/19/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Java位运算">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="动态代理">
                         
-                        <span class="card-title">Java位运算</span>
+                        <span class="card-title">动态代理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Java位运算1、^（异或运算）————针对二进制，相同的为0，不同的为1
-1234public static void main(String[] args) &#123;     System.out.println("2^3的运算结果
+                            动态代理 动态代理其实是一种方便运行时候动态的处理代理方法的调用机制。也可以进行二次开发，例如代码封板后，进行二次开发就可以用动态代理。
+ 通过代理可以让调用者和实现者之间解耦，例如RPC调用，对于我们调用者来说我就是想对用远程的那个方法，
                         
                     </div>
                     <div class="publish-info">
@@ -838,7 +845,11 @@
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Java/" class="post-category">
+                            <a href="/categories/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" class="post-category">
+                                    动态代理
+                                </a>
+                            
+                            <a href="/categories/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/Java/" class="post-category">
                                     Java
                                 </a>
                             
