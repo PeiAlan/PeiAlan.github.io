@@ -1,0 +1,1242 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="关于分布式锁原理-redis分布式锁，zookeeper分布式锁, 溺水的小裴">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>关于分布式锁原理-redis分布式锁，zookeeper分布式锁 | 溺水的小裴</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="溺水的小裴" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">溺水的小裴</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">溺水的小裴</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/PeiAlan/PeiAlan.github.io" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/PeiAlan/PeiAlan.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">关于分布式锁原理-redis分布式锁，zookeeper分布式锁</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Redis/">
+                                <span class="chip bg-color">Redis</span>
+                            </a>
+                        
+                            <a href="/tags/Zookeeper/">
+                                <span class="chip bg-color">Zookeeper</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="post-category">
+                                分布式锁
+                            </a>
+                        
+                            <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/" class="post-category">
+                                Redis
+                            </a>
+                        
+                            <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/Redis/Zookeeper/" class="post-category">
+                                Zookeeper
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-05-20
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="关于分布式锁原理-redis分布式锁，zookeeper分布式锁"><a href="#关于分布式锁原理-redis分布式锁，zookeeper分布式锁" class="headerlink" title="关于分布式锁原理-redis分布式锁，zookeeper分布式锁"></a>关于分布式锁原理-redis分布式锁，zookeeper分布式锁</h1><pre><code>                       来源：[https://www.cnblogs.com/JJJ1990/p/10496850.html](https://www.cnblogs.com/JJJ1990/p/10496850.html)</code></pre><p>首先分布式锁和我们平常讲到的锁原理基本一样，目的就是确保，在多个线程并发时，只有一个线程在同一刻操作这个业务或者说方法、变量。<br>在一个进程中，也就是一个jvm 或者说应用中，我们很容易去处理控制，在jdk java.util并发包中已经为我们提供了这些方法去加锁，比如synchronized 关键字 或者Lock 锁，都可以处理。<br>但是我们现在的应用程序如果只部署一台服务器，那并发量是很差的，如果同时有上万的请求那么很有可能造成服务器压力过大，而瘫痪。<br>想想双十一 和三十晚上十点分支付宝红包等业务场景，自然需要用到多台服务器去同时处理这些业务，那么这些服务可能会有上百台同时处理，但是请我们大家想一想，如果有100台服务器 要处理分红包的业务，现在假设有1亿的红包，1千万个人分，金额随机，那么这个业务场景下是不是必须确保这1千万个人最后分的红包金额总和等于1亿。如果处理不好~~每人分到100万，那马云爸爸估计大年初一，就得宣布破产了</p>
+<p>###1，常规锁会造成什么情况？</p>
+<p>首先说一下我们为什么要搞集群，简单理解就是，需求量（请求并发量）变大了，一个工人处理能力有限，那就多招一些工人来一起处理。</p>
+<p>假设1千万个请求平均分配到100台服务器上，每个服务器 接收10w的请求（这10w个请求并不是在同一秒中来的，可能是在1,2个小时内，可以联想下我们三十晚上开红包，等到10.20开始，有的人立马开了，有的人是不是等到12点了才想起来~）</p>
+<p>那这样的话，平均到每一秒上的请求也就不到1千个，这种压力一般的服务器还是可以承受的。</p>
+<p>第一个请求到来后，是不是需要在1亿里面给他分一部分钱，金额随机，假设第一个人分到了100，那是不是要在这1亿中减去100块，剩下99999900 块~</p>
+<p>第二个用户再来分，金额随机，这次分200块，那是不是就需要在剩下的99999900块中再减去200块，剩下99999700 块。</p>
+<p>等到第10w个用户来，一看还有1000w，那这1000w全成他的了。</p>
+<p>等于是在每个服务器中去分1亿，也就是10w个用户分了一个亿，最后总计有100个服务器，要分100亿。</p>
+<p>如果真这样了，虽说马云爸爸不会破产（据最新统计马云有2300亿人民币），那分红包的开发项目组，以及产品经理，可以GG了~</p>
+<p>简化结构图如下：<br><img src="https://upload-images.jianshu.io/upload_images/22907713-279ffb37c97f723b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>###2，分布式锁怎么去处理？</p>
+<p> 那么为了解决这个问题，让1000万用户只分1亿，而不是100亿，这个时候分布式锁就派上用处了。</p>
+<p>分布式锁可以把整个集群就当作是一个应用一样去处理，那么也就需要这个锁，要独立于每一个服务之外，而不是在服务里面。</p>
+<p>假设第一个服务器接收到用户1的请求后，那么这个时候，他就不能只在自己的应用中去判断还有多少钱可以分了，而需要去外部请求专门负责管理这1亿红包的人（服务），问他：哎，我这里要分100块，给我100。</p>
+<p>管理红包的妹子（服务）一看，还有1个亿，那好，给你100块，然后剩下99999900块。</p>
+<p>第二个请求到来后，被服务器2获取，继续去询问，管理红包的妹子，我这边要分10块，管理红包的妹子先查了下还有99999900，那就说：好，给你10块。那就剩下99999890块 </p>
+<p>等到第1000w个请求到来后，服务器100拿到请求，继续去询问，管理红包的妹子，你要100，妹子翻了翻白眼，对你说，就剩1块了，爱要不要，那这个时候就只能给你1块了（1块也是钱啊，买根辣条还是可以的）。</p>
+<p>这些请求编号1,2不代表执行的先后顺序，正式的场景下，应该是 100台服务器每个服务器持有一个请求去访问负责管理红包的妹子（服务），那在管红包的妹子那里同时会接收到100个请求，这个时候就需要在负责红包的妹子那里加个锁就可以了（抛绣球），你们100个服务器谁拿到锁（抢到绣球），谁就进来和我谈，我给你分，其他人就等着去吧</p>
+<p>经过上面的分布式锁的处理后，马云爸爸终于放心了，决定给红包团队每人加一个鸡腿。</p>
+<p>简化的结构图如下：<br><img src="https://upload-images.jianshu.io/upload_images/22907713-02f315029d19ae65.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>###<strong>3，分布式锁的实现有哪些？</strong></p>
+<p> 说到分布式锁的实现，还是有很多的，有数据库方式的，有redis分布式锁，有zookeeper分布式锁等等</p>
+<p>我们如果采用redis作为分布式锁，那么上图中负“责红包的妹子（服务）”，就可以替换成redis，请自行脑补。</p>
+<p>####<strong>3.1，为什么redis可以实现分布式锁？</strong></p>
+<p>首先redis是单线程的，这里的单线程指的是网络请求模块使用了一个线程（所以不需考虑并发安全性），即一个线程处理所有网络请求，其他模块仍用了多个线程。</p>
+<p>在实际的操作中过程大致是这样子的：</p>
+<p>服务器1要去访问发红包的妹子，也就是redis，那么他会在redis中通过”setnx key value” 操作设置一个key 进去，value是啥不重要，重要的是要有一个key，也就是一个标记，而且这个key你爱叫啥叫啥，只要所有的服务器设置的key相同就可以。</p>
+<p>假设我们设置一个，如下图</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/22907713-4a6360d78a0a5da6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="###"></p>
+<p>那么我们可以看到会返回一个1，那就代表了成功。</p>
+<p>如果再来一个请求去设置同样的key，如下图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/22907713-1abac74d44c21b56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>这个时候会返回0，那就代表失败了。</p>
+<p>那么我们就可以通过这个操作去判断是不是当前可以拿到锁，或者说可以去访问“负责发红包的妹子”，如果返回1，那我就开始去执行后面的逻辑，如果返回0，那就说明已经被人占用了，我就要继续等待。</p>
+<p>当服务器1拿到锁之后，进行了业务处理，完成后，还需要释放锁，如下图所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/22907713-907fe33efa093bf6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>删除成功返回1，那么其他的服务器就可以继续重复上面的步骤去设置这个key，以达到获取锁的目的。</p>
+<p>当然以上的操作是在redis客户端直接进行的，通过程序调用的话，肯定就不能这么写，比如java 就需要通过jedis 去调用，但是整个处理逻辑基本都是一样的</p>
+<p>通过上面的方式，我们好像是解决了分布式锁的问题，但是想想还有没有什么问题呢？？</p>
+<p> 对，问题还是有的，可能会有死锁的问题发生，比如服务器1设置完之后，获取了锁之后，忽然发生了宕机。</p>
+<p>那后续的删除key操作就没法执行，这个key会一直在redis中存在，其他服务器每次去检查，都会返回0，他们都会认为有人在使用锁，我需要等。</p>
+<p>为了解决这个死锁的问题，我们就就需要给key 设置有效期了。</p>
+<p> 设置的方式有2种</p>
+<p>1，第一种就是在set完key之后，直接设置key的有效期 “expire key timeout” ，为key设置一个超时时间，单位为second，超过这个时间锁会自动释放，避免死锁。</p>
+<p>这种方式相当于，把锁持有的有效期，交给了redis去控制。如果时间到了，你还没有给我删除key，那redis就直接给你删了，其他服务器就可以继续去setnx获取锁。</p>
+<p>2，第二种方式，就是把删除key权利交给其他的服务器，那这个时候就需要用到value值了，</p>
+<p>比如服务器1，设置了value 也就是 timeout 为 当前时间+1 秒 ，这个时候服务器2 通过get 发现时间已经超过系统当前时间了，那就说明服务器1没有释放锁，服务器1可能出问题了，</p>
+<p>服务器2就开始执行删除key操作，并且继续执行setnx 操作。</p>
+<p>但是这块有一个问题，也就是，不光你服务器2可能会发现服务器1超时了，服务器3也可能会发现，如果刚好，服务器2，setnx操作完成，服务器3就接着删除，是不是服务器3也可以setnx成功了？</p>
+<p>那就等于是服务器2和服务器3都拿到锁了，那就问题大了。这个时候怎么办呢？</p>
+<p>这个时候需要用到  “GETSET  key value” 命令了。这个命令的意思就是获取当前key的值，并且设置新的值。</p>
+<p>假设服务器2发现key过期了，开始调用 getset 命令，然后用获取的时间判断是否过期，如果获取的时间仍然是过期的，那就说明拿到锁了。</p>
+<p>如果没有，则说明在服务2执行getset之前，服务器3可能也发现锁过期了，并且在服务器2之前执行了getset操作，重新设置了过期时间。</p>
+<p>那么服务器2就需要放弃后续的操作，继续等待服务器3释放锁或者去监测key的有效期是否过期。</p>
+<p>这块其实有一个小问题是，服务器3已经修改了有效期，拿到锁之后，服务器2，也修改了有效期，但是没能拿到锁，但是这个有效期的时间已经被在服务器3的基础上有增加一些，但是这种影响其实还是很小的，几乎可以忽略不计。</p>
+<p>####<strong>3.2，为什么zookeeper可以实现分布式锁？</strong></p>
+<p>百度百科是这么介绍的：ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，是Hadoop和Hbase的重要组件。</p>
+<p>那对于我们初次认识的人，可以理解成ZooKeeper就像是我们的电脑文件系统，我们可以在d盘中创建文件夹a，并且可以继续在文件夹a中创建 文件夹a1，a2。</p>
+<p>那我们的文件系统有什么特点？？那就是同一个目录下文件名称不能重复，同样ZooKeeper也是这样的。</p>
+<p> 在ZooKeeper所有的节点，也就是文件夹称作 Znode，而且这个Znode节点是可以存储数据的。</p>
+<p>我们可以通过“ create /zkjjj nice” 来创建一个节点，这个命令就表示，在跟目录下创建一个zkjjj的节点，值是nice。同样这里的值，和我在前面说的redis中的一样，没什么意义，你随便给。</p>
+<p>另外ZooKeeper可以创建4种类型的节点，分别是：</p>
+<ul>
+<li>1，持久性节点</li>
+<li>2，持久性顺序节点</li>
+<li>3，临时性节点</li>
+<li>4，临时性顺序节点</li>
+</ul>
+<p>首先说下持久性节点和临时性节点的区别，持久性节点表示只要你创建了这个节点，那不管你ZooKeeper的客户端是否断开连接，ZooKeeper的服务端都会记录这个节点。</p>
+<p>临时性节点刚好相反，一旦你ZooKeeper客户端断开了连接，那ZooKeeper服务端就不再保存这个节点。</p>
+<p>再说下顺序性节点，顺序性节点是指，在创建节点的时候，ZooKeeper会自动给节点编号比如0000001 ，0000002 这种的。</p>
+<p>最后说下，zookeeper有一个监听机制，客户端注册监听它关心的目录节点，当目录节点发生变化（数据改变、被删除、子目录节点增加删除）等，zookeeper会通知客户端。</p>
+<p>下面我们继续结合我们上面的分红包场景，描述下在zookeeper中如何加锁。</p>
+<p>假设服务器1，创建了一个节点 /zkjjj ,成功了，那服务器1就获取了锁，服务器2再去创建相同的锁，那么他就会失败，这个时候他就就只能监听这个节点的变化。</p>
+<p>等到服务器1，处理完业务，删除了节点后，他就会得到通知，然后去创建同样的节点，获取锁处理业务，再删除节点，后续的100台服务器与之类似</p>
+<p>注意这里的100台服务器并不是挨个去执行上面的创建节点的操作，而是并发的，当服务器1创建成功，那么剩下的99个就都会注册监听这个节点，等通知，以此类推。</p>
+<p> 但是大家有没有注意到，这里还是有问题的，还是会有死锁的情况存在，对不对？</p>
+<p>当服务器1创建了节点后挂了，没能删除，那其他99台服务器就会一直等通知，那就完蛋了。。。</p>
+<p>这个时候呢，就需要用到临时性节点了，我们前面说过了，临时性节点的特点是客户端一旦断开，就会丢失，也就是当服务器1创建了节点后，如果挂了。</p>
+<p>那这个节点会自动被删除，这样后续的其他服务器，就可以继续去创建节点，获取锁了。</p>
+<p>但是我们可能还需要注意到一点，就是惊群效应：举一个很简单的例子,当你往一群鸽子中间扔一块食物,虽然最终只有一个鸽子抢到食物,但所有鸽子都会被惊动来争夺,没有抢到..</p>
+<p>就是当服务器1节点有变化，会通知其余的99个服务器，但是最终只有1个服务器会创建成功，这样98还是需要等待监听，那么为了处理这种情况，就需要用到临时顺序性节点</p>
+<p>大致意思就是，之前是所有99个服务器都监听一个节点，现在就是每一个服务器监听自己前面的一个节点。</p>
+<p>假设100个服务器同时发来请求，这个时候会在 /zkjjj 节点下创建 100 个临时顺序性节点 /zkjjj/000000001,  /zkjjj/000000002,一直到  /zkjjj/000000100,这个编号就等于是已经给他们设置了获取锁的先后顺序了。</p>
+<p>当001节点处理完毕，删除节点后，002收到通知，去获取锁，开始执行，执行完毕，删除节点，通知003~以此类推。</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">EllisonPei</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://peialan.github.io/2020/05/20/guan-yu-fen-bu-shi-suo-yuan-li-redis-fen-bu-shi-suo-zookeeper-fen-bu-shi-suo/">https://peialan.github.io/2020/05/20/guan-yu-fen-bu-shi-suo-yuan-li-redis-fen-bu-shi-suo-zookeeper-fen-bu-shi-suo/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">EllisonPei</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Redis/">
+                                    <span class="chip bg-color">Redis</span>
+                                </a>
+                            
+                                <a href="/tags/Zookeeper/">
+                                    <span class="chip bg-color">Zookeeper</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/05/20/wei-fu-wu-zhong-de-ming-ci/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="微服务中的名词">
+                        
+                        <span class="card-title">微服务中的名词</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            微服务中的名词SOA&nbsp;&nbsp;&nbsp;&nbsp;面向服务架构，它可以根据需求通过网络对松散耦合的粗粒度应用组件进行分布式部署、组合和使用。服务层是SOA的基础，可以直接被应用调用，从而有效控制系统中与软件代理交互的人为依
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-20
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-category">
+                                    微服务
+                                </a>
+                            
+                            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/" class="post-category">
+                                    SpringCloud
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/SpringCloud/">
+                        <span class="chip bg-color">SpringCloud</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/05/19/jvm-zhong-de-dui-xiang/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="JVM 中的对象">
+                        
+                        <span class="card-title">JVM 中的对象</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            JVM 中的对象虚拟机中的对象对象的分配虚拟机遇到一条 new 指令时：根据 new 的参数是否能在常量池中定位到一个类的符号引用,如果没有，说明还未定义该类，抛出 
+ClassNotFoundException； 
+1**）检查加载**先
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/JVM/" class="post-category">
+                                    JVM
+                                </a>
+                            
+                            <a href="/categories/JVM/Java/" class="post-category">
+                                    Java
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/JVM/">
+                        <span class="chip bg-color">JVM</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">EllisonPei</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/PeiAlan" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1822705529@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1822705529" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1822705529" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
