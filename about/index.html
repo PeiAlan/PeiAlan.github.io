@@ -285,14 +285,14 @@
 
 
 <div class="statis">
-    <span class="count"><a href="/categories">24</a></span>
+    <span class="count"><a href="/categories">28</a></span>
     <span class="name">分类</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/tags">33</a></span>
+    <span class="count"><a href="/tags">36</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -315,14 +315,14 @@
 
 
 <div class="statis">
-    <span class="count"><a href="/categories">24</a></span>
+    <span class="count"><a href="/categories">28</a></span>
     <span class="name">分类</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/tags">33</a></span>
+    <span class="count"><a href="/tags">36</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -508,7 +508,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"java","value":8},{"name":"ELK","value":2},{"name":"jvm","value":2},{"name":"虚拟机","value":1},{"name":"maven","value":2},{"name":"MQ","value":1},{"name":"java","value":2},{"name":"ssl","value":2},{"name":"springboot","value":3},{"name":"tomcat","value":1},{"name":"spring","value":1},{"name":"docker","value":2},{"name":"linux","value":1},{"name":"分布式锁","value":1},{"name":"docker","value":1},{"name":"设计模式","value":1},{"name":"微服务","value":1},{"name":"https","value":1},{"name":"tomcat","value":1},{"name":"tomcat","value":1},{"name":"oracle","value":1},{"name":"Redis","value":1},{"name":"tomcat","value":1},{"name":"Zookeeper","value":1}],
+                data: [{"name":"Java","value":10},{"name":"ELK","value":2},{"name":"JVM","value":2},{"name":"虚拟机","value":1},{"name":"Maven","value":1},{"name":"SSL","value":2},{"name":"SpringBoot","value":4},{"name":"MQ","value":1},{"name":"Spring","value":1},{"name":"Tomcat","value":1},{"name":"Java","value":1},{"name":"centos7","value":1},{"name":"Docker","value":2},{"name":"Https","value":1},{"name":"Tomcat","value":1},{"name":"分布式锁","value":1},{"name":"微服务","value":1},{"name":"Maven","value":1},{"name":"DevTools","value":1},{"name":"设计模式","value":1},{"name":"tomcat","value":1},{"name":"SpringBoot","value":1},{"name":"Oracle","value":1},{"name":"Tomcat","value":1},{"name":"Redis","value":1},{"name":"Docker","value":1},{"name":"Java","value":1},{"name":"Zookeeper","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -532,7 +532,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ["tomcat","java8","jvm","maven","docker","ssl","springboot","java","Java8","filebeat"]
+                data: ["tomcat","Java8","JVM","java8","maven","ssl","springboot","docker","filebeat","elasticsearch"]
             }
         ],
         yAxis: [
@@ -545,7 +545,7 @@
                 type: 'bar',
                 color: ['#82d3f4'],
                 barWidth : 18,
-                data: [4,3,2,2,2,2,2,2,1,1],
+                data: [4,2,2,2,2,2,2,2,1,1],
                 markPoint: {
                     symbolSize: 45,
                     data: [{
@@ -727,18 +727,6 @@
             
             
             
-            <a href="/tags/concurrentHashMap/">
-                <span class="chip center-align waves-effect waves-light chip-default">concurrentHashMap</span>
-            </a>
-            
-            
-            
-            <a href="/tags/hashmap/">
-                <span class="chip center-align waves-effect waves-light chip-default">hashmap</span>
-            </a>
-            
-            
-            
             <a href="/tags/elasticsearch/">
                 <span class="chip center-align waves-effect waves-light chip-default">elasticsearch</span>
             </a>
@@ -757,8 +745,8 @@
             
             
             
-            <a href="/tags/jvm/">
-                <span class="chip center-align waves-effect waves-light chip-default">jvm</span>
+            <a href="/tags/JVM/">
+                <span class="chip center-align waves-effect waves-light chip-default">JVM</span>
             </a>
             
             
@@ -769,14 +757,26 @@
             
             
             
-            <a href="/tags/nio/">
-                <span class="chip center-align waves-effect waves-light chip-default">nio</span>
+            <a href="/tags/NIO/">
+                <span class="chip center-align waves-effect waves-light chip-default">NIO</span>
             </a>
             
             
             
-            <a href="/tags/juc/">
-                <span class="chip center-align waves-effect waves-light chip-default">juc</span>
+            <a href="/tags/JUC/">
+                <span class="chip center-align waves-effect waves-light chip-default">JUC</span>
+            </a>
+            
+            
+            
+            <a href="/tags/concurrentHashMap/">
+                <span class="chip center-align waves-effect waves-light chip-default">concurrentHashMap</span>
+            </a>
+            
+            
+            
+            <a href="/tags/hashmap/">
+                <span class="chip center-align waves-effect waves-light chip-default">hashmap</span>
             </a>
             
             
@@ -789,6 +789,24 @@
             
             <a href="/tags/maven/">
                 <span class="chip center-align waves-effect waves-light chip-default">maven</span>
+            </a>
+            
+            
+            
+            <a href="/tags/ssl/">
+                <span class="chip center-align waves-effect waves-light chip-default">ssl</span>
+            </a>
+            
+            
+            
+            <a href="/tags/https/">
+                <span class="chip center-align waves-effect waves-light chip-default">https</span>
+            </a>
+            
+            
+            
+            <a href="/tags/springboot/">
+                <span class="chip center-align waves-effect waves-light chip-default">springboot</span>
             </a>
             
             
@@ -817,26 +835,14 @@
             
             
             
+            <a href="/tags/springBoot/">
+                <span class="chip center-align waves-effect waves-light chip-default">springBoot</span>
+            </a>
+            
+            
+            
             <a href="/tags/docker/">
                 <span class="chip center-align waves-effect waves-light chip-default">docker</span>
-            </a>
-            
-            
-            
-            <a href="/tags/ssl/">
-                <span class="chip center-align waves-effect waves-light chip-default">ssl</span>
-            </a>
-            
-            
-            
-            <a href="/tags/https/">
-                <span class="chip center-align waves-effect waves-light chip-default">https</span>
-            </a>
-            
-            
-            
-            <a href="/tags/springboot/">
-                <span class="chip center-align waves-effect waves-light chip-default">springboot</span>
             </a>
             
             
@@ -859,14 +865,28 @@
             
             
             
-            <a href="/tags/oracle/">
-                <span class="chip center-align waves-effect waves-light chip-default">oracle</span>
+            <a href="/tags/applicationContext/">
+                <span class="chip center-align waves-effect waves-light chip-default">applicationContext</span>
             </a>
             
             
             
-            <a href="/tags/lambda/">
-                <span class="chip center-align waves-effect waves-light chip-default">lambda</span>
+            <a href="/tags/Oracle/">
+                <span class="chip center-align waves-effect waves-light chip-default">Oracle</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Lambda/">
+                <span class="chip center-align waves-effect waves-light chip-default">Lambda</span>
+            </a>
+            
+            
+            
+            
+            
+            <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/">
+                <span class="chip center-align waves-effect waves-light chip-default">位运算</span>
             </a>
             
             
@@ -883,20 +903,8 @@
             
             
             
-            <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/">
-                <span class="chip center-align waves-effect waves-light chip-default">位运算</span>
-            </a>
-            
-            
-            
             <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">
                 <span class="chip center-align waves-effect waves-light chip-default">动态代理</span>
-            </a>
-            
-            
-            
-            <a href="/tags/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">
-                <span class="chip center-align waves-effect waves-light chip-default">策略模式</span>
             </a>
             
             
@@ -907,8 +915,14 @@
             
             
             
-            <a href="/tags/DevTools/">
-                <span class="chip center-align waves-effect waves-light chip-default">DevTools</span>
+            <a href="/tags/devtool/">
+                <span class="chip center-align waves-effect waves-light chip-default">devtool</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">
+                <span class="chip center-align waves-effect waves-light chip-default">策略模式</span>
             </a>
             
             
