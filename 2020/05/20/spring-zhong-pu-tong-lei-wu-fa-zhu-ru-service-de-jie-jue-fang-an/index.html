@@ -107,6 +107,17 @@
   
   <li class="hide-on-med-and-down nav-item">
     
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
     <a href="/friends" class="waves-effect waves-light">
       
       <i class="fas fa-address-book" style="zoom: 0.6;"></i>
@@ -193,6 +204,17 @@
 			    <i class="fa-fw fas fa-user-circle"></i>
 			
 			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
 		</a>
           
         </li>
@@ -1019,19 +1041,22 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/20/springboot-nei-zhi-tomcat-qi-dong-yuan-li/">
+                <a href="/2020/05/20/docker-bu-shu-tomcat-pei-zhi-zai-xian-manageapp/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="SpringBoot内置tomcat启动原理">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="docker部署Tomcat并配置manageApp">
                         
-                        <span class="card-title">SpringBoot内置tomcat启动原理</span>
+                        <span class="card-title">docker部署Tomcat并配置manageApp</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            SpringBoot内置tomcat启动原理前言 不得不说SpringBoot的开发者是在为大众程序猿谋福利，把大家都惯成了懒汉，xml不配置了，连tomcat也懒的配置了，典型的一键启动系统，那么tomcat在springboot是怎么启
+                            docker部署Tomcat并配置manageApp1、docker部署Tomcat
+docker pull tomcat:latest
+# 分析：需要挂载的文件夹为：conf    logs  webapps 
+# copy 容器内文件夹
                         
                     </div>
                     <div class="publish-info">
@@ -1042,12 +1067,12 @@
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SpringBoot/" class="post-category">
-                                    SpringBoot
+                            <a href="/categories/Docker/" class="post-category">
+                                    Docker
                                 </a>
                             
-                            <a href="/categories/SpringBoot/tomcat/" class="post-category">
-                                    tomcat
+                            <a href="/categories/Docker/Tomcat/" class="post-category">
+                                    Tomcat
                                 </a>
                             
                             
