@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://peialan.github.io/2020/05/20/docker-bu-shu-tomcat-pei-zhi-zai-xian-manageapp/</loc>
+    <lastmod>2020-07-06</lastmod>
+  </url>  <url>
     <loc>https://peialan.github.io/2020/05/21/hashmap-ji-concurrenthashmap-yuan-li-fen-xi/</loc>
     <lastmod>2020-07-04</lastmod>
   </url>  <url>
@@ -68,9 +71,6 @@
     <lastmod>2020-06-23</lastmod>
   </url>  <url>
     <loc>https://peialan.github.io/2020/05/20/docker-de-an-zhuang-yu-shi-yong/</loc>
-    <lastmod>2020-06-23</lastmod>
-  </url>  <url>
-    <loc>https://peialan.github.io/2020/05/20/docker-bu-shu-tomcat-pei-zhi-zai-xian-manageapp/</loc>
     <lastmod>2020-06-23</lastmod>
   </url>  <url>
     <loc>https://peialan.github.io/2020/06/07/centos7-an-zhuang-oracle18c/</loc>

@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://peialan.github.io/2020/05/20/docker-bu-shu-tomcat-pei-zhi-zai-xian-manageapp/</loc>
+    
+    <lastmod>2020-07-06T11:35:33.449Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://peialan.github.io/contact/index.html</loc>
     
     <lastmod>2020-07-05T10:16:39.014Z</lastmod>
@@ -170,13 +177,6 @@
   </url>
   
   <url>
-    <loc>https://peialan.github.io/2020/05/20/docker-bu-shu-tomcat-pei-zhi-zai-xian-manageapp/</loc>
-    
-    <lastmod>2020-06-23T08:32:57.686Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://peialan.github.io/2020/06/07/centos7-an-zhuang-oracle18c/</loc>
     
     <lastmod>2020-06-23T08:32:30.743Z</lastmod>
@@ -233,14 +233,14 @@
   </url>
   
   <url>
-    <loc>https://peialan.github.io/books/index.html</loc>
+    <loc>https://peialan.github.io/about/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://peialan.github.io/about/index.html</loc>
+    <loc>https://peialan.github.io/books/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
