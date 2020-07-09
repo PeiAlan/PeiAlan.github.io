@@ -388,10 +388,6 @@
                                 SSL
                             </a>
                         
-                            <a href="/categories/SSL/Tomcat/" class="post-category">
-                                Tomcat
-                            </a>
-                        
                     </div>
                     
                 </div>
@@ -417,7 +413,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Tomcat服务器安装SSL证书"><a href="#Tomcat服务器安装SSL证书" class="headerlink" title="Tomcat服务器安装SSL证书"></a>Tomcat服务器安装SSL证书</h1><h4 id="第一步：将证书文件（-jks）拷贝到tomcat容器下conf目录"><a href="#第一步：将证书文件（-jks）拷贝到tomcat容器下conf目录" class="headerlink" title="第一步：将证书文件（.jks）拷贝到tomcat容器下conf目录"></a>第一步：将证书文件（.jks）拷贝到tomcat容器下conf目录</h4><h4 id="第二步：修改conf目录下server-xml文件"><a href="#第二步：修改conf目录下server-xml文件" class="headerlink" title="第二步：修改conf目录下server.xml文件"></a>第二步：修改conf目录下server.xml文件</h4><p>【总的来说就是修改端口，加载SSL和秘钥。端口主要是port端口修改成80，redirectPort端口修改成443；因为443端口是SSL的默认端口】</p>
+                <h2 id="Tomcat服务器安装SSL证书"><a href="#Tomcat服务器安装SSL证书" class="headerlink" title="Tomcat服务器安装SSL证书"></a>Tomcat服务器安装SSL证书</h2><h4 id="第一步：将证书文件（-jks）拷贝到tomcat容器下conf目录"><a href="#第一步：将证书文件（-jks）拷贝到tomcat容器下conf目录" class="headerlink" title="第一步：将证书文件（.jks）拷贝到tomcat容器下conf目录"></a>第一步：将证书文件（.jks）拷贝到tomcat容器下conf目录</h4><h4 id="第二步：修改conf目录下server-xml文件"><a href="#第二步：修改conf目录下server-xml文件" class="headerlink" title="第二步：修改conf目录下server.xml文件"></a>第二步：修改conf目录下server.xml文件</h4><p>【总的来说就是修改端口，加载SSL和秘钥。端口主要是port端口修改成80，redirectPort端口修改成443；因为443端口是SSL的默认端口】</p>
 <pre class=" language-xml"><code class="language-xml">1.把如下内容：
  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Connector</span> <span class="token attr-name">port</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>8080<span class="token punctuation">"</span></span> <span class="token attr-name">protocol</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>HTTP/1.1<span class="token punctuation">"</span></span>
     <span class="token attr-name">connectionTimeout</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>20000<span class="token punctuation">"</span></span>
