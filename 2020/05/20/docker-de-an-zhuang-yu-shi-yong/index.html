@@ -1224,23 +1224,20 @@ root@e83dc105e4ce:/apache-zookeeper-3.5.6-bin#</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/20/spring-boot-2.2.2-qi-dong-quan-guo-cheng-yuan-ma-fen-xi/">
+                <a href="/2020/05/20/spring-zhong-pu-tong-lei-wu-fa-zhu-ru-service-de-jie-jue-fang-an/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/PeiAlan/PeiAlan.github.io/medias/featureimages/13.jpg" class="responsive-img" alt="Spring Boot 2.2.2 启动全过程源码分析">
+                        <img src="https://cdn.jsdelivr.net/gh/PeiAlan/PeiAlan.github.io/medias/featureimages/16.jpg" class="responsive-img" alt="SpringBoot中普通类无法注入service的解决方案">
                         
-                        <span class="card-title">Spring Boot 2.2.2 启动全过程源码分析</span>
+                        <span class="card-title">SpringBoot中普通类无法注入service的解决方案</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Spring Boot 2.2.2 启动全过程源码分析SpringApplication 实例 run 方法运行过程/**
- * 1、要完成Spring容器的启动
- * 2、把项目部署到Tomcat
- */
-public static vo
+                            先摆出实际问题：本人在项目中写了钩子方法，在service方法中，通过父类方法，调用子类的实现，结果出现，service无法注入问题？
+解决方案：既然spring无法完成普通类的依赖注入，那么我们就手动getBean（思路就是手动调用App
                         
                     </div>
                     <div class="publish-info">
@@ -1251,8 +1248,8 @@ public static vo
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SpringBoot/" class="post-category">
-                                    SpringBoot
+                            <a href="/categories/Spring/" class="post-category">
+                                    Spring
                                 </a>
                             
                             
@@ -1262,8 +1259,16 @@ public static vo
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/springboot/">
-                        <span class="chip bg-color">springboot</span>
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
+                    </a>
+                    
+                    <a href="/tags/spring/">
+                        <span class="chip bg-color">spring</span>
+                    </a>
+                    
+                    <a href="/tags/applicationContext/">
+                        <span class="chip bg-color">applicationContext</span>
                     </a>
                     
                 </div>
@@ -1277,19 +1282,22 @@ public static vo
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/20/springboot-nei-zhi-tomcat-qi-dong-yuan-li/">
+                <a href="/2020/05/20/docker-bu-shu-tomcat-pei-zhi-zai-xian-manageapp/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/PeiAlan/PeiAlan.github.io/medias/featureimages/17.jpg" class="responsive-img" alt="SpringBoot内置tomcat启动原理">
+                        <img src="https://cdn.jsdelivr.net/gh/PeiAlan/PeiAlan.github.io/medias/featureimages/12.jpg" class="responsive-img" alt="docker部署Tomcat并配置manageApp">
                         
-                        <span class="card-title">SpringBoot内置tomcat启动原理</span>
+                        <span class="card-title">docker部署Tomcat并配置manageApp</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            SpringBoot内置tomcat启动原理前言 不得不说SpringBoot的开发者是在为大众程序猿谋福利，把大家都惯成了懒汉，xml不配置了，连tomcat也懒的配置了，典型的一键启动系统，那么tomcat在springboot是怎么启
+                            docker部署Tomcat并配置manageApp1、docker部署Tomcat
+docker pull tomcat:latest
+# 分析：需要挂载的文件夹为：conf    logs  webapps 
+# copy 容器内文件夹
                         
                     </div>
                     <div class="publish-info">
@@ -1300,8 +1308,8 @@ public static vo
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SpringBoot/" class="post-category">
-                                    SpringBoot
+                            <a href="/categories/Tomcat/" class="post-category">
+                                    Tomcat
                                 </a>
                             
                             

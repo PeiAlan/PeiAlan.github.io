@@ -1294,23 +1294,23 @@ UndertowServletWebServerFactory</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/20/docker-de-an-zhuang-yu-shi-yong/">
+                <a href="/2020/05/20/spring-boot-2.2.2-qi-dong-quan-guo-cheng-yuan-ma-fen-xi/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/PeiAlan/PeiAlan.github.io/medias/featureimages/23.jpg" class="responsive-img" alt="docker安装与使用">
+                        <img src="https://cdn.jsdelivr.net/gh/PeiAlan/PeiAlan.github.io/medias/featureimages/13.jpg" class="responsive-img" alt="Spring Boot 2.2.2 启动全过程源码分析">
                         
-                        <span class="card-title">docker安装与使用</span>
+                        <span class="card-title">Spring Boot 2.2.2 启动全过程源码分析</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            centOS7安装dockerdocker镜像加速地址：https://www.cnblogs.com/weifeng1463/p/7468391.html。
-#查看你当前的内核版本
-uname -r
-#确保 yum 包更新到最新。
-sud
+                            Spring Boot 2.2.2 启动全过程源码分析SpringApplication 实例 run 方法运行过程/**
+ * 1、要完成Spring容器的启动
+ * 2、把项目部署到Tomcat
+ */
+public static vo
                         
                     </div>
                     <div class="publish-info">
@@ -1321,8 +1321,8 @@ sud
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Docker/" class="post-category">
-                                    Docker
+                            <a href="/categories/SpringBoot/" class="post-category">
+                                    SpringBoot
                                 </a>
                             
                             
@@ -1332,8 +1332,8 @@ sud
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/docker/">
-                        <span class="chip bg-color">docker</span>
+                    <a href="/tags/springboot/">
+                        <span class="chip bg-color">springboot</span>
                     </a>
                     
                 </div>
@@ -1347,22 +1347,20 @@ sud
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/20/docker-bu-shu-tomcat-pei-zhi-zai-xian-manageapp/">
+                <a href="/2020/05/20/spring-zhong-pu-tong-lei-wu-fa-zhu-ru-service-de-jie-jue-fang-an/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/PeiAlan/PeiAlan.github.io/medias/featureimages/12.jpg" class="responsive-img" alt="docker部署Tomcat并配置manageApp">
+                        <img src="https://cdn.jsdelivr.net/gh/PeiAlan/PeiAlan.github.io/medias/featureimages/16.jpg" class="responsive-img" alt="SpringBoot中普通类无法注入service的解决方案">
                         
-                        <span class="card-title">docker部署Tomcat并配置manageApp</span>
+                        <span class="card-title">SpringBoot中普通类无法注入service的解决方案</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            docker部署Tomcat并配置manageApp1、docker部署Tomcat
-docker pull tomcat:latest
-# 分析：需要挂载的文件夹为：conf    logs  webapps 
-# copy 容器内文件夹
+                            先摆出实际问题：本人在项目中写了钩子方法，在service方法中，通过父类方法，调用子类的实现，结果出现，service无法注入问题？
+解决方案：既然spring无法完成普通类的依赖注入，那么我们就手动getBean（思路就是手动调用App
                         
                     </div>
                     <div class="publish-info">
@@ -1373,8 +1371,8 @@ docker pull tomcat:latest
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Tomcat/" class="post-category">
-                                    Tomcat
+                            <a href="/categories/Spring/" class="post-category">
+                                    Spring
                                 </a>
                             
                             
@@ -1384,8 +1382,16 @@ docker pull tomcat:latest
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/tomcat/">
-                        <span class="chip bg-color">tomcat</span>
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
+                    </a>
+                    
+                    <a href="/tags/spring/">
+                        <span class="chip bg-color">spring</span>
+                    </a>
+                    
+                    <a href="/tags/applicationContext/">
+                        <span class="chip bg-color">applicationContext</span>
                     </a>
                     
                 </div>
