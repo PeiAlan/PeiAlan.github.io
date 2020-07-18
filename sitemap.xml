@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://peialan.github.io/2020/07/18/2020-07-18-mysql-de-zi-zeng-id-yong-wan-liao-zen-me-ban/</loc>
+    
+    <lastmod>2020-07-18T11:33:45.637Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://peialan.github.io/2020/07/16/2020-07-16-mysql-ge-chi-ji-bie/</loc>
     
     <lastmod>2020-07-16T13:41:43.546Z</lastmod>
@@ -254,14 +261,14 @@
   </url>
   
   <url>
-    <loc>https://peialan.github.io/about/index.html</loc>
+    <loc>https://peialan.github.io/books/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://peialan.github.io/books/index.html</loc>
+    <loc>https://peialan.github.io/about/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
