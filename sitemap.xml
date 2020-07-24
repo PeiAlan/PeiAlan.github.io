@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://peialan.github.io/2020/07/24/2020-07-24-mian-shi-jing-li/</loc>
+    
+    <lastmod>2020-07-24T09:59:27.478Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://peialan.github.io/2020/05/20/2020-05-20-spring-boot-2.2.2-qi-dong-quan-guo-cheng-yuan-ma-fen-xi/</loc>
     
     <lastmod>2020-07-21T13:41:20.867Z</lastmod>
@@ -261,14 +268,14 @@
   </url>
   
   <url>
-    <loc>https://peialan.github.io/about/index.html</loc>
+    <loc>https://peialan.github.io/books/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://peialan.github.io/books/index.html</loc>
+    <loc>https://peialan.github.io/about/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
