@@ -607,12 +607,12 @@ RejectedExecutionHandler ：
         标记整理算法虽然没有内存碎片，但是效率偏低。 我们看到标记整理与标记清除算法的区别主要在于对象的移动。对象移动不单单会加重系统负担，同时需要全程暂停用户线程才能进行，同时所有引用 对象的地方都需要更新（直接指针需要调整）。 所以看到，老年代采用的标记整理算法与标记清除算法，各有优点，各有缺点。</code></pre>
 <h3 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a><strong>垃圾回收器</strong></h3><p>自己花了图：<a href="https://www.processon.com/view/link/5f198920e401fd181ad55cf1" target="_blank" rel="noopener">https://www.processon.com/view/link/5f198920e401fd181ad55cf1</a></p>
 <p>每个回收器的执行顺序，也参考了别人的图：</p>
-<p><img src="/medias/blog/jvm/GC.png" alt="GC"></p>
-<p><img src="/medias/blog/jvm/JVM-laji.png" alt="JVM-laji"></p>
-<p><img src="/medias/blog/jvm/coping.png" alt="coping"></p>
+<p><img src="/medias/blog/jvm/GC.png" alt="GC详解"></p>
+<p><img src="/medias/blog/jvm/JVM-laji.png" alt="JVM各种垃圾回收器"></p>
+<p><img src="/medias/blog/jvm/coping.png" alt="垃圾回收算法——复制算法"></p>
 <p><img src="/medias/blog/jvm/STW.png" alt="STW"></p>
-<p><img src="/medias/blog/jvm/CMS.png" alt="CMS"></p>
-<p><img src="/medias/blog/jvm/G1.png" alt="G1"></p>
+<p><img src="/medias/blog/jvm/CMS.png" alt="CMS垃圾回收器"></p>
+<p><img src="/medias/blog/jvm/G1.png" alt="G1垃圾回收器"></p>
 <h2 id="八、接着问了MySQL"><a href="#八、接着问了MySQL" class="headerlink" title="八、接着问了MySQL"></a>八、接着问了MySQL</h2><h3 id="B-树："><a href="#B-树：" class="headerlink" title="B+ 树："></a>B+ 树：</h3><pre class=" language-tex"><code class="language-tex">数据只存储在叶子节点上，非叶子节点只保存索引信息； 
         ◦ 非叶子节点（索引节点）存储的只是一个 Flag，不保存实际数据记录； 
         ◦ 索引节点指示该节点的左子树比这个 Flag 小，而右子树大于等于这个 Flag 
