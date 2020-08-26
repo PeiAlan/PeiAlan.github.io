@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://peialan.github.io/2020/08/26/2020-08-26-java-xian-shang-gu-zhang-pai-cha-wan-zheng-tao-lu/</loc>
+    
+    <lastmod>2020-08-26T06:46:50.057Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://peialan.github.io/2020/05/20/2020-05-20-spring-zhong-pu-tong-lei-wu-fa-zhu-ru-service-de-jie-jue-fang-an/</loc>
     
     <lastmod>2020-08-13T12:15:15.917Z</lastmod>
@@ -268,6 +275,13 @@
   </url>
   
   <url>
+    <loc>https://peialan.github.io/tags/index.html</loc>
+    
+    <lastmod>2020-05-19T05:00:20.283Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://peialan.github.io/repository/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.283Z</lastmod>
@@ -275,9 +289,9 @@
   </url>
   
   <url>
-    <loc>https://peialan.github.io/tags/index.html</loc>
+    <loc>https://peialan.github.io/about/index.html</loc>
     
-    <lastmod>2020-05-19T05:00:20.283Z</lastmod>
+    <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
   </url>
   
@@ -290,13 +304,6 @@
   
   <url>
     <loc>https://peialan.github.io/categories/index.html</loc>
-    
-    <lastmod>2020-05-19T05:00:20.282Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://peialan.github.io/about/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.282Z</lastmod>
     
