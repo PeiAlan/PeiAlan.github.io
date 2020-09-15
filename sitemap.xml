@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://peialan.github.io/2020/09/15/2020-09-15-synchronized-guan-jian-zi-de-shi-yong-yi-ji-ji-ben-yuan-li/</loc>
+    
+    <lastmod>2020-09-15T06:22:48.009Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://peialan.github.io/2020/05/20/2020-05-20-docker-de-an-zhuang-yu-shi-yong/</loc>
     
     <lastmod>2020-09-14T06:01:57.278Z</lastmod>
@@ -275,14 +282,14 @@
   </url>
   
   <url>
-    <loc>https://peialan.github.io/tags/index.html</loc>
+    <loc>https://peialan.github.io/repository/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.283Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://peialan.github.io/repository/index.html</loc>
+    <loc>https://peialan.github.io/tags/index.html</loc>
     
     <lastmod>2020-05-19T05:00:20.283Z</lastmod>
     
