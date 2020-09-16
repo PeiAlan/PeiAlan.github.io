@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://peialan.github.io/2020/09/16/2020-09-16-reentrantlock-de-shi-yong-ji-yuan-li/</loc>
+    
+    <lastmod>2020-09-16T04:41:58.644Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://peialan.github.io/2020/09/16/2020-09-16-aqs-de-shi-yong-he-yuan-li/</loc>
+    
+    <lastmod>2020-09-16T02:35:34.172Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://peialan.github.io/2020/09/15/2020-09-15-synchronized-guan-jian-zi-de-shi-yong-yi-ji-ji-ben-yuan-li/</loc>
     
     <lastmod>2020-09-16T00:37:30.263Z</lastmod>
