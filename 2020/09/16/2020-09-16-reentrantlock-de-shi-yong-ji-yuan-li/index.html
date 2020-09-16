@@ -519,7 +519,7 @@ lock<span class="token punctuation">.</span><span class="token function">lock</s
 <h2 id="非公平锁加锁流程"><a href="#非公平锁加锁流程" class="headerlink" title="非公平锁加锁流程"></a>非公平锁加锁流程</h2><p>1、第一个线程t1、第一次加锁，没有加锁之前 aqs（NonfairSync）的状态</p>
 <p><img src="/medias/blog/2020091602.png" alt="image-20200916100928224"></p>
 <p>2、t1、加锁之后</p>
-<p><img src="/Users/ellisonpei/Desktop/apache/hexo/themes/hexo-theme-matery/source/medias/blog/2020091603.png" alt="image-20200916100956522"></p>
+<p><img src="/medias/blog/2020091603.png" alt="image-20200916100956522"></p>
 <p>3、第二个线程t2 如果他 t1 线程没有释放 AQS状态和2一样</p>
 <p>​    3.1 t2 加锁之后失败之后</p>
 <p><img src="/medias/blog/2020091604.png" alt="image-20200916101129305"></p>
@@ -1416,9 +1416,62 @@ lock<span class="token punctuation">.</span><span class="token function">lock</s
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2020/09/16/2020-09-16-reentrantlock-de-shi-yong-ji-yuan-li/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/PeiAlan/peialan.github.io/medias/featureimages/22.jpg" class="responsive-img" alt="2020-09-16-ReentrantLock的使用及原理">
+                        
+                        <span class="card-title">2020-09-16-ReentrantLock的使用及原理</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            ReentrantLock的使用及原理定义public class ReentrantLock implements Lock, java.io.Serializable {
+    private final Sync sync;
+   
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-16
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%B9%B6%E5%8F%91/" class="post-category">
+                                    并发
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/reentrantlock/">
+                        <span class="chip bg-color">reentrantlock</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2020/09/16/2020-09-16-aqs-de-shi-yong-he-yuan-li/">
                     <div class="card-image">
@@ -1438,9 +1491,9 @@ lock<span class="token punctuation">.</span><span class="token function">lock</s
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-09-16
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-16
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1458,56 +1511,6 @@ lock<span class="token punctuation">.</span><span class="token function">lock</s
                     
                     <a href="/tags/AQS/">
                         <span class="chip bg-color">AQS</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/09/15/2020-09-15-synchronized-guan-jian-zi-de-shi-yong-yi-ji-ji-ben-yuan-li/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="https://cdn.jsdelivr.net/gh/PeiAlan/peialan.github.io/medias/featureimages/10.jpg" class="responsive-img" alt="2020-09-15-Synchronized关键字的使用以及基本原理">
-                        
-                        <span class="card-title">2020-09-15-Synchronized关键字的使用以及基本原理</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Synchronized关键字的使用以及基本原理一、Synchronized的使用场景首先要清楚synchronized的使用原理1. 作用于方法时，锁住的是对象的实例(this)； 
-2. 当作用于静态方法时，锁住的是Class实例，又因
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-15
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%B9%B6%E5%8F%91/" class="post-category">
-                                    并发
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/synchronized/">
-                        <span class="chip bg-color">synchronized</span>
                     </a>
                     
                 </div>
