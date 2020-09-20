@@ -504,32 +504,6 @@
   </entry>
   
   <entry>
-    <title>2020-05-25—Mac vmware二配置静态IP，与主机互通联网</title>
-    <link href="https://peialan.github.io/2020/05/25/2020-05-25-mac-vmware-er-pei-zhi-jing-tai-ip-yu-zhu-ji-hu-tong-lian-wang/"/>
-    <id>https://peialan.github.io/2020/05/25/2020-05-25-mac-vmware-er-pei-zhi-jing-tai-ip-yu-zhu-ji-hu-tong-lian-wang/</id>
-    <published>2020-05-25T11:58:56.000Z</published>
-    <updated>2020-08-13T12:13:37.929Z</updated>
-    
-    <content type="html"><![CDATA[<p>(如若图片显示有问题，请转战简书地址 <a href="https://www.jianshu.com/p/da40701d73a9" target="_blank" rel="noopener">https://www.jianshu.com/p/da40701d73a9</a>)<br>1、使用VMware 新建虚拟机</p><p>2、虚拟机建立完成后开始配置IP，为VMware Fushion新建NAT子网关，设置子网IP为 192.168.10.0 子网掩码为255.255.255.0<br><img src="/blog/medias/blog/2020052501.png" alt="image.png"><br>点击网络，新建vmnet3子网。<br><img src="https://images.cnblogs.com/cnblogs_com/pyb-codeProgrammer/1809173/o_2007181316032.png" alt="image.png"><br>按图中1，2，3，4，5依序进行，最后点击右下角的“应用”，我们将该vmnet2创建出来。这里一定要注意几点：</p><p>1.必须手动点击“vmnet3”按钮，才能创建该vmnet3；</p><p>2.你可以修改vmnet3的子网IP，但是VMwareFusion会默认事先生成两个vmnet1和vmnet8，其中vmnet8用于DHCP功能。在没有安装任何虚拟机之前，VMware就已经创建好了vmnet1和vmnet8了。</p><p>3.注意创建vmnet3前后，Mac主机的/Library/Preferences/VMware\ Fusion/vmnet目录的变化，</p><p>ls -lsrt /Library/Preferences/VMware\ Fusion/vmnet*</p><p>在创建vmnet2之前，在/Library/Preferences/VMware\ Fusion/networking中已经存在vmnet1和vmnet8，这是安装VMware Fushion 15.1安装时就创建好的，如图</p><p>创建之后查看是否有vmnet3：<br><img src="/blog/medias/blog/2020052502.png" alt="image.png"></p><p><img src="/blog/medias/blog/2020052503.png" alt="image.png"></p><p><img src="/blog/medias/blog/2020052504.png" alt="image.png"></p><p>3、选中要设置的虚拟机，点击虚拟机菜单设置网络适配器。<br><img src="/blog/medias/blog/2020052505.png" alt="image.png"></p><p>将虚拟机网络设置为你刚刚创建的网络<br><img src="/blog/medias/blog/2020052506.png" alt="image.png"></p><p>4、设置完成后，连接虚拟机，设置 /etc/sysconfig/network-scripts/ifcfg-ens33 配置文件，我这里是ifcfg-ens33有些人不一定是。可以通过查看看自己的配置文件是哪个。</p><p><img src="/blog/medias/blog/2020052507.png" alt="image.png"><br> 编辑配置文件</p><pre class=" language-txt"><code class="language-txt">TYPE="Ethernet"PROXY_METHOD="none"BROWSER_ONLY="no"BOOTPROTO="static"DEFROUTE="yes"IPV4_FAILURE_FATAL="no"IPV6INIT="yes"IPV6_AUTOCONF="yes"IPV6_DEFROUTE="yes"IPV6_FAILURE_FATAL="no"IPV6_ADDR_GEN_MODE="stable-privacy"NAME="ens33"UUID="12f0d244-279e-48f9-91bc-1e2ae70d4a1c"DEVICE="ens33"ONBOOT="yes"IPADDR=192.168.10.11   # 自定义的IPNETMASK=255.255.255.0  # 网管GATEWAY=192.168.10.2   # 路由，在Mac本机查看子网的路由# 为了确保网络环境改变后仍然好使，这里可以填写多个DNS公网服务器地址DNS1=114.114.114.114   DNS2=119.29.29.29DNS3=223.5.5.5DNS4=180.76.76.76DNS5=8.8.8.8</code></pre><p>5、配置完后，重启虚拟机，通过ping  命令测试网络连通性。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;(如若图片显示有问题，请转战简书地址 &lt;a href=&quot;https://www.jianshu.com/p/da40701d73a9&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.jianshu.com/p/da40701d73a9
-      
-    
-    </summary>
-    
-    
-      <category term="虚拟机" scheme="https://peialan.github.io/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
-    
-    
-      <category term="VMware" scheme="https://peialan.github.io/tags/VMware/"/>
-    
-  </entry>
-  
-  <entry>
     <title>2020-05-25—SpringBoot-Maven多模块项目Docker化</title>
     <link href="https://peialan.github.io/2020/05/25/2020-05-25-springboot-maven-duo-mo-kuai-xiang-mu-docker-hua/"/>
     <id>https://peialan.github.io/2020/05/25/2020-05-25-springboot-maven-duo-mo-kuai-xiang-mu-docker-hua/</id>
@@ -556,6 +530,32 @@
       <category term="springBoot" scheme="https://peialan.github.io/tags/springBoot/"/>
     
       <category term="maven" scheme="https://peialan.github.io/tags/maven/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2020-05-25—Mac vmware二配置静态IP，与主机互通联网</title>
+    <link href="https://peialan.github.io/2020/05/25/2020-05-25-mac-vmware-er-pei-zhi-jing-tai-ip-yu-zhu-ji-hu-tong-lian-wang/"/>
+    <id>https://peialan.github.io/2020/05/25/2020-05-25-mac-vmware-er-pei-zhi-jing-tai-ip-yu-zhu-ji-hu-tong-lian-wang/</id>
+    <published>2020-05-25T11:58:56.000Z</published>
+    <updated>2020-08-13T12:13:37.929Z</updated>
+    
+    <content type="html"><![CDATA[<p>(如若图片显示有问题，请转战简书地址 <a href="https://www.jianshu.com/p/da40701d73a9" target="_blank" rel="noopener">https://www.jianshu.com/p/da40701d73a9</a>)<br>1、使用VMware 新建虚拟机</p><p>2、虚拟机建立完成后开始配置IP，为VMware Fushion新建NAT子网关，设置子网IP为 192.168.10.0 子网掩码为255.255.255.0<br><img src="/blog/medias/blog/2020052501.png" alt="image.png"><br>点击网络，新建vmnet3子网。<br><img src="https://images.cnblogs.com/cnblogs_com/pyb-codeProgrammer/1809173/o_2007181316032.png" alt="image.png"><br>按图中1，2，3，4，5依序进行，最后点击右下角的“应用”，我们将该vmnet2创建出来。这里一定要注意几点：</p><p>1.必须手动点击“vmnet3”按钮，才能创建该vmnet3；</p><p>2.你可以修改vmnet3的子网IP，但是VMwareFusion会默认事先生成两个vmnet1和vmnet8，其中vmnet8用于DHCP功能。在没有安装任何虚拟机之前，VMware就已经创建好了vmnet1和vmnet8了。</p><p>3.注意创建vmnet3前后，Mac主机的/Library/Preferences/VMware\ Fusion/vmnet目录的变化，</p><p>ls -lsrt /Library/Preferences/VMware\ Fusion/vmnet*</p><p>在创建vmnet2之前，在/Library/Preferences/VMware\ Fusion/networking中已经存在vmnet1和vmnet8，这是安装VMware Fushion 15.1安装时就创建好的，如图</p><p>创建之后查看是否有vmnet3：<br><img src="/blog/medias/blog/2020052502.png" alt="image.png"></p><p><img src="/blog/medias/blog/2020052503.png" alt="image.png"></p><p><img src="/blog/medias/blog/2020052504.png" alt="image.png"></p><p>3、选中要设置的虚拟机，点击虚拟机菜单设置网络适配器。<br><img src="/blog/medias/blog/2020052505.png" alt="image.png"></p><p>将虚拟机网络设置为你刚刚创建的网络<br><img src="/blog/medias/blog/2020052506.png" alt="image.png"></p><p>4、设置完成后，连接虚拟机，设置 /etc/sysconfig/network-scripts/ifcfg-ens33 配置文件，我这里是ifcfg-ens33有些人不一定是。可以通过查看看自己的配置文件是哪个。</p><p><img src="/blog/medias/blog/2020052507.png" alt="image.png"><br> 编辑配置文件</p><pre class=" language-txt"><code class="language-txt">TYPE="Ethernet"PROXY_METHOD="none"BROWSER_ONLY="no"BOOTPROTO="static"DEFROUTE="yes"IPV4_FAILURE_FATAL="no"IPV6INIT="yes"IPV6_AUTOCONF="yes"IPV6_DEFROUTE="yes"IPV6_FAILURE_FATAL="no"IPV6_ADDR_GEN_MODE="stable-privacy"NAME="ens33"UUID="12f0d244-279e-48f9-91bc-1e2ae70d4a1c"DEVICE="ens33"ONBOOT="yes"IPADDR=192.168.10.11   # 自定义的IPNETMASK=255.255.255.0  # 网管GATEWAY=192.168.10.2   # 路由，在Mac本机查看子网的路由# 为了确保网络环境改变后仍然好使，这里可以填写多个DNS公网服务器地址DNS1=114.114.114.114   DNS2=119.29.29.29DNS3=223.5.5.5DNS4=180.76.76.76DNS5=8.8.8.8</code></pre><p>5、配置完后，重启虚拟机，通过ping  命令测试网络连通性。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;(如若图片显示有问题，请转战简书地址 &lt;a href=&quot;https://www.jianshu.com/p/da40701d73a9&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.jianshu.com/p/da40701d73a9
+      
+    
+    </summary>
+    
+    
+      <category term="虚拟机" scheme="https://peialan.github.io/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+    
+    
+      <category term="VMware" scheme="https://peialan.github.io/tags/VMware/"/>
     
   </entry>
   
