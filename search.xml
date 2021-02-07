@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>2021-02-07-Linux开启Swap分区</title>
+      <link href="/2021/02/07/2021-02-07-linux-kai-qi-swap-fen-qu/"/>
+      <url>/2021/02/07/2021-02-07-linux-kai-qi-swap-fen-qu/</url>
+      
+        <content type="html"><![CDATA[<h1 id="CentOS7开启swap分区"><a href="#CentOS7开启swap分区" class="headerlink" title="CentOS7开启swap分区"></a><code>CentOS7</code>开启<code>swap</code>分区</h1><p>场景: 华为云购买的机器，默认不会开启<code>swap</code>分区，服务器运行内存只有<code>4GB</code>，不满足使用，开启<code>swap</code>交换分区</p><h3 id="开启步骤"><a href="#开启步骤" class="headerlink" title="开启步骤"></a>开启步骤</h3><p>1、<strong>开启<code>swap</code>分区</strong><br>新建一个专门的文件用于<code>swap</code>分区</p><pre class=" language-shell"><code class="language-shell">dd if=/dev/zero of=/data/swap bs=1024 count=8388616</code></pre><p>注：此文件的大小是<code>count</code>的大小乘以<code>bs</code>大小，上面命令的大小是<code>8GB</code><br>2、<strong>通过<code>mkswap</code>命令将上面新建出的文件做成<code>swap</code>分区</strong></p><pre class=" language-shell"><code class="language-shell">mkswap /data/swap</code></pre><p>3、<strong>查看内核参数<code>vm.swappiness</code></strong><br>若<code>vm.swappiness</code>为<code>0</code>则根据实际需要调整成<code>30</code>或者<code>60</code></p><pre class=" language-shell"><code class="language-shell">cat /proc/sys/vm/swappiness   sysctl -a | grep swappiness    sysctl -w vm.swappiness=60</code></pre><p>注：若想永久修改，则编辑<code>/etc/sysctl.conf</code>文件</p><p>4、<strong>启用此交换分区的交换功能</strong></p><pre class=" language-shell"><code class="language-shell">swapon /data/swap   echo "/data/swap swap swap defaults    0  0" >> /etc/fstab</code></pre><p>这里有可能会有报错，如下</p><pre class=" language-shell"><code class="language-shell">[root@peiyanbing /]# swapon /data/swap swapon: /data/swap：不安全的权限 0644，建议使用 0600。swapon: /data/swap：swapon 失败: 设备或资源忙[root@peiyanbing /]# chmod 0600 /data/swap [root@peiyanbing /]# swapon /data/swap swapon: /data/swap：swapon 失败: 设备或资源忙[root@peiyanbing /]# swapon /data/swap swapon: /data/swap：swapon 失败: 设备或资源忙</code></pre><p>解决方法：<br><strong>尝试激活 <code>Swap</code> 文件</strong></p><pre class=" language-shell"><code class="language-shell">[root@peiyanbing /]# swapoff /data/swap[root@peiyanbing /]# swapon /data/swap[root@peiyanbing /]#</code></pre><p>5、<strong>关闭<code>swap</code>分区</strong></p><pre class=" language-shell"><code class="language-shell">swapoff /data/swap   swapoff -a >/dev/null</code></pre><p>6、<strong>重新激活<code>swap</code>分区，没有写入系统配置文件中，系统重启后，就需要重新激活</strong></p><pre class=" language-shell"><code class="language-shell">[bing@peiyanbing ~]$ sudo swapon /swap/swapfile[bing@peiyanbing ~]$ free -h              total        used        free      shared  buff/cache   availableMem:           3.7G        2.5G        130M         88M        1.1G        928MSwap:          8.0G          0B        8.0G[bing@peiyanbing ~]$ </code></pre><p>7、<strong>如果需要一直保持这个 <code>swap</code> ，可以把它写入 <code>/etc/fstab</code> 文件</strong></p><pre class=" language-shell"><code class="language-shell">sudo vim /etc/fstab#增加以下两行：(add swap space on /swap/swapfile)  /swap/swapfile                          /swap           swap    defaults        0       0</code></pre><p>8、<strong>关机重启确认<code>Swap</code>大小</strong></p><pre class=" language-shell"><code class="language-shell">free -m</code></pre><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> linux分区扩容 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>2020-10-13-Linux磁盘分区、挂载、LV扩容</title>
       <link href="/2020/10/13/2020-10-13-linux-ci-pan-fen-qu-gua-zai-lv-kuo-rong/"/>
       <url>/2020/10/13/2020-10-13-linux-ci-pan-fen-qu-gua-zai-lv-kuo-rong/</url>
